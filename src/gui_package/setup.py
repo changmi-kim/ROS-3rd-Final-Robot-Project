@@ -1,6 +1,4 @@
 from setuptools import find_packages, setup
-import os
-from glob import glob
 
 package_name = 'gui_package'
 
@@ -12,7 +10,6 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
-        ('share/' + package_name + '/launch', glob(os.path.join('launch', '*.launch.py')))
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -23,11 +20,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'test_node = gui_package.test_node:main',
-            'the_sub = gui_package.the_sub:main',
-            'the_pub = gui_package.the_pub:main',
-            'camera_viewer = your_package_name.camera_viewer:main',
-            'visual = gui_package.visual:main',
+            'gui_node = gui_package.gui_node:main'
         ],
     },
 )
