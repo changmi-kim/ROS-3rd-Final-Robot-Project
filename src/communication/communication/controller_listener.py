@@ -5,24 +5,26 @@ from std_msgs.msg import String
 from rclpy.qos import QoSProfile  # QoS 프로파일 호출
 from rclpy.qos import QoSReliabilityPolicy  # QoS 신뢰성 설정
 # from rclpy.qos import qos_profile_sensor_data  # 센서 데이터 같이 빠르게 변하는 데이터 처리
+from communication_msgs.msg import Talker 
 
 
 
-class Listener(Node):
+class ControllerListener(Node):
 
     def __init__(self):
-        super().__init__('Minibot_1')
+        super().__init__('Main_PC_listener')
         qos_profile = QoSProfile(depth=10, reliability=QoSReliabilityPolicy.RELIABLE)
-        self.subscription = self.create_subscription(String, 'chatter', self.listener_callback, qos_profile)
+        self.subscription = self.create_subscription(Talker, 'robot_status', self.listener_callback, qos_profile)
+
 
     def listener_callback(self, msg):
-        self.get_logger().info(f'Received: "{msg.data}"')
+        self.get_logger().info(f"{msg.talker_name}: {msg.message}")
 
 
 
 def main(args=None):
     rclpy.init(args=args)
-    listener = Listener()
+    listener = ControllerListener()
 
     try:
         rclpy.spin(listener)

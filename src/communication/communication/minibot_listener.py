@@ -9,40 +9,28 @@ from communication_msgs.msg import Talker
 
 
 
-class MinibotTalker(Node):
+class MinibotListener(Node):
 
     def __init__(self):
-        super().__init__('Minibot_talker')
-        qos_profile = QoSProfile(depth=10, 
-                                 reliability=QoSReliabilityPolicy.RELIABLE,
-                                )
-        self.pub = self.create_publisher(Talker, 'robot_status', qos_profile)
-        self.get_logger().info('Chatting has started. Press Enter to send a message.')
-        self.input_thread_func()
+        super().__init__('Minibot_listener')
+        qos_profile = QoSProfile(depth=10, reliability=QoSReliabilityPolicy.RELIABLE)
+        self.subscription = self.create_subscription(Talker, 'command', self.listener_callback, qos_profile)
 
-    def input_thread_func(self):
-        while True:
-            self.publish_message()
-
-    def publish_message(self):
-        msg = Talker()
-        msg.talker_name = "Minibot_talker"
-        msg.message = input('Enter your message: ')
-        self.pub.publish(msg)
+    def listener_callback(self, msg):
         self.get_logger().info(f"{msg.talker_name}: {msg.message}")
 
 
 
 def main(args=None):
     rclpy.init(args=args)
-    talker = MinibotTalker()
+    listener = MinibotListener()
 
     try:
-        rclpy.spin(talker)
+        rclpy.spin(listener)
     except (KeyboardInterrupt, ExternalShutdownException):
         pass
     finally:
-        talker.destroy_node()
+        listener.destroy_node()
         rclpy.shutdown()
 
 if __name__ == '__main__':
