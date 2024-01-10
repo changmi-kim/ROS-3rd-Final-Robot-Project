@@ -22,12 +22,6 @@ class AriduinoConnect(Node):
         time.sleep(3)
         self.get_logger().info("아두이노 연결 성공!")
 
-        self.call_my_name
-
-    
-    def call_my_name(self):
-        self.get_logger().info("연결되었어 연결되었어")
-
 
 def main(args=None):
     rclpy.init(args=args)
