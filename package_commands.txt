@@ -1,0 +1,55 @@
+
+
+<<<<<<<<<<<<<<맵 빌딩(Real Robot)>>>>>>>>>>>>>>
+1. 로봇 실행
+	- RPI) ros2 launch minibot_bringup bringup_robot.launch.py
+
+2. map_building.launch.py 실행
+	- RPI) ros2 launch minibot_navigation2 map_building.launch.py
+
+3. rivz2 실행
+	- PC) rviz2 -d `ros2 pkg prefix minibot_navigation2`/share/minibot_navigation2/rviz/map_building.rviz
+
+4. teleop키 실행
+	- RPI or PC) ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=base_controller/cmd_vel_unstamped
+
+5. 지도 저장
+	- RPi) ros2 run nav2_map_server map_saver_cli -f ~/<pinkbot_ws>/<저장하고 싶은 map이름>
+
+<<<<<<<<<<<<<<라즈베리파이에서 PC로 파일 가져오기>>>>>>>>>>>>>>
+- PC) scp yoh2@192.168.0.36:~/minibot/edu2.pgm ~/
+
+- PC) scp <라즈베리파이username>@<라즈베리파이ip>:<라즈베리파이경로> <로컬경로>
+
+<<<<<<<<<<<<<<맵 내에서 네이게이션으로 주행하기>>>>>>>>>>>>>>
+1. 로봇 실행
+	- RPI) ros2 launch minibot_bringup bringup_robot.launch.py
+	
+2. 네이게이션 실행
+	- PC) ros2 launch minibot_navigation2 bringup_launch.py map:=<map의 yaml파일 주소>
+	
+3. rviz에 맵 띄우기
+	- PC) rviz2 -d `ros2 pkg prefix minibot_navigation2`/share/minibot_navigation2/rviz/
+nav2_view.rviz
+
+<<<<<<<<<<<<<<auto_drive_control 패키지 실행>>>>>>>>>>>>>>
+1. 환경 불러오기
+	- source ~/final_project_ws/install/local_setup.bash
+
+2. 노드 실행
+	2.1. ultrasonic
+		- RPI) ros2 run auto_drive_control ultrasonic_dist_publisher --ros-args --params-file ~/final_project_ws/src/auto_drive_control/parma/arduino_config.yaml
+
+		- RPI) ros2 run auto_drive_control ultrasonic_dist_subscliber --ros-args --params-file ~/final_project_ws/src/auto_drive_control/parma/arduino_config.yaml
+
+	2.2. arduino_protocol_sender
+		1. 노드 실행
+			- RPI) ros2 run auto_drive_control arduino_protocol_sender
+
+		2. /cmd_vel 토픽으로 velocity 발행
+		 	- PC) ros2 topic pub /cmd_vel geometry_msgs/Twist '{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.0}}' -r 1
+
+		3. /command 토픽으로 enable_motor 발행
+			- PC) ros2 topic pub --once /command std_msgs/msg/String '{data: GO}'
+			- PC) ros2 topic pub --once /command std_msgs/msg/String '{data: STOP}'
+
