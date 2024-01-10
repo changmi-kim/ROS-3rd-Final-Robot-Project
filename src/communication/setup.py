@@ -19,8 +19,10 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'talker = communication.talker:main',
-            'listener = communication.listener:main',
+            'controller_talker = communication.controller_talker:main',
+            'controller_listener = communication.controller_listener:main',
+            'minibot_talker = communication.controller_talker:main',
+            'minibot_listener = communication.controller_listener:main',
         ],
     },
 )
