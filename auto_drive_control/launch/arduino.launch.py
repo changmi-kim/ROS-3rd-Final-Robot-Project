@@ -11,7 +11,7 @@ def generate_launch_description():
     param_dir = LaunchConfiguration(
         'param_dir',
         default=os.path.join(
-            get_package_share_directory('arduino_tutorial'),
+            get_package_share_directory('auto_drive_control'),
             'param',
             'arduino_config.yaml'
         )
