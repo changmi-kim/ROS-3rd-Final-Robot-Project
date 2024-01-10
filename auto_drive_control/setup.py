@@ -1,5 +1,8 @@
 from setuptools import find_packages, setup
 
+import os
+import glob
+
 package_name = 'auto_drive_control'
 
 setup(
@@ -10,6 +13,7 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        ('share/' + package_name + '/param', glob.glob(os.path.join('param', '*.yaml'))),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -22,7 +26,8 @@ setup(
         'console_scripts': [
         'ultrasonic_dist_publisher = auto_drive_control.ultrasonic_dist_publisher:main',
         'ultrasonic_dist_subscliber = auto_drive_control.ultrasonic_dist_subscliber:main',
-        'arduino_protocol_sender = auto_drive_control.arduino_protocol_sender:main'
+        'arduino_protocol_sender = auto_drive_control.arduino_protocol_sender:main',
+        'connect_arduino = auto_drive_control.connect_arduino:main',
         ],
     },
 )

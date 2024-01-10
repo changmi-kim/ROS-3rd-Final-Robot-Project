@@ -19,9 +19,9 @@ class UltrasonicDistSubscriber(Node):
         command_msg = String()
 
         if int(data) <= 100:
-            command_msg.data = 'STOP'
+            command_msg.data = 'stop'
         else:
-            command_msg.data = 'GO'
+            command_msg.data = 'go'
 
         self.publisher_.publish(command_msg)
         print(command_msg)
