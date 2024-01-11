@@ -15,17 +15,23 @@ class MinibotTalker(Node):
         qos_profile = QoSProfile(depth=10, 
                                  reliability=QoSReliabilityPolicy.RELIABLE,
                                 )
-        self.pub = self.create_publisher(Talker, 'robot_status', qos_profile)
+        self.pub = self.create_publisher(Talker, 'minibot_status', qos_profile)
         self.get_logger().info('Chatting has started. Press Enter to send a message.')
         self.input_thread_func()
 
-    def input_thread_func(self):
-        while True:
-            self.publish_message()
 
-    def publish_message(self):
+    def input_thread_func(self):
         msg = Talker()
         msg.talker_name = "Minibot_talker"
+        msg.message = f"{msg.talker_name} 연결 성공!"
+        self.pub.publish(msg)
+        self.get_logger().info(f'Published: "{msg.message}"')
+
+
+        while True:
+            self.publish_message(msg)
+
+    def publish_message(self, msg):
         msg.message = input('Enter your message: ')
         self.pub.publish(msg)
         self.get_logger().info(f'Published: "{msg.message}"')

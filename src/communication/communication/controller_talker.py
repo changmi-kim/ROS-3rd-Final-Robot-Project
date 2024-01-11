@@ -25,7 +25,7 @@ class ControllerTalker(Node):
 
     def publish_message(self):
         msg = Talker()
-        msg.talker_name = "Minibot_talker"
+        msg.talker_name = "Main_PC"
         msg.message = input('Enter your message: ')
         self.pub.publish(msg)
         self.get_logger().info(f'Published: "{msg.message}"')

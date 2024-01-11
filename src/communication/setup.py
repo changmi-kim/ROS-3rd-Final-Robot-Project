@@ -26,6 +26,7 @@ setup(
             'controller_listener = communication.controller_listener:main',
             'minibot_talker = communication.minibot_talker:main',
             'minibot_listener = communication.minibot_listener:main',
+            'connect_ros = communication.connect:main',
         ],
     },
 )

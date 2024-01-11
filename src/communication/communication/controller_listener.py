@@ -13,7 +13,7 @@ class ControllerListener(Node):
     def __init__(self):
         super().__init__('Main_PC_listener')
         qos_profile = QoSProfile(depth=10, reliability=QoSReliabilityPolicy.RELIABLE)
-        self.subscription = self.create_subscription(Talker, 'robot_status', self.listener_callback, qos_profile)
+        self.subscription = self.create_subscription(Talker, 'minibot_status', self.listener_callback, qos_profile)
 
 
     def listener_callback(self, msg):
