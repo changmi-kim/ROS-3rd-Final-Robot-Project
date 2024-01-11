@@ -8,7 +8,7 @@ import time
 import numpy as np
 import math
 
-ser = None
+# ser = None
 
 class ArduinoProtocolSender(Node):
     def __init__(self):
@@ -16,7 +16,17 @@ class ArduinoProtocolSender(Node):
         self.subscriber_cmd_vel = self.create_subscription(Twist, '/cmd_vel', self.cmd_vel_callback, 10)
         self.subscriber_command = self.create_subscription(String, '/command', self.command_callback, 10)
         self.enable_motor = 0
-        # self.subscriber_
+        # self.subscriber
+
+        self.declare_parameter('arduino_port', '/dev/ttyArduino')
+        self.declare_parameter('baud_rate', 11520)
+
+        arduino_port = self.get_parameter('arduino_port').value
+        baud_rate = self.get_parameter('baud_rate').value
+        
+        self.ser = serial.Serial(arduino_port, baud_rate)
+        time.sleep(3)
+        self.get_logger().info('아두이노 연결 성공')
 
     def cmd_vel_callback(self, twist):
         # enable = 1
@@ -50,7 +60,7 @@ class ArduinoProtocolSender(Node):
         command[9] = r_lamp
         command[12] = (np.uint8)(sum(command[2:12]))
 
-        ser.write(bytes(command))
+        self.ser.write(bytes(command))
 
     def command_callback(self, msg):
         command_msg = msg.data.lower()
@@ -61,20 +71,18 @@ class ArduinoProtocolSender(Node):
         elif command_msg == 'go':
             self.enable_motor = 1
 
-def main(args=None):
-    global ser
-    rclpy.init(args=args)
+    def destroy_node(self):
+        self.ser.close()
+        super().destroy_node()
 
-    ser = serial.Serial('/dev/ttyArduino', 1000000)
-    time.sleep(3)
-    print('아두이노 연결 성공')
+def main(args=None):
+    rclpy.init(args=args)
 
     arduino_protocol_sender = ArduinoProtocolSender()
 
     rclpy.spin(arduino_protocol_sender)
 
     arduino_protocol_sender.destroy_node()
-    ser.close()
     rclpy.shutdown()
 
 if __name__ == '__main__':
