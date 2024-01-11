@@ -34,7 +34,7 @@ class ImgPublisher(Node):
     def timer_callback(self):
         ret, frame = self.cap.read()
         if ret:
-            frame = cv2.resize(frame, (self.width, self.height))
+            frame = cv2.resize(frame, (self.width, self.length))
             image_msg = self.cv_bridge.cv2_to_imgmsg(frame, encoding='bgr8')
             self.publisher.publish(image_msg)
 
