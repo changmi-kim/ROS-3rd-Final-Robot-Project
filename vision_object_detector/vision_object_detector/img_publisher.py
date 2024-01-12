@@ -6,8 +6,8 @@ import cv2
 
 class ImgPublisher(Node):
     def __init__(self):
-        super().__init__('image_publisher')
-        self.publisher = self.create_publisher(Image, 'image_raw', 10)
+        super().__init__('img_publisher')
+        self.publisher_img = self.create_publisher(Image, 'image_raw', 10)
 
         # time_period = 0.01
         # self.timer = self.create_timer(time_period, 
@@ -36,13 +36,16 @@ class ImgPublisher(Node):
         if ret:
             frame = cv2.resize(frame, (self.width, self.length))
             image_msg = self.cv_bridge.cv2_to_imgmsg(frame, encoding='bgr8')
-            self.publisher.publish(image_msg)
+            self.publisher_img.publish(image_msg)
 
-def main():
-    rclpy.init()
-    node = ImgPublisher()
-    rclpy.spin(node)
-    node.destroy_node()
+def main(args=None):
+    rclpy.init(args=args)
+
+    img_publisher = ImgPublisher()
+
+    rclpy.spin(img_publisher)
+
+    img_publisher.destroy_node()
     rclpy.shutdown()
 
 if __name__ == '__main__':
