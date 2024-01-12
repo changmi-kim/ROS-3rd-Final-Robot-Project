@@ -1,0 +1,6 @@
+string label
+float32 score
+float32 bbox_center_x
+float32 bbox_center_y
+float32 bbox_size_x
+float32 bbox_size_y
