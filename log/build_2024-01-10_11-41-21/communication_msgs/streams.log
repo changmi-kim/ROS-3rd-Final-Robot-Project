@@ -1,0 +1,20 @@
+[0.417s] Invoking command in '/home/jo/final_commit/build/communication_msgs': CMAKE_PREFIX_PATH=/home/jo/final_commit/install/communication:/opt/ros/humble /usr/bin/cmake --build /home/jo/final_commit/build/communication_msgs -- -j12 -l12
+[0.445s] Invoked command in '/home/jo/final_commit/build/communication_msgs' returned '0': CMAKE_PREFIX_PATH=/home/jo/final_commit/install/communication:/opt/ros/humble /usr/bin/cmake --build /home/jo/final_commit/build/communication_msgs -- -j12 -l12
+[0.468s] Invoking command in '/home/jo/final_commit/build/communication_msgs': CMAKE_PREFIX_PATH=/home/jo/final_commit/install/communication:/opt/ros/humble /usr/bin/cmake --install /home/jo/final_commit/build/communication_msgs
+[0.475s] -- Install configuration: ""
+[0.475s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/ament_index/resource_index/package_run_dependencies/communication_msgs
+[0.475s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/ament_index/resource_index/parent_prefix_path/communication_msgs
+[0.475s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/environment/ament_prefix_path.sh
+[0.475s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/environment/ament_prefix_path.dsv
+[0.475s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/environment/path.sh
+[0.475s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/environment/path.dsv
+[0.475s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/local_setup.bash
+[0.475s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/local_setup.sh
+[0.475s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/local_setup.zsh
+[0.476s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/local_setup.dsv
+[0.476s] -- Installing: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/package.dsv
+[0.476s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/ament_index/resource_index/packages/communication_msgs
+[0.476s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/cmake/communication_msgsConfig.cmake
+[0.476s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/cmake/communication_msgsConfig-version.cmake
+[0.477s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/package.xml
+[0.477s] Invoked command in '/home/jo/final_commit/build/communication_msgs' returned '0': CMAKE_PREFIX_PATH=/home/jo/final_commit/install/communication:/opt/ros/humble /usr/bin/cmake --install /home/jo/final_commit/build/communication_msgs

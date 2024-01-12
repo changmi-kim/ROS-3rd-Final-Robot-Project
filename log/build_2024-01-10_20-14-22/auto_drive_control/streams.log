@@ -1,0 +1,18 @@
+[0.703s] Invoking command in '/home/jo/final_commit/auto_drive_control': PYTHONPATH=/home/jo/final_commit/build/auto_drive_control/prefix_override:/home/jo/final_commit/install/auto_drive_control/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/auto_drive_control build --build-base /home/jo/final_commit/build/auto_drive_control/build install --record /home/jo/final_commit/build/auto_drive_control/install.log --single-version-externally-managed
+[0.924s] running egg_info
+[0.924s] writing ../build/auto_drive_control/auto_drive_control.egg-info/PKG-INFO
+[0.924s] writing dependency_links to ../build/auto_drive_control/auto_drive_control.egg-info/dependency_links.txt
+[0.924s] writing entry points to ../build/auto_drive_control/auto_drive_control.egg-info/entry_points.txt
+[0.925s] writing requirements to ../build/auto_drive_control/auto_drive_control.egg-info/requires.txt
+[0.925s] writing top-level names to ../build/auto_drive_control/auto_drive_control.egg-info/top_level.txt
+[0.926s] reading manifest file '../build/auto_drive_control/auto_drive_control.egg-info/SOURCES.txt'
+[0.927s] writing manifest file '../build/auto_drive_control/auto_drive_control.egg-info/SOURCES.txt'
+[0.927s] running build
+[0.927s] running build_py
+[0.928s] running install
+[0.928s] /usr/lib/python3/dist-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+[0.928s]   warnings.warn(
+[0.928s] running install_lib
+[0.929s] running install_data
+[0.930s] error: can't copy '*.yaml': doesn't exist or not a regular file
+[0.947s] Invoked command in '/home/jo/final_commit/auto_drive_control' returned '1': PYTHONPATH=/home/jo/final_commit/build/auto_drive_control/prefix_override:/home/jo/final_commit/install/auto_drive_control/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/auto_drive_control build --build-base /home/jo/final_commit/build/auto_drive_control/build install --record /home/jo/final_commit/build/auto_drive_control/install.log --single-version-externally-managed

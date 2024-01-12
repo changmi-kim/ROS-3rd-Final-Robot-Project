@@ -1,0 +1,142 @@
+[0.054s] Invoking command in '/home/jo/final_commit/build/communication_msgs': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/jo/final_commit/build/communication_msgs -- -j12 -l12
+[0.088s] [  3%] Built target communication_msgs__cpp
+[0.088s] [ 12%] Built target communication_msgs__rosidl_generator_c
+[0.097s] [ 12%] Built target ament_cmake_python_copy_communication_msgs
+[0.106s] [ 32%] Built target communication_msgs__rosidl_typesupport_fastrtps_cpp
+[0.106s] [ 38%] Built target communication_msgs__rosidl_typesupport_cpp
+[0.106s] [ 51%] Built target communication_msgs__rosidl_typesupport_introspection_cpp
+[0.106s] [ 51%] Built target communication_msgs__rosidl_typesupport_fastrtps_c
+[0.108s] [ 61%] Built target communication_msgs__rosidl_typesupport_c
+[0.109s] [ 70%] Built target communication_msgs__rosidl_typesupport_introspection_c
+[0.126s] [ 70%] Built target communication_msgs
+[0.145s] [ 74%] Built target communication_msgs__py
+[0.166s] [ 80%] Built target communication_msgs__rosidl_generator_py
+[0.183s] [100%] Built target communication_msgs__rosidl_typesupport_fastrtps_c__pyext
+[0.183s] [100%] Built target communication_msgs__rosidl_typesupport_introspection_c__pyext
+[0.183s] [100%] Built target communication_msgs__rosidl_typesupport_c__pyext
+[0.319s] running egg_info
+[0.320s] writing communication_msgs.egg-info/PKG-INFO
+[0.320s] writing dependency_links to communication_msgs.egg-info/dependency_links.txt
+[0.320s] writing top-level names to communication_msgs.egg-info/top_level.txt
+[0.322s] reading manifest file 'communication_msgs.egg-info/SOURCES.txt'
+[0.322s] writing manifest file 'communication_msgs.egg-info/SOURCES.txt'
+[0.344s] [100%] Built target ament_cmake_python_build_communication_msgs_egg
+[0.353s] Invoked command in '/home/jo/final_commit/build/communication_msgs' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/jo/final_commit/build/communication_msgs -- -j12 -l12
+[0.395s] Invoking command in '/home/jo/final_commit/build/communication_msgs': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/jo/final_commit/build/communication_msgs
+[0.401s] -- Install configuration: ""
+[0.401s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/ament_index/resource_index/rosidl_interfaces/communication_msgs
+[0.401s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs
+[0.401s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs/msg
+[0.402s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs/msg/talker.h
+[0.402s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs/msg/detail
+[0.402s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs/msg/detail/talker__functions.c
+[0.402s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs/msg/detail/talker__struct.h
+[0.402s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs/msg/detail/talker__type_support.h
+[0.402s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs/msg/detail/talker__functions.h
+[0.402s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs/msg/rosidl_generator_c__visibility_control.h
+[0.402s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/environment/library_path.sh
+[0.402s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/environment/library_path.dsv
+[0.402s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/lib/libcommunication_msgs__rosidl_generator_c.so
+[0.403s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs
+[0.403s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs/msg
+[0.403s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+[0.403s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs/msg/detail
+[0.403s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs/msg/detail/talker__rosidl_typesupport_fastrtps_c.h
+[0.403s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/lib/libcommunication_msgs__rosidl_typesupport_fastrtps_c.so
+[0.403s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs
+[0.403s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs/msg
+[0.403s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h
+[0.403s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs/msg/detail
+[0.404s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs/msg/detail/talker__type_support.c
+[0.404s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs/msg/detail/talker__rosidl_typesupport_introspection_c.h
+[0.404s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/lib/libcommunication_msgs__rosidl_typesupport_introspection_c.so
+[0.404s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/lib/libcommunication_msgs__rosidl_typesupport_c.so
+[0.404s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs
+[0.404s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs/msg
+[0.404s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs/msg/talker.hpp
+[0.404s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs/msg/detail
+[0.404s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs/msg/detail/talker__builder.hpp
+[0.404s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs/msg/detail/talker__struct.hpp
+[0.405s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs/msg/detail/talker__traits.hpp
+[0.405s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs
+[0.405s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs/msg
+[0.405s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+[0.405s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs/msg/detail
+[0.405s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs/msg/detail/talker__rosidl_typesupport_fastrtps_cpp.hpp
+[0.405s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs/msg/detail/dds_fastrtps
+[0.405s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/lib/libcommunication_msgs__rosidl_typesupport_fastrtps_cpp.so
+[0.405s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs
+[0.405s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs/msg
+[0.405s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs/msg/detail
+[0.405s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs/msg/detail/talker__type_support.cpp
+[0.405s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/include/communication_msgs/communication_msgs/msg/detail/talker__rosidl_typesupport_introspection_cpp.hpp
+[0.406s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/lib/libcommunication_msgs__rosidl_typesupport_introspection_cpp.so
+[0.406s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/lib/libcommunication_msgs__rosidl_typesupport_cpp.so
+[0.406s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/environment/pythonpath.sh
+[0.406s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/environment/pythonpath.dsv
+[0.406s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/local/lib/python3.10/dist-packages/communication_msgs-0.0.0-py3.10.egg-info
+[0.406s] -- Installing: /home/jo/final_commit/install/communication_msgs/local/lib/python3.10/dist-packages/communication_msgs-0.0.0-py3.10.egg-info/dependency_links.txt
+[0.406s] -- Installing: /home/jo/final_commit/install/communication_msgs/local/lib/python3.10/dist-packages/communication_msgs-0.0.0-py3.10.egg-info/PKG-INFO
+[0.406s] -- Installing: /home/jo/final_commit/install/communication_msgs/local/lib/python3.10/dist-packages/communication_msgs-0.0.0-py3.10.egg-info/top_level.txt
+[0.406s] -- Installing: /home/jo/final_commit/install/communication_msgs/local/lib/python3.10/dist-packages/communication_msgs-0.0.0-py3.10.egg-info/SOURCES.txt
+[0.406s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/local/lib/python3.10/dist-packages/communication_msgs
+[0.406s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/local/lib/python3.10/dist-packages/communication_msgs/libcommunication_msgs__rosidl_generator_py.so
+[0.406s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/local/lib/python3.10/dist-packages/communication_msgs/communication_msgs_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so
+[0.406s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/local/lib/python3.10/dist-packages/communication_msgs/_communication_msgs_s.ep.rosidl_typesupport_fastrtps_c.c
+[0.407s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/local/lib/python3.10/dist-packages/communication_msgs/msg
+[0.407s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/local/lib/python3.10/dist-packages/communication_msgs/msg/_talker_s.c
+[0.407s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/local/lib/python3.10/dist-packages/communication_msgs/msg/__init__.py
+[0.407s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/local/lib/python3.10/dist-packages/communication_msgs/msg/_talker.py
+[0.407s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/local/lib/python3.10/dist-packages/communication_msgs/__init__.py
+[0.407s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/local/lib/python3.10/dist-packages/communication_msgs/_communication_msgs_s.ep.rosidl_typesupport_introspection_c.c
+[0.407s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/local/lib/python3.10/dist-packages/communication_msgs/_communication_msgs_s.ep.rosidl_typesupport_c.c
+[0.407s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/local/lib/python3.10/dist-packages/communication_msgs/communication_msgs_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so
+[0.407s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/local/lib/python3.10/dist-packages/communication_msgs/communication_msgs_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so
+[0.426s] Listing '/home/jo/final_commit/install/communication_msgs/local/lib/python3.10/dist-packages/communication_msgs'...
+[0.426s] Listing '/home/jo/final_commit/install/communication_msgs/local/lib/python3.10/dist-packages/communication_msgs/msg'...
+[0.429s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/local/lib/python3.10/dist-packages/communication_msgs/communication_msgs_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so
+[0.430s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/local/lib/python3.10/dist-packages/communication_msgs/communication_msgs_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so
+[0.430s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/local/lib/python3.10/dist-packages/communication_msgs/communication_msgs_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so
+[0.430s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/lib/libcommunication_msgs__rosidl_generator_py.so
+[0.430s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/msg/Talker.idl
+[0.430s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/msg/Talker.msg
+[0.431s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/ament_index/resource_index/package_run_dependencies/communication_msgs
+[0.431s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/ament_index/resource_index/parent_prefix_path/communication_msgs
+[0.431s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/environment/ament_prefix_path.sh
+[0.431s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/environment/ament_prefix_path.dsv
+[0.431s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/environment/path.sh
+[0.431s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/environment/path.dsv
+[0.431s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/local_setup.bash
+[0.431s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/local_setup.sh
+[0.431s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/local_setup.zsh
+[0.431s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/local_setup.dsv
+[0.431s] -- Installing: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/package.dsv
+[0.432s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/ament_index/resource_index/packages/communication_msgs
+[0.432s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/cmake/export_communication_msgs__rosidl_generator_cExport.cmake
+[0.432s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/cmake/export_communication_msgs__rosidl_generator_cExport-noconfig.cmake
+[0.432s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/cmake/export_communication_msgs__rosidl_typesupport_fastrtps_cExport.cmake
+[0.432s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/cmake/export_communication_msgs__rosidl_typesupport_fastrtps_cExport-noconfig.cmake
+[0.432s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/cmake/communication_msgs__rosidl_typesupport_introspection_cExport.cmake
+[0.432s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/cmake/communication_msgs__rosidl_typesupport_introspection_cExport-noconfig.cmake
+[0.432s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/cmake/communication_msgs__rosidl_typesupport_cExport.cmake
+[0.432s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/cmake/communication_msgs__rosidl_typesupport_cExport-noconfig.cmake
+[0.433s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/cmake/export_communication_msgs__rosidl_generator_cppExport.cmake
+[0.433s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/cmake/export_communication_msgs__rosidl_typesupport_fastrtps_cppExport.cmake
+[0.433s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/cmake/export_communication_msgs__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake
+[0.433s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/cmake/communication_msgs__rosidl_typesupport_introspection_cppExport.cmake
+[0.433s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/cmake/communication_msgs__rosidl_typesupport_introspection_cppExport-noconfig.cmake
+[0.433s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/cmake/communication_msgs__rosidl_typesupport_cppExport.cmake
+[0.433s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/cmake/communication_msgs__rosidl_typesupport_cppExport-noconfig.cmake
+[0.433s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/cmake/export_communication_msgs__rosidl_generator_pyExport.cmake
+[0.433s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/cmake/export_communication_msgs__rosidl_generator_pyExport-noconfig.cmake
+[0.433s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/cmake/rosidl_cmake-extras.cmake
+[0.433s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/cmake/ament_cmake_export_include_directories-extras.cmake
+[0.433s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/cmake/ament_cmake_export_libraries-extras.cmake
+[0.434s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/cmake/ament_cmake_export_targets-extras.cmake
+[0.434s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+[0.434s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/cmake/ament_cmake_export_dependencies-extras.cmake
+[0.434s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+[0.434s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/cmake/communication_msgsConfig.cmake
+[0.434s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/cmake/communication_msgsConfig-version.cmake
+[0.435s] -- Up-to-date: /home/jo/final_commit/install/communication_msgs/share/communication_msgs/package.xml
+[0.435s] Invoked command in '/home/jo/final_commit/build/communication_msgs' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/jo/final_commit/build/communication_msgs

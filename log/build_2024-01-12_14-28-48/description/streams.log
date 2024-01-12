@@ -1,0 +1,35 @@
+[0.719s] Invoking command in '/home/jo/final_commit/src/description': PYTHONPATH=/home/jo/final_commit/build/description/prefix_override:/home/jo/final_commit/install/description/lib/python3.10/site-packages: /usr/bin/python3 setup.py egg_info --egg-base ../../build/description build --build-base /home/jo/final_commit/build/description/build install --record /home/jo/final_commit/build/description/install.log --single-version-externally-managed
+[0.881s] running egg_info
+[0.882s] writing ../../build/description/description.egg-info/PKG-INFO
+[0.882s] writing dependency_links to ../../build/description/description.egg-info/dependency_links.txt
+[0.882s] writing entry points to ../../build/description/description.egg-info/entry_points.txt
+[0.882s] writing requirements to ../../build/description/description.egg-info/requires.txt
+[0.882s] writing top-level names to ../../build/description/description.egg-info/top_level.txt
+[0.883s] reading manifest file '../../build/description/description.egg-info/SOURCES.txt'
+[0.884s] writing manifest file '../../build/description/description.egg-info/SOURCES.txt'
+[0.884s] running build
+[0.884s] running build_py
+[0.884s] copying description/__init__.py -> /home/jo/final_commit/build/description/build/lib/description
+[0.885s] running install
+[0.885s] /usr/lib/python3/dist-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+[0.885s]   warnings.warn(
+[0.885s] running install_lib
+[0.885s] copying /home/jo/final_commit/build/description/build/lib/description/__init__.py -> /home/jo/final_commit/install/description/lib/python3.10/site-packages/description
+[0.886s] byte-compiling /home/jo/final_commit/install/description/lib/python3.10/site-packages/description/__init__.py to __init__.cpython-310.pyc
+[0.886s] running install_data
+[0.886s] copying resource/description -> /home/jo/final_commit/install/description/share/ament_index/resource_index/packages
+[0.886s] copying package.xml -> /home/jo/final_commit/install/description/share/description
+[0.887s] copying launch/spawn.launch.py -> /home/jo/final_commit/install/description/share/description/launch
+[0.887s] copying urdf/inertial_macros.xacro -> /home/jo/final_commit/install/description/share/description/urdf
+[0.887s] copying urdf/gazebo_control.xacro -> /home/jo/final_commit/install/description/share/description/urdf
+[0.887s] copying urdf/robot_core.xacro -> /home/jo/final_commit/install/description/share/description/urdf
+[0.887s] copying urdf/robot.urdf.xacro -> /home/jo/final_commit/install/description/share/description/urdf
+[0.887s] copying urdf/lidar.xacro -> /home/jo/final_commit/install/description/share/description/urdf
+[0.887s] copying urdf/ros2_control.xacro -> /home/jo/final_commit/install/description/share/description/urdf
+[0.887s] copying urdf/camera.xacro -> /home/jo/final_commit/install/description/share/description/urdf
+[0.887s] running install_egg_info
+[0.889s] removing '/home/jo/final_commit/install/description/lib/python3.10/site-packages/description-0.0.0-py3.10.egg-info' (and everything under it)
+[0.889s] Copying ../../build/description/description.egg-info to /home/jo/final_commit/install/description/lib/python3.10/site-packages/description-0.0.0-py3.10.egg-info
+[0.889s] running install_scripts
+[0.907s] writing list of installed files to '/home/jo/final_commit/build/description/install.log'
+[0.929s] Invoked command in '/home/jo/final_commit/src/description' returned '0': PYTHONPATH=/home/jo/final_commit/build/description/prefix_override:/home/jo/final_commit/install/description/lib/python3.10/site-packages: /usr/bin/python3 setup.py egg_info --egg-base ../../build/description build --build-base /home/jo/final_commit/build/description/build install --record /home/jo/final_commit/build/description/install.log --single-version-externally-managed
