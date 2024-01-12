@@ -1,0 +1,22 @@
+[1.818s] Invoking command in '/home/jo/final_commit/src/call_gazebo': PYTHONPATH=/home/jo/final_commit/build/call_gazebo/prefix_override:/home/jo/final_commit/install/call_gazebo/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/call_gazebo build --build-base /home/jo/final_commit/build/call_gazebo/build install --record /home/jo/final_commit/build/call_gazebo/install.log --single-version-externally-managed
+[2.033s] running egg_info
+[2.033s] writing ../../build/call_gazebo/call_gazebo.egg-info/PKG-INFO
+[2.033s] writing dependency_links to ../../build/call_gazebo/call_gazebo.egg-info/dependency_links.txt
+[2.034s] writing entry points to ../../build/call_gazebo/call_gazebo.egg-info/entry_points.txt
+[2.034s] writing requirements to ../../build/call_gazebo/call_gazebo.egg-info/requires.txt
+[2.034s] writing top-level names to ../../build/call_gazebo/call_gazebo.egg-info/top_level.txt
+[2.035s] reading manifest file '../../build/call_gazebo/call_gazebo.egg-info/SOURCES.txt'
+[2.036s] writing manifest file '../../build/call_gazebo/call_gazebo.egg-info/SOURCES.txt'
+[2.036s] running build
+[2.036s] running build_py
+[2.036s] /usr/lib/python3/dist-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+[2.036s]   warnings.warn(
+[2.036s] running install
+[2.036s] running install_lib
+[2.037s] running install_data
+[2.037s] running install_egg_info
+[2.039s] removing '/home/jo/final_commit/install/call_gazebo/lib/python3.10/site-packages/call_gazebo-0.0.0-py3.10.egg-info' (and everything under it)
+[2.040s] Copying ../../build/call_gazebo/call_gazebo.egg-info to /home/jo/final_commit/install/call_gazebo/lib/python3.10/site-packages/call_gazebo-0.0.0-py3.10.egg-info
+[2.041s] running install_scripts
+[2.060s] writing list of installed files to '/home/jo/final_commit/build/call_gazebo/install.log'
+[2.144s] Invoked command in '/home/jo/final_commit/src/call_gazebo' returned '0': PYTHONPATH=/home/jo/final_commit/build/call_gazebo/prefix_override:/home/jo/final_commit/install/call_gazebo/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/call_gazebo build --build-base /home/jo/final_commit/build/call_gazebo/build install --record /home/jo/final_commit/build/call_gazebo/install.log --single-version-externally-managed

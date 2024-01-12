@@ -1,0 +1,23 @@
+[1.050s] Invoking command in '/home/jo/final_commit/src/description': PYTHONPATH=/home/jo/final_commit/build/description/prefix_override:/home/jo/final_commit/install/description/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/description build --build-base /home/jo/final_commit/build/description/build install --record /home/jo/final_commit/build/description/install.log --single-version-externally-managed
+[1.261s] running egg_info
+[1.261s] writing ../../build/description/description.egg-info/PKG-INFO
+[1.262s] writing dependency_links to ../../build/description/description.egg-info/dependency_links.txt
+[1.262s] writing entry points to ../../build/description/description.egg-info/entry_points.txt
+[1.262s] writing requirements to ../../build/description/description.egg-info/requires.txt
+[1.262s] writing top-level names to ../../build/description/description.egg-info/top_level.txt
+[1.263s] reading manifest file '../../build/description/description.egg-info/SOURCES.txt'
+[1.264s] writing manifest file '../../build/description/description.egg-info/SOURCES.txt'
+[1.264s] running build
+[1.264s] running build_py
+[1.264s] running install
+[1.265s] /usr/lib/python3/dist-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+[1.265s]   warnings.warn(
+[1.265s] running install_lib
+[1.266s] running install_data
+[1.266s] copying launch/spawn.launch.py -> /home/jo/final_commit/install/description/share/description/launch
+[1.266s] running install_egg_info
+[1.267s] removing '/home/jo/final_commit/install/description/lib/python3.10/site-packages/description-0.0.0-py3.10.egg-info' (and everything under it)
+[1.268s] Copying ../../build/description/description.egg-info to /home/jo/final_commit/install/description/lib/python3.10/site-packages/description-0.0.0-py3.10.egg-info
+[1.268s] running install_scripts
+[1.284s] writing list of installed files to '/home/jo/final_commit/build/description/install.log'
+[1.307s] Invoked command in '/home/jo/final_commit/src/description' returned '0': PYTHONPATH=/home/jo/final_commit/build/description/prefix_override:/home/jo/final_commit/install/description/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/description build --build-base /home/jo/final_commit/build/description/build install --record /home/jo/final_commit/build/description/install.log --single-version-externally-managed

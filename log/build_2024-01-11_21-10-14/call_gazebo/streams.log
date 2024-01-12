@@ -1,0 +1,38 @@
+[1.866s] Invoking command in '/home/jo/final_commit/src/call_gazebo': PYTHONPATH=/home/jo/final_commit/build/call_gazebo/prefix_override:/home/jo/final_commit/install/call_gazebo/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/call_gazebo build --build-base /home/jo/final_commit/build/call_gazebo/build install --record /home/jo/final_commit/build/call_gazebo/install.log --single-version-externally-managed
+[2.096s] running egg_info
+[2.096s] creating ../../build/call_gazebo/call_gazebo.egg-info
+[2.096s] writing ../../build/call_gazebo/call_gazebo.egg-info/PKG-INFO
+[2.096s] writing dependency_links to ../../build/call_gazebo/call_gazebo.egg-info/dependency_links.txt
+[2.096s] writing entry points to ../../build/call_gazebo/call_gazebo.egg-info/entry_points.txt
+[2.097s] writing requirements to ../../build/call_gazebo/call_gazebo.egg-info/requires.txt
+[2.097s] writing top-level names to ../../build/call_gazebo/call_gazebo.egg-info/top_level.txt
+[2.097s] writing manifest file '../../build/call_gazebo/call_gazebo.egg-info/SOURCES.txt'
+[2.098s] reading manifest file '../../build/call_gazebo/call_gazebo.egg-info/SOURCES.txt'
+[2.099s] writing manifest file '../../build/call_gazebo/call_gazebo.egg-info/SOURCES.txt'
+[2.099s] running build
+[2.099s] running build_py
+[2.099s] creating /home/jo/final_commit/build/call_gazebo/build
+[2.099s] creating /home/jo/final_commit/build/call_gazebo/build/lib
+[2.099s] creating /home/jo/final_commit/build/call_gazebo/build/lib/call_gazebo
+[2.099s] copying call_gazebo/__init__.py -> /home/jo/final_commit/build/call_gazebo/build/lib/call_gazebo
+[2.099s] running install
+[2.099s] /usr/lib/python3/dist-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+[2.099s]   warnings.warn(
+[2.099s] running install_lib
+[2.100s] creating /home/jo/final_commit/install/call_gazebo/lib/python3.10/site-packages/call_gazebo
+[2.100s] copying /home/jo/final_commit/build/call_gazebo/build/lib/call_gazebo/__init__.py -> /home/jo/final_commit/install/call_gazebo/lib/python3.10/site-packages/call_gazebo
+[2.101s] byte-compiling /home/jo/final_commit/install/call_gazebo/lib/python3.10/site-packages/call_gazebo/__init__.py to __init__.cpython-310.pyc
+[2.101s] running install_data
+[2.101s] creating /home/jo/final_commit/install/call_gazebo/share/ament_index
+[2.101s] creating /home/jo/final_commit/install/call_gazebo/share/ament_index/resource_index
+[2.101s] creating /home/jo/final_commit/install/call_gazebo/share/ament_index/resource_index/packages
+[2.101s] copying resource/call_gazebo -> /home/jo/final_commit/install/call_gazebo/share/ament_index/resource_index/packages
+[2.102s] copying package.xml -> /home/jo/final_commit/install/call_gazebo/share/call_gazebo
+[2.102s] creating /home/jo/final_commit/install/call_gazebo/share/call_gazebo/launch
+[2.102s] copying launch/world.launch.py -> /home/jo/final_commit/install/call_gazebo/share/call_gazebo/launch
+[2.102s] copying launch/call_description.launch.py -> /home/jo/final_commit/install/call_gazebo/share/call_gazebo/launch
+[2.102s] running install_egg_info
+[2.103s] Copying ../../build/call_gazebo/call_gazebo.egg-info to /home/jo/final_commit/install/call_gazebo/lib/python3.10/site-packages/call_gazebo-0.0.0-py3.10.egg-info
+[2.104s] running install_scripts
+[2.122s] writing list of installed files to '/home/jo/final_commit/build/call_gazebo/install.log'
+[2.256s] Invoked command in '/home/jo/final_commit/src/call_gazebo' returned '0': PYTHONPATH=/home/jo/final_commit/build/call_gazebo/prefix_override:/home/jo/final_commit/install/call_gazebo/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/call_gazebo build --build-base /home/jo/final_commit/build/call_gazebo/build install --record /home/jo/final_commit/build/call_gazebo/install.log --single-version-externally-managed

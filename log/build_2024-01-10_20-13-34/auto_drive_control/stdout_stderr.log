@@ -1,0 +1,17 @@
+running egg_info
+writing ../build/auto_drive_control/auto_drive_control.egg-info/PKG-INFO
+writing dependency_links to ../build/auto_drive_control/auto_drive_control.egg-info/dependency_links.txt
+writing entry points to ../build/auto_drive_control/auto_drive_control.egg-info/entry_points.txt
+writing requirements to ../build/auto_drive_control/auto_drive_control.egg-info/requires.txt
+writing top-level names to ../build/auto_drive_control/auto_drive_control.egg-info/top_level.txt
+reading manifest file '../build/auto_drive_control/auto_drive_control.egg-info/SOURCES.txt'
+writing manifest file '../build/auto_drive_control/auto_drive_control.egg-info/SOURCES.txt'
+running build
+running build_py
+running install
+/usr/lib/python3/dist-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+  warnings.warn(
+running install_lib
+running install_data
+creating /home/jo/final_commit/install/auto_drive_control/share/auto_drive_controlparam
+error: can't copy '*.yaml': doesn't exist or not a regular file

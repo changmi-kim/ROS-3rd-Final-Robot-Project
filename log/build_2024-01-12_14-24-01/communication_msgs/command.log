@@ -1,0 +1,4 @@
+Invoking command in '/home/jo/final_commit/build/communication_msgs': /usr/bin/cmake --build /home/jo/final_commit/build/communication_msgs -- -j12 -l12
+Invoked command in '/home/jo/final_commit/build/communication_msgs' returned '0': /usr/bin/cmake --build /home/jo/final_commit/build/communication_msgs -- -j12 -l12
+Invoking command in '/home/jo/final_commit/build/communication_msgs': /usr/bin/cmake --install /home/jo/final_commit/build/communication_msgs
+Invoked command in '/home/jo/final_commit/build/communication_msgs' returned '0': /usr/bin/cmake --install /home/jo/final_commit/build/communication_msgs

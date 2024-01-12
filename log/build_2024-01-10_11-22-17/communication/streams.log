@@ -1,0 +1,29 @@
+[0.731s] Invoking command in '/home/jo/final_commit/src/communication': PYTHONPATH=/home/jo/final_commit/build/communication/prefix_override:/home/jo/final_commit/install/communication/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/communication build --build-base /home/jo/final_commit/build/communication/build install --record /home/jo/final_commit/build/communication/install.log --single-version-externally-managed
+[0.939s] running egg_info
+[0.939s] writing ../../build/communication/communication.egg-info/PKG-INFO
+[0.939s] writing dependency_links to ../../build/communication/communication.egg-info/dependency_links.txt
+[0.940s] writing entry points to ../../build/communication/communication.egg-info/entry_points.txt
+[0.940s] writing requirements to ../../build/communication/communication.egg-info/requires.txt
+[0.940s] writing top-level names to ../../build/communication/communication.egg-info/top_level.txt
+[0.941s] reading manifest file '../../build/communication/communication.egg-info/SOURCES.txt'
+[0.942s] writing manifest file '../../build/communication/communication.egg-info/SOURCES.txt'
+[0.942s] running build
+[0.942s] running build_py
+[0.943s] copying communication/controller_talker.py -> /home/jo/final_commit/build/communication/build/lib/communication
+[0.943s] running install
+[0.943s] /usr/lib/python3/dist-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+[0.943s]   warnings.warn(
+[0.943s] running install_lib
+[0.944s] copying /home/jo/final_commit/build/communication/build/lib/communication/controller_talker.py -> /home/jo/final_commit/install/communication/lib/python3.10/site-packages/communication
+[0.944s] byte-compiling /home/jo/final_commit/install/communication/lib/python3.10/site-packages/communication/controller_talker.py to controller_talker.cpython-310.pyc
+[0.945s] running install_data
+[0.945s] running install_egg_info
+[0.947s] removing '/home/jo/final_commit/install/communication/lib/python3.10/site-packages/communication-0.0.0-py3.10.egg-info' (and everything under it)
+[0.947s] Copying ../../build/communication/communication.egg-info to /home/jo/final_commit/install/communication/lib/python3.10/site-packages/communication-0.0.0-py3.10.egg-info
+[0.948s] running install_scripts
+[0.964s] Installing controller_listener script to /home/jo/final_commit/install/communication/lib/communication
+[0.964s] Installing controller_talker script to /home/jo/final_commit/install/communication/lib/communication
+[0.964s] Installing minibot_listener script to /home/jo/final_commit/install/communication/lib/communication
+[0.964s] Installing minibot_talker script to /home/jo/final_commit/install/communication/lib/communication
+[0.964s] writing list of installed files to '/home/jo/final_commit/build/communication/install.log'
+[0.981s] Invoked command in '/home/jo/final_commit/src/communication' returned '0': PYTHONPATH=/home/jo/final_commit/build/communication/prefix_override:/home/jo/final_commit/install/communication/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/communication build --build-base /home/jo/final_commit/build/communication/build install --record /home/jo/final_commit/build/communication/install.log --single-version-externally-managed

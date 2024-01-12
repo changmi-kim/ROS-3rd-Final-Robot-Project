@@ -1,0 +1,43 @@
+[1.639s] Invoking command in '/home/jo/final_commit/src/description': PYTHONPATH=/home/jo/final_commit/build/description/prefix_override:/home/jo/final_commit/install/description/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/description build --build-base /home/jo/final_commit/build/description/build install --record /home/jo/final_commit/build/description/install.log --single-version-externally-managed
+[1.862s] running egg_info
+[1.862s] creating ../../build/description/description.egg-info
+[1.863s] writing ../../build/description/description.egg-info/PKG-INFO
+[1.863s] writing dependency_links to ../../build/description/description.egg-info/dependency_links.txt
+[1.863s] writing entry points to ../../build/description/description.egg-info/entry_points.txt
+[1.863s] writing requirements to ../../build/description/description.egg-info/requires.txt
+[1.863s] writing top-level names to ../../build/description/description.egg-info/top_level.txt
+[1.863s] writing manifest file '../../build/description/description.egg-info/SOURCES.txt'
+[1.865s] reading manifest file '../../build/description/description.egg-info/SOURCES.txt'
+[1.866s] writing manifest file '../../build/description/description.egg-info/SOURCES.txt'
+[1.866s] running build
+[1.866s] running build_py
+[1.866s] creating /home/jo/final_commit/build/description/build
+[1.866s] creating /home/jo/final_commit/build/description/build/lib
+[1.866s] creating /home/jo/final_commit/build/description/build/lib/description
+[1.866s] copying description/__init__.py -> /home/jo/final_commit/build/description/build/lib/description
+[1.866s] running install
+[1.866s] /usr/lib/python3/dist-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+[1.867s]   warnings.warn(
+[1.867s] running install_lib
+[1.867s] creating /home/jo/final_commit/install/description/lib/python3.10/site-packages/description
+[1.867s] copying /home/jo/final_commit/build/description/build/lib/description/__init__.py -> /home/jo/final_commit/install/description/lib/python3.10/site-packages/description
+[1.868s] byte-compiling /home/jo/final_commit/install/description/lib/python3.10/site-packages/description/__init__.py to __init__.cpython-310.pyc
+[1.868s] running install_data
+[1.868s] creating /home/jo/final_commit/install/description/share/ament_index
+[1.869s] creating /home/jo/final_commit/install/description/share/ament_index/resource_index
+[1.869s] creating /home/jo/final_commit/install/description/share/ament_index/resource_index/packages
+[1.869s] copying resource/description -> /home/jo/final_commit/install/description/share/ament_index/resource_index/packages
+[1.869s] copying package.xml -> /home/jo/final_commit/install/description/share/description
+[1.869s] creating /home/jo/final_commit/install/description/share/description/launch
+[1.869s] copying launch/spawn.launch.py -> /home/jo/final_commit/install/description/share/description/launch
+[1.869s] creating /home/jo/final_commit/install/description/share/description/urdf
+[1.869s] copying urdf/minibot.urdf.xacro -> /home/jo/final_commit/install/description/share/description/urdf
+[1.869s] copying urdf/minibot_gazebo.urdf.xacro -> /home/jo/final_commit/install/description/share/description/urdf
+[1.869s] copying urdf/minibot_ros2_control.urdf.xacro -> /home/jo/final_commit/install/description/share/description/urdf
+[1.869s] copying urdf/robot.urdf.xacro -> /home/jo/final_commit/install/description/share/description/urdf
+[1.870s] creating /home/jo/final_commit/install/description/share/description/urdf/common
+[1.870s] running install_egg_info
+[1.871s] Copying ../../build/description/description.egg-info to /home/jo/final_commit/install/description/lib/python3.10/site-packages/description-0.0.0-py3.10.egg-info
+[1.871s] running install_scripts
+[1.890s] writing list of installed files to '/home/jo/final_commit/build/description/install.log'
+[1.946s] Invoked command in '/home/jo/final_commit/src/description' returned '0': PYTHONPATH=/home/jo/final_commit/build/description/prefix_override:/home/jo/final_commit/install/description/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/description build --build-base /home/jo/final_commit/build/description/build install --record /home/jo/final_commit/build/description/install.log --single-version-externally-managed

@@ -1,0 +1,27 @@
+[0.672s] Invoking command in '/home/jo/final_commit/src/communication': LD_LIBRARY_PATH=/home/jo/final_commit/install/communication_msgs/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/usr/local/cuda-12.0/lib64 PYTHONPATH=/home/jo/final_commit/build/communication/prefix_override:/home/jo/final_commit/install/communication/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/communication build --build-base /home/jo/final_commit/build/communication/build install --record /home/jo/final_commit/build/communication/install.log --single-version-externally-managed
+[0.871s] running egg_info
+[0.871s] writing ../../build/communication/communication.egg-info/PKG-INFO
+[0.871s] writing dependency_links to ../../build/communication/communication.egg-info/dependency_links.txt
+[0.871s] writing entry points to ../../build/communication/communication.egg-info/entry_points.txt
+[0.872s] writing requirements to ../../build/communication/communication.egg-info/requires.txt
+[0.872s] writing top-level names to ../../build/communication/communication.egg-info/top_level.txt
+[0.873s] reading manifest file '../../build/communication/communication.egg-info/SOURCES.txt'
+[0.874s] writing manifest file '../../build/communication/communication.egg-info/SOURCES.txt'
+[0.874s] running build
+[0.874s] running build_py
+[0.874s] running install
+[0.874s] /usr/lib/python3/dist-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+[0.874s]   warnings.warn(
+[0.874s] running install_lib
+[0.875s] running install_data
+[0.876s] copying launch/minibot.launch.py -> /home/jo/final_commit/install/communication/share/communication/launch
+[0.876s] running install_egg_info
+[0.877s] removing '/home/jo/final_commit/install/communication/lib/python3.10/site-packages/communication-0.0.0-py3.10.egg-info' (and everything under it)
+[0.877s] Copying ../../build/communication/communication.egg-info to /home/jo/final_commit/install/communication/lib/python3.10/site-packages/communication-0.0.0-py3.10.egg-info
+[0.878s] running install_scripts
+[0.893s] Installing controller_listener script to /home/jo/final_commit/install/communication/lib/communication
+[0.893s] Installing controller_talker script to /home/jo/final_commit/install/communication/lib/communication
+[0.893s] Installing minibot_listener script to /home/jo/final_commit/install/communication/lib/communication
+[0.893s] Installing minibot_talker script to /home/jo/final_commit/install/communication/lib/communication
+[0.893s] writing list of installed files to '/home/jo/final_commit/build/communication/install.log'
+[0.911s] Invoked command in '/home/jo/final_commit/src/communication' returned '0': LD_LIBRARY_PATH=/home/jo/final_commit/install/communication_msgs/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/usr/local/cuda-12.0/lib64 PYTHONPATH=/home/jo/final_commit/build/communication/prefix_override:/home/jo/final_commit/install/communication/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/communication build --build-base /home/jo/final_commit/build/communication/build install --record /home/jo/final_commit/build/communication/install.log --single-version-externally-managed

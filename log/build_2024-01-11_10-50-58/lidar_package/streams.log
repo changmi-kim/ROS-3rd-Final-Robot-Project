@@ -1,0 +1,31 @@
+[1.046s] Invoking command in '/home/jo/final_commit/lidar_package': PYTHONPATH=/home/jo/final_commit/build/lidar_package/prefix_override:/home/jo/final_commit/install/lidar_package/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/lidar_package build --build-base /home/jo/final_commit/build/lidar_package/build install --record /home/jo/final_commit/build/lidar_package/install.log --single-version-externally-managed
+[1.259s] running egg_info
+[1.260s] writing ../build/lidar_package/lidar_package.egg-info/PKG-INFO
+[1.260s] writing dependency_links to ../build/lidar_package/lidar_package.egg-info/dependency_links.txt
+[1.260s] writing entry points to ../build/lidar_package/lidar_package.egg-info/entry_points.txt
+[1.260s] writing requirements to ../build/lidar_package/lidar_package.egg-info/requires.txt
+[1.261s] writing top-level names to ../build/lidar_package/lidar_package.egg-info/top_level.txt
+[1.262s] reading manifest file '../build/lidar_package/lidar_package.egg-info/SOURCES.txt'
+[1.264s] writing manifest file '../build/lidar_package/lidar_package.egg-info/SOURCES.txt'
+[1.264s] running build
+[1.264s] running build_py
+[1.264s] copying lidar_package/sec_auto_navigation.py -> /home/jo/final_commit/build/lidar_package/build/lib/lidar_package
+[1.264s] copying lidar_package/auto_navigation.py -> /home/jo/final_commit/build/lidar_package/build/lib/lidar_package
+[1.264s] running install
+[1.265s] /usr/lib/python3/dist-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+[1.265s]   warnings.warn(
+[1.265s] running install_lib
+[1.265s] copying /home/jo/final_commit/build/lidar_package/build/lib/lidar_package/sec_auto_navigation.py -> /home/jo/final_commit/install/lidar_package/lib/python3.10/site-packages/lidar_package
+[1.265s] copying /home/jo/final_commit/build/lidar_package/build/lib/lidar_package/auto_navigation.py -> /home/jo/final_commit/install/lidar_package/lib/python3.10/site-packages/lidar_package
+[1.266s] byte-compiling /home/jo/final_commit/install/lidar_package/lib/python3.10/site-packages/lidar_package/sec_auto_navigation.py to sec_auto_navigation.cpython-310.pyc
+[1.267s] byte-compiling /home/jo/final_commit/install/lidar_package/lib/python3.10/site-packages/lidar_package/auto_navigation.py to auto_navigation.cpython-310.pyc
+[1.267s] running install_data
+[1.267s] running install_egg_info
+[1.269s] removing '/home/jo/final_commit/install/lidar_package/lib/python3.10/site-packages/lidar_package-0.0.0-py3.10.egg-info' (and everything under it)
+[1.269s] Copying ../build/lidar_package/lidar_package.egg-info to /home/jo/final_commit/install/lidar_package/lib/python3.10/site-packages/lidar_package-0.0.0-py3.10.egg-info
+[1.270s] running install_scripts
+[1.286s] Installing auto_navigation script to /home/jo/final_commit/install/lidar_package/lib/lidar_package
+[1.286s] Installing sec_auto_navigation script to /home/jo/final_commit/install/lidar_package/lib/lidar_package
+[1.286s] Installing sensor_node script to /home/jo/final_commit/install/lidar_package/lib/lidar_package
+[1.287s] writing list of installed files to '/home/jo/final_commit/build/lidar_package/install.log'
+[1.357s] Invoked command in '/home/jo/final_commit/lidar_package' returned '0': PYTHONPATH=/home/jo/final_commit/build/lidar_package/prefix_override:/home/jo/final_commit/install/lidar_package/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/lidar_package build --build-base /home/jo/final_commit/build/lidar_package/build install --record /home/jo/final_commit/build/lidar_package/install.log --single-version-externally-managed

@@ -1,0 +1,39 @@
+[0.730s] Invoking command in '/home/jo/final_commit/auto_drive_control': PYTHONPATH=/home/jo/final_commit/build/auto_drive_control/prefix_override:/home/jo/final_commit/install/auto_drive_control/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/auto_drive_control build --build-base /home/jo/final_commit/build/auto_drive_control/build install --record /home/jo/final_commit/build/auto_drive_control/install.log --single-version-externally-managed
+[0.930s] running egg_info
+[0.930s] writing ../build/auto_drive_control/auto_drive_control.egg-info/PKG-INFO
+[0.931s] writing dependency_links to ../build/auto_drive_control/auto_drive_control.egg-info/dependency_links.txt
+[0.931s] writing entry points to ../build/auto_drive_control/auto_drive_control.egg-info/entry_points.txt
+[0.931s] writing requirements to ../build/auto_drive_control/auto_drive_control.egg-info/requires.txt
+[0.932s] writing top-level names to ../build/auto_drive_control/auto_drive_control.egg-info/top_level.txt
+[0.933s] reading manifest file '../build/auto_drive_control/auto_drive_control.egg-info/SOURCES.txt'
+[0.934s] writing manifest file '../build/auto_drive_control/auto_drive_control.egg-info/SOURCES.txt'
+[0.934s] running build
+[0.934s] running build_py
+[0.934s] copying auto_drive_control/arduino_protocol_sender.py -> /home/jo/final_commit/build/auto_drive_control/build/lib/auto_drive_control
+[0.934s] copying auto_drive_control/__init__.py -> /home/jo/final_commit/build/auto_drive_control/build/lib/auto_drive_control
+[0.935s] copying auto_drive_control/ultrasonic_dist_publisher.py -> /home/jo/final_commit/build/auto_drive_control/build/lib/auto_drive_control
+[0.935s] copying auto_drive_control/ultrasonic_dist_subscliber.py -> /home/jo/final_commit/build/auto_drive_control/build/lib/auto_drive_control
+[0.935s] running install
+[0.935s] /usr/lib/python3/dist-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+[0.935s]   warnings.warn(
+[0.935s] running install_lib
+[0.936s] copying /home/jo/final_commit/build/auto_drive_control/build/lib/auto_drive_control/arduino_protocol_sender.py -> /home/jo/final_commit/install/auto_drive_control/lib/python3.10/site-packages/auto_drive_control
+[0.936s] copying /home/jo/final_commit/build/auto_drive_control/build/lib/auto_drive_control/__init__.py -> /home/jo/final_commit/install/auto_drive_control/lib/python3.10/site-packages/auto_drive_control
+[0.936s] copying /home/jo/final_commit/build/auto_drive_control/build/lib/auto_drive_control/ultrasonic_dist_publisher.py -> /home/jo/final_commit/install/auto_drive_control/lib/python3.10/site-packages/auto_drive_control
+[0.936s] copying /home/jo/final_commit/build/auto_drive_control/build/lib/auto_drive_control/ultrasonic_dist_subscliber.py -> /home/jo/final_commit/install/auto_drive_control/lib/python3.10/site-packages/auto_drive_control
+[0.937s] byte-compiling /home/jo/final_commit/install/auto_drive_control/lib/python3.10/site-packages/auto_drive_control/arduino_protocol_sender.py to arduino_protocol_sender.cpython-310.pyc
+[0.937s] byte-compiling /home/jo/final_commit/install/auto_drive_control/lib/python3.10/site-packages/auto_drive_control/__init__.py to __init__.cpython-310.pyc
+[0.938s] byte-compiling /home/jo/final_commit/install/auto_drive_control/lib/python3.10/site-packages/auto_drive_control/ultrasonic_dist_publisher.py to ultrasonic_dist_publisher.cpython-310.pyc
+[0.939s] byte-compiling /home/jo/final_commit/install/auto_drive_control/lib/python3.10/site-packages/auto_drive_control/ultrasonic_dist_subscliber.py to ultrasonic_dist_subscliber.cpython-310.pyc
+[0.939s] running install_data
+[0.939s] copying resource/auto_drive_control -> /home/jo/final_commit/install/auto_drive_control/share/ament_index/resource_index/packages
+[0.939s] copying package.xml -> /home/jo/final_commit/install/auto_drive_control/share/auto_drive_control
+[0.940s] running install_egg_info
+[0.941s] removing '/home/jo/final_commit/install/auto_drive_control/lib/python3.10/site-packages/auto_drive_control-0.0.0-py3.10.egg-info' (and everything under it)
+[0.941s] Copying ../build/auto_drive_control/auto_drive_control.egg-info to /home/jo/final_commit/install/auto_drive_control/lib/python3.10/site-packages/auto_drive_control-0.0.0-py3.10.egg-info
+[0.942s] running install_scripts
+[0.957s] Installing arduino_protocol_sender script to /home/jo/final_commit/install/auto_drive_control/lib/auto_drive_control
+[0.957s] Installing ultrasonic_dist_publisher script to /home/jo/final_commit/install/auto_drive_control/lib/auto_drive_control
+[0.958s] Installing ultrasonic_dist_subscliber script to /home/jo/final_commit/install/auto_drive_control/lib/auto_drive_control
+[0.958s] writing list of installed files to '/home/jo/final_commit/build/auto_drive_control/install.log'
+[0.975s] Invoked command in '/home/jo/final_commit/auto_drive_control' returned '0': PYTHONPATH=/home/jo/final_commit/build/auto_drive_control/prefix_override:/home/jo/final_commit/install/auto_drive_control/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/auto_drive_control build --build-base /home/jo/final_commit/build/auto_drive_control/build install --record /home/jo/final_commit/build/auto_drive_control/install.log --single-version-externally-managed

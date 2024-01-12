@@ -1,0 +1,245 @@
+[0.580s] DEBUG:colcon:Command line arguments: ['/usr/bin/colcon', 'build']
+[0.580s] DEBUG:colcon:Parsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=False, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=12, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=None, packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, allow_overriding=[], cmake_args=None, cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, verb_parser=<colcon_defaults.argument_parser.defaults.DefaultArgumentsDecorator object at 0x7f057c362710>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0x7f057c7ad0f0>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0x7f057c7ad0f0>>)
+[0.609s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) check parameters
+[0.609s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) check parameters
+[0.609s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) check parameters
+[0.609s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) check parameters
+[0.609s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) discover
+[0.609s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) discover
+[0.609s] INFO:colcon.colcon_core.package_discovery:Crawling recursively for packages in '/home/jo/final_commit'
+[0.610s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ignore', 'ignore_ament_install']
+[0.610s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore'
+[0.610s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore_ament_install'
+[0.610s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_pkg']
+[0.610s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_pkg'
+[0.610s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_meta']
+[0.610s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_meta'
+[0.610s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ros']
+[0.610s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ros'
+[0.617s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['cmake', 'python']
+[0.618s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'cmake'
+[0.618s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python'
+[0.618s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['python_setup_py']
+[0.618s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python_setup_py'
+[0.618s] Level 1:colcon.colcon_core.package_identification:_identify(auto_drive_control) by extensions ['ignore', 'ignore_ament_install']
+[0.618s] Level 1:colcon.colcon_core.package_identification:_identify(auto_drive_control) by extension 'ignore'
+[0.618s] Level 1:colcon.colcon_core.package_identification:_identify(auto_drive_control) by extension 'ignore_ament_install'
+[0.618s] Level 1:colcon.colcon_core.package_identification:_identify(auto_drive_control) by extensions ['colcon_pkg']
+[0.618s] Level 1:colcon.colcon_core.package_identification:_identify(auto_drive_control) by extension 'colcon_pkg'
+[0.618s] Level 1:colcon.colcon_core.package_identification:_identify(auto_drive_control) by extensions ['colcon_meta']
+[0.618s] Level 1:colcon.colcon_core.package_identification:_identify(auto_drive_control) by extension 'colcon_meta'
+[0.618s] Level 1:colcon.colcon_core.package_identification:_identify(auto_drive_control) by extensions ['ros']
+[0.618s] Level 1:colcon.colcon_core.package_identification:_identify(auto_drive_control) by extension 'ros'
+[0.620s] DEBUG:colcon.colcon_core.package_identification:Package 'auto_drive_control' with type 'ros.ament_python' and name 'auto_drive_control'
+[0.620s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extensions ['ignore', 'ignore_ament_install']
+[0.620s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extension 'ignore'
+[0.620s] Level 1:colcon.colcon_core.package_identification:_identify(build) ignored
+[0.620s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extensions ['ignore', 'ignore_ament_install']
+[0.620s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extension 'ignore'
+[0.620s] Level 1:colcon.colcon_core.package_identification:_identify(install) ignored
+[0.620s] Level 1:colcon.colcon_core.package_identification:_identify(lidar_package) by extensions ['ignore', 'ignore_ament_install']
+[0.620s] Level 1:colcon.colcon_core.package_identification:_identify(lidar_package) by extension 'ignore'
+[0.620s] Level 1:colcon.colcon_core.package_identification:_identify(lidar_package) by extension 'ignore_ament_install'
+[0.620s] Level 1:colcon.colcon_core.package_identification:_identify(lidar_package) by extensions ['colcon_pkg']
+[0.620s] Level 1:colcon.colcon_core.package_identification:_identify(lidar_package) by extension 'colcon_pkg'
+[0.620s] Level 1:colcon.colcon_core.package_identification:_identify(lidar_package) by extensions ['colcon_meta']
+[0.620s] Level 1:colcon.colcon_core.package_identification:_identify(lidar_package) by extension 'colcon_meta'
+[0.620s] Level 1:colcon.colcon_core.package_identification:_identify(lidar_package) by extensions ['ros']
+[0.620s] Level 1:colcon.colcon_core.package_identification:_identify(lidar_package) by extension 'ros'
+[0.621s] DEBUG:colcon.colcon_core.package_identification:Package 'lidar_package' with type 'ros.ament_python' and name 'lidar_package'
+[0.621s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extensions ['ignore', 'ignore_ament_install']
+[0.621s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extension 'ignore'
+[0.621s] Level 1:colcon.colcon_core.package_identification:_identify(log) ignored
+[0.621s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ignore', 'ignore_ament_install']
+[0.621s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore'
+[0.621s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore_ament_install'
+[0.621s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_pkg']
+[0.621s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_pkg'
+[0.621s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_meta']
+[0.621s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_meta'
+[0.621s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ros']
+[0.621s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ros'
+[0.621s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['cmake', 'python']
+[0.621s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'cmake'
+[0.621s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python'
+[0.621s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['python_setup_py']
+[0.621s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python_setup_py'
+[0.622s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs) by extensions ['ignore', 'ignore_ament_install']
+[0.622s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs) by extension 'ignore'
+[0.622s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs) by extension 'ignore_ament_install'
+[0.622s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs) by extensions ['colcon_pkg']
+[0.622s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs) by extension 'colcon_pkg'
+[0.622s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs) by extensions ['colcon_meta']
+[0.622s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs) by extension 'colcon_meta'
+[0.622s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs) by extensions ['ros']
+[0.622s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs) by extension 'ros'
+[0.622s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs) by extensions ['cmake', 'python']
+[0.622s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs) by extension 'cmake'
+[0.622s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs) by extension 'python'
+[0.622s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs) by extensions ['python_setup_py']
+[0.622s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs) by extension 'python_setup_py'
+[0.622s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/include) by extensions ['ignore', 'ignore_ament_install']
+[0.622s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/include) by extension 'ignore'
+[0.622s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/include) by extension 'ignore_ament_install'
+[0.622s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/include) by extensions ['colcon_pkg']
+[0.622s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/include) by extension 'colcon_pkg'
+[0.622s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/include) by extensions ['colcon_meta']
+[0.622s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/include) by extension 'colcon_meta'
+[0.622s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/include) by extensions ['ros']
+[0.622s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/include) by extension 'ros'
+[0.622s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/include) by extensions ['cmake', 'python']
+[0.622s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/include) by extension 'cmake'
+[0.622s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/include) by extension 'python'
+[0.622s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/include) by extensions ['python_setup_py']
+[0.622s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/include) by extension 'python_setup_py'
+[0.623s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/include/communication_msgs) by extensions ['ignore', 'ignore_ament_install']
+[0.623s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/include/communication_msgs) by extension 'ignore'
+[0.623s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/include/communication_msgs) by extension 'ignore_ament_install'
+[0.623s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/include/communication_msgs) by extensions ['colcon_pkg']
+[0.623s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/include/communication_msgs) by extension 'colcon_pkg'
+[0.623s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/include/communication_msgs) by extensions ['colcon_meta']
+[0.623s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/include/communication_msgs) by extension 'colcon_meta'
+[0.623s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/include/communication_msgs) by extensions ['ros']
+[0.623s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/include/communication_msgs) by extension 'ros'
+[0.623s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/include/communication_msgs) by extensions ['cmake', 'python']
+[0.623s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/include/communication_msgs) by extension 'cmake'
+[0.623s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/include/communication_msgs) by extension 'python'
+[0.623s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/include/communication_msgs) by extensions ['python_setup_py']
+[0.623s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/include/communication_msgs) by extension 'python_setup_py'
+[0.623s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/src) by extensions ['ignore', 'ignore_ament_install']
+[0.623s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/src) by extension 'ignore'
+[0.623s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/src) by extension 'ignore_ament_install'
+[0.623s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/src) by extensions ['colcon_pkg']
+[0.623s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/src) by extension 'colcon_pkg'
+[0.623s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/src) by extensions ['colcon_meta']
+[0.623s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/src) by extension 'colcon_meta'
+[0.623s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/src) by extensions ['ros']
+[0.623s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/src) by extension 'ros'
+[0.623s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/src) by extensions ['cmake', 'python']
+[0.623s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/src) by extension 'cmake'
+[0.623s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/src) by extension 'python'
+[0.623s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/src) by extensions ['python_setup_py']
+[0.623s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/src) by extension 'python_setup_py'
+[0.624s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/srv) by extensions ['ignore', 'ignore_ament_install']
+[0.624s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/srv) by extension 'ignore'
+[0.624s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/srv) by extension 'ignore_ament_install'
+[0.624s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/srv) by extensions ['colcon_pkg']
+[0.624s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/srv) by extension 'colcon_pkg'
+[0.624s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/srv) by extensions ['colcon_meta']
+[0.624s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/srv) by extension 'colcon_meta'
+[0.624s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/srv) by extensions ['ros']
+[0.624s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/srv) by extension 'ros'
+[0.624s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/srv) by extensions ['cmake', 'python']
+[0.624s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/srv) by extension 'cmake'
+[0.624s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/srv) by extension 'python'
+[0.624s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/srv) by extensions ['python_setup_py']
+[0.624s] Level 1:colcon.colcon_core.package_identification:_identify(src/communication_msgs/srv) by extension 'python_setup_py'
+[0.624s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) using defaults
+[0.624s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) discover
+[0.624s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) using defaults
+[0.624s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) discover
+[0.624s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) using defaults
+[0.679s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) check parameters
+[0.679s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) discover
+[0.687s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) using defaults
+[0.704s] Level 5:colcon.colcon_core.verb:set package 'auto_drive_control' build argument 'cmake_args' from command line to 'None'
+[0.704s] Level 5:colcon.colcon_core.verb:set package 'auto_drive_control' build argument 'cmake_target' from command line to 'None'
+[0.704s] Level 5:colcon.colcon_core.verb:set package 'auto_drive_control' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.704s] Level 5:colcon.colcon_core.verb:set package 'auto_drive_control' build argument 'cmake_clean_cache' from command line to 'False'
+[0.704s] Level 5:colcon.colcon_core.verb:set package 'auto_drive_control' build argument 'cmake_clean_first' from command line to 'False'
+[0.704s] Level 5:colcon.colcon_core.verb:set package 'auto_drive_control' build argument 'cmake_force_configure' from command line to 'False'
+[0.704s] Level 5:colcon.colcon_core.verb:set package 'auto_drive_control' build argument 'ament_cmake_args' from command line to 'None'
+[0.704s] Level 5:colcon.colcon_core.verb:set package 'auto_drive_control' build argument 'catkin_cmake_args' from command line to 'None'
+[0.704s] Level 5:colcon.colcon_core.verb:set package 'auto_drive_control' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.704s] DEBUG:colcon.colcon_core.verb:Building package 'auto_drive_control' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/jo/final_commit/build/auto_drive_control', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/jo/final_commit/install/auto_drive_control', 'merge_install': False, 'path': '/home/jo/final_commit/auto_drive_control', 'symlink_install': False, 'test_result_base': None}
+[0.712s] Level 5:colcon.colcon_core.verb:set package 'lidar_package' build argument 'cmake_args' from command line to 'None'
+[0.712s] Level 5:colcon.colcon_core.verb:set package 'lidar_package' build argument 'cmake_target' from command line to 'None'
+[0.712s] Level 5:colcon.colcon_core.verb:set package 'lidar_package' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.712s] Level 5:colcon.colcon_core.verb:set package 'lidar_package' build argument 'cmake_clean_cache' from command line to 'False'
+[0.712s] Level 5:colcon.colcon_core.verb:set package 'lidar_package' build argument 'cmake_clean_first' from command line to 'False'
+[0.712s] Level 5:colcon.colcon_core.verb:set package 'lidar_package' build argument 'cmake_force_configure' from command line to 'False'
+[0.712s] Level 5:colcon.colcon_core.verb:set package 'lidar_package' build argument 'ament_cmake_args' from command line to 'None'
+[0.712s] Level 5:colcon.colcon_core.verb:set package 'lidar_package' build argument 'catkin_cmake_args' from command line to 'None'
+[0.712s] Level 5:colcon.colcon_core.verb:set package 'lidar_package' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.712s] DEBUG:colcon.colcon_core.verb:Building package 'lidar_package' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/jo/final_commit/build/lidar_package', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/jo/final_commit/install/lidar_package', 'merge_install': False, 'path': '/home/jo/final_commit/lidar_package', 'symlink_install': False, 'test_result_base': None}
+[0.720s] INFO:colcon.colcon_core.executor:Executing jobs using 'parallel' executor
+[0.729s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete
+[0.729s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/jo/final_commit/auto_drive_control' with build type 'ament_python'
+[0.729s] Level 1:colcon.colcon_core.shell:create_environment_hook('auto_drive_control', 'ament_prefix_path')
+[0.738s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[0.739s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/jo/final_commit/install/auto_drive_control/share/auto_drive_control/hook/ament_prefix_path.ps1'
+[0.739s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/jo/final_commit/install/auto_drive_control/share/auto_drive_control/hook/ament_prefix_path.dsv'
+[0.739s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/jo/final_commit/install/auto_drive_control/share/auto_drive_control/hook/ament_prefix_path.sh'
+[0.749s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.749s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.759s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/jo/final_commit/lidar_package' with build type 'ament_python'
+[0.759s] Level 1:colcon.colcon_core.shell:create_environment_hook('lidar_package', 'ament_prefix_path')
+[0.768s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/jo/final_commit/install/lidar_package/share/lidar_package/hook/ament_prefix_path.ps1'
+[0.769s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/jo/final_commit/install/lidar_package/share/lidar_package/hook/ament_prefix_path.dsv'
+[0.769s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/jo/final_commit/install/lidar_package/share/lidar_package/hook/ament_prefix_path.sh'
+[0.778s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.778s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.957s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/jo/final_commit/auto_drive_control'
+[0.966s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.966s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[1.136s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/jo/final_commit/lidar_package'
+[1.144s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[1.144s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[1.409s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/jo/final_commit/auto_drive_control': PYTHONPATH=/home/jo/final_commit/build/auto_drive_control/prefix_override:/home/jo/final_commit/install/auto_drive_control/lib/python3.10/site-packages: /usr/bin/python3 setup.py egg_info --egg-base ../build/auto_drive_control build --build-base /home/jo/final_commit/build/auto_drive_control/build install --record /home/jo/final_commit/build/auto_drive_control/install.log --single-version-externally-managed
+[1.413s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/jo/final_commit/lidar_package': PYTHONPATH=/home/jo/final_commit/build/lidar_package/prefix_override:/home/jo/final_commit/install/lidar_package/lib/python3.10/site-packages: /usr/bin/python3 setup.py egg_info --egg-base ../build/lidar_package build --build-base /home/jo/final_commit/build/lidar_package/build install --record /home/jo/final_commit/build/lidar_package/install.log --single-version-externally-managed
+[1.610s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/jo/final_commit/auto_drive_control' returned '0': PYTHONPATH=/home/jo/final_commit/build/auto_drive_control/prefix_override:/home/jo/final_commit/install/auto_drive_control/lib/python3.10/site-packages: /usr/bin/python3 setup.py egg_info --egg-base ../build/auto_drive_control build --build-base /home/jo/final_commit/build/auto_drive_control/build install --record /home/jo/final_commit/build/auto_drive_control/install.log --single-version-externally-managed
+[1.620s] Level 1:colcon.colcon_core.environment:checking '/home/jo/final_commit/install/auto_drive_control' for CMake module files
+[1.621s] Level 1:colcon.colcon_core.environment:checking '/home/jo/final_commit/install/auto_drive_control' for CMake config files
+[1.621s] Level 1:colcon.colcon_core.environment:checking '/home/jo/final_commit/install/auto_drive_control/lib'
+[1.621s] Level 1:colcon.colcon_core.environment:checking '/home/jo/final_commit/install/auto_drive_control/bin'
+[1.621s] Level 1:colcon.colcon_core.environment:checking '/home/jo/final_commit/install/auto_drive_control/lib/pkgconfig/auto_drive_control.pc'
+[1.621s] Level 1:colcon.colcon_core.environment:checking '/home/jo/final_commit/install/auto_drive_control/lib/python3.10/site-packages'
+[1.621s] Level 1:colcon.colcon_core.shell:create_environment_hook('auto_drive_control', 'pythonpath')
+[1.630s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/jo/final_commit/install/auto_drive_control/share/auto_drive_control/hook/pythonpath.ps1'
+[1.630s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/jo/final_commit/install/auto_drive_control/share/auto_drive_control/hook/pythonpath.dsv'
+[1.630s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/jo/final_commit/install/auto_drive_control/share/auto_drive_control/hook/pythonpath.sh'
+[1.631s] Level 1:colcon.colcon_core.environment:checking '/home/jo/final_commit/install/auto_drive_control/bin'
+[1.631s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(auto_drive_control)
+[1.639s] INFO:colcon.colcon_core.shell:Creating package script '/home/jo/final_commit/install/auto_drive_control/share/auto_drive_control/package.ps1'
+[1.640s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/jo/final_commit/install/auto_drive_control/share/auto_drive_control/package.dsv'
+[1.640s] INFO:colcon.colcon_core.shell:Creating package script '/home/jo/final_commit/install/auto_drive_control/share/auto_drive_control/package.sh'
+[1.641s] INFO:colcon.colcon_core.shell:Creating package script '/home/jo/final_commit/install/auto_drive_control/share/auto_drive_control/package.bash'
+[1.641s] INFO:colcon.colcon_core.shell:Creating package script '/home/jo/final_commit/install/auto_drive_control/share/auto_drive_control/package.zsh'
+[1.642s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/jo/final_commit/install/auto_drive_control/share/colcon-core/packages/auto_drive_control)
+[1.643s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/jo/final_commit/lidar_package' returned '0': PYTHONPATH=/home/jo/final_commit/build/lidar_package/prefix_override:/home/jo/final_commit/install/lidar_package/lib/python3.10/site-packages: /usr/bin/python3 setup.py egg_info --egg-base ../build/lidar_package build --build-base /home/jo/final_commit/build/lidar_package/build install --record /home/jo/final_commit/build/lidar_package/install.log --single-version-externally-managed
+[1.652s] Level 1:colcon.colcon_core.environment:checking '/home/jo/final_commit/install/lidar_package' for CMake module files
+[1.652s] Level 1:colcon.colcon_core.environment:checking '/home/jo/final_commit/install/lidar_package' for CMake config files
+[1.652s] Level 1:colcon.colcon_core.environment:checking '/home/jo/final_commit/install/lidar_package/lib'
+[1.652s] Level 1:colcon.colcon_core.environment:checking '/home/jo/final_commit/install/lidar_package/bin'
+[1.652s] Level 1:colcon.colcon_core.environment:checking '/home/jo/final_commit/install/lidar_package/lib/pkgconfig/lidar_package.pc'
+[1.653s] Level 1:colcon.colcon_core.environment:checking '/home/jo/final_commit/install/lidar_package/lib/python3.10/site-packages'
+[1.653s] Level 1:colcon.colcon_core.shell:create_environment_hook('lidar_package', 'pythonpath')
+[1.662s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/jo/final_commit/install/lidar_package/share/lidar_package/hook/pythonpath.ps1'
+[1.662s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/jo/final_commit/install/lidar_package/share/lidar_package/hook/pythonpath.dsv'
+[1.662s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/jo/final_commit/install/lidar_package/share/lidar_package/hook/pythonpath.sh'
+[1.663s] Level 1:colcon.colcon_core.environment:checking '/home/jo/final_commit/install/lidar_package/bin'
+[1.663s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(lidar_package)
+[1.672s] INFO:colcon.colcon_core.shell:Creating package script '/home/jo/final_commit/install/lidar_package/share/lidar_package/package.ps1'
+[1.672s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/jo/final_commit/install/lidar_package/share/lidar_package/package.dsv'
+[1.672s] INFO:colcon.colcon_core.shell:Creating package script '/home/jo/final_commit/install/lidar_package/share/lidar_package/package.sh'
+[1.673s] INFO:colcon.colcon_core.shell:Creating package script '/home/jo/final_commit/install/lidar_package/share/lidar_package/package.bash'
+[1.673s] INFO:colcon.colcon_core.shell:Creating package script '/home/jo/final_commit/install/lidar_package/share/lidar_package/package.zsh'
+[1.673s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/jo/final_commit/install/lidar_package/share/colcon-core/packages/lidar_package)
+[1.673s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:closing loop
+[1.673s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:loop closed
+[1.674s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete finished with '0'
+[1.674s] DEBUG:colcon.colcon_core.event_reactor:joining thread
+[1.686s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[1.686s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[1.686s] INFO:colcon.colcon_notification.desktop_notification:Sending desktop notification using 'notify2'
+[1.695s] DEBUG:colcon.colcon_core.event_reactor:joined thread
+[1.705s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/jo/final_commit/install/local_setup.ps1'
+[1.705s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/jo/final_commit/install/_local_setup_util_ps1.py'
+[1.706s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/jo/final_commit/install/setup.ps1'
+[1.716s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/jo/final_commit/install/local_setup.sh'
+[1.716s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/jo/final_commit/install/_local_setup_util_sh.py'
+[1.717s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/jo/final_commit/install/setup.sh'
+[1.726s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/jo/final_commit/install/local_setup.bash'
+[1.726s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/jo/final_commit/install/setup.bash'
+[1.736s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/jo/final_commit/install/local_setup.zsh'
+[1.736s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/jo/final_commit/install/setup.zsh'
