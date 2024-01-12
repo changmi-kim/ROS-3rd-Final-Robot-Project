@@ -13,9 +13,8 @@ from ultralytics.utils import IterableSimpleNamespace, yaml_load
 from ultralytics.utils.checks import check_requirements, check_yaml
 
 from sensor_msgs.msg import Image
-from vision_msgs.msg import Detection2D
-from vision_msgs.msg import ObjectHypothesisWithPose
-from vision_msgs.msg import Detection2DArray
+from vision_object_detector_msgs.msg import DetectionResult
+from vision_object_detector_msgs.msg import DetectionResultArray
 from std_srvs.srv import SetBool
 
 
@@ -37,25 +36,27 @@ class ParkingObstacleDetectorYoloV8(Node):
         device = self.get_parameter('device').get_parameter_value().string_value
 
         # detect 할 객체들의 confidence score 설정
-        self.declare_parameter('threshold', 0.6)
+        self.declare_parameter('threshold', 0.75)
         self.threshold = self.get_parameter('threshold').get_parameter_value().double_value
 
         self.declare_parameter('enable', True)
         self.enable = self.get_parameter('enable').get_parameter_value().bool_value
 
         self.cv_bridge = CvBridge()
-        self._class_to_color = {}
+        self.class_to_color = {'car': (0, 0, 255), 'person': (0, 255, 255)}
         self.yolo = YOLO(model)
         self.tracker = self.create_tracker(tracker)
         self.yolo.fuse()
         self.yolo.to(device)
 
+        self.detection = DetectionResult()
+        self.detection_msg = DetectionResultArray()
+
         self.subscriber_img = self.create_subscription(Image, '/image_raw', self.yolo_image_callback, qos_profile_sensor_data)
-        self.publisher_detections = self.create_publisher(Detection2DArray, '/detections', 10)
+        # self.publisher_detections = self.create_publisher(DetectionResult, '/detection_result', 10)
+        self.publisher_detections = self.create_publisher(DetectionResultArray, '/detection_result', 10)
         self.publisher_debug_image = self.create_publisher(Image, '/debug_image', 10)
 
-        # 활성화 시 
-        # ros2 service call /parking_obstacle_detector_yolo_v8/service_control_enable std_srvs/SetBool "{data: false}"
         # 비활성화 시
         # ros2 service call /parking_obstacle_detector_yolo_v8/service_control_enable std_srvs/SetBool "{data: false}"
         self.service_control_enable = self.create_service(SetBool, 'enable', self.enable_callback)
@@ -82,8 +83,7 @@ class ParkingObstacleDetectorYoloV8(Node):
                 if len(tracks) > 0:
                     results[0].update(boxes=torch.as_tensor(tracks[:, :-1]))
 
-            detections_msg = Detection2DArray()
-            detections_msg.header = msg.header
+            self.detections_msg = DetectionResultArray()
 
             results = results[0].cpu()
 
@@ -94,49 +94,46 @@ class ParkingObstacleDetectorYoloV8(Node):
                 if score < self.threshold:
                     continue
 
-                detection = Detection2D()
+                if label not in ['car', 'person']:
+                    continue
+
+                # detection = Detection2D()
+                self.detection = DetectionResult()
 
                 box = b.xywh[0]
 
-                detection.bbox.center.x = float(box[0])
-                detection.bbox.center.y = float(box[1])
-                detection.bbox.size_x = float(box[2])
-                detection.bbox.size_y = float(box[3])
+                self.detection.bbox_center_x = float(box[0])
+                self.detection.bbox_center_y = float(box[1])
+                self.detection.bbox_size_x = float(box[2])
+                self.detection.bbox_size_y = float(box[3])
 
                 track_id = -1
                 if not b.id is None:
                     track_id = int(b.id)
                 #detection.id = str(track_id)
 
-                hypothesis = ObjectHypothesisWithPose()
-                hypothesis.id = label
-                hypothesis.score = score
-                detection.results.append(hypothesis)
-
-                if label not in self._class_to_color:
-                    r = random.randint(0, 255)
-                    g = random.randint(0, 255)
-                    b = random.randint(0, 255)
-                    self._class_to_color[label] = (r, g, b)
-                color = self._class_to_color[label]
-
-                min_pt = (round(detection.bbox.center.x - detection.bbox.size_x / 2.0),
-                          round(detection.bbox.center.y - detection.bbox.size_y / 2.0))
-                max_pt = (round(detection.bbox.center.x + detection.bbox.size_x / 2.0),
-                          round(detection.bbox.center.y + detection.bbox.size_y / 2.0))
+                self.detection.label = label
+                self.detection.score = score
+                    
+                color = self.class_to_color[label]
+                min_pt = (round(self.detection.bbox_center_x - self.detection.bbox_size_x / 2.0),
+                          round(self.detection.bbox_center_y - self.detection.bbox_size_y / 2.0))
+                max_pt = (round(self.detection.bbox_center_x + self.detection.bbox_size_x / 2.0),
+                          round(self.detection.bbox_center_y + self.detection.bbox_size_y / 2.0))
                 cv2.rectangle(cv_image, min_pt, max_pt, color, 2)
 
-                label = "{} ({}) ({:.3f})".format(label, str(track_id), score)
+                label = "{} ({:.3f})".format(label, score)
                 pos = (min_pt[0] + 5, min_pt[1] + 25)
                 font = cv2.FONT_HERSHEY_SIMPLEX
                 cv2.putText(cv_image, label, pos, font, 1, color, 1, cv2.LINE_AA)
 
-                detections_msg.detections.append(detection)
+                self.detections_msg.detection_result.append(self.detection)
 
-            self.publisher_detections.publish(detections_msg)
+            # self.publisher_detections.publish(self.detection)
+            self.publisher_detections.publish(self.detections_msg)
             self.publisher_debug_image.publish(self.cv_bridge.cv2_to_imgmsg(cv_image, encoding = msg.encoding))
         
-        cv2.imshow('yolo_v8_result', cv_image)
+        cv2.imshow('debug_image', cv_image)
         cv2.waitKey(10)
 
     def create_tracker(self, tracker_yaml) -> BaseTrack:
