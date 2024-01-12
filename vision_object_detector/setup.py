@@ -20,7 +20,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'img_publisher = vision_object_detector.img_publisher:main'
+            'img_publisher = vision_object_detector.img_publisher:main',
+            'parking_obstacle_detector_yolo_v8 = vision_object_detector.parking_obstacle_detector_yolo_v8:main'
         ],
     },
 )
