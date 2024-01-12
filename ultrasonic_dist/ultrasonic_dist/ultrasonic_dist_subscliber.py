@@ -9,8 +9,8 @@ import numpy as np
 class UltrasonicDistSubscriber(Node):
     def __init__(self):
         super().__init__('ultrasonic_dist_subscliber')
-        self.subscriber_ = self.create_subscription(String, '/dist_data', self.dist_sub_timer_callback, 10)
-        self.publisher_ = self.create_publisher(String, '/command', 10)
+        self.subscriber_dist = self.create_subscription(String, '/dist_data', self.dist_sub_timer_callback, 10)
+        self.publisher_command = self.create_publisher(String, '/command', 10)
         
     def dist_sub_timer_callback(self, msg):
         data = msg.data
@@ -23,7 +23,7 @@ class UltrasonicDistSubscriber(Node):
         else:
             command_msg.data = 'GO'
 
-        self.publisher_.publish(command_msg)
+        self.publisher_command.publish(command_msg)
         print(command_msg)
 
 def main(args=None):
