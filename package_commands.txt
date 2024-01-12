@@ -23,4 +23,16 @@
 4. /command 토픽으로 enable_motor 발행(GO, STOP 주행 명령 입력 시 대소문자 상관없음)
 	- PC) ros2 topic pub --once /command std_msgs/msg/String '{data: GO}'
 	- PC) ros2 topic pub --once /command std_msgs/msg/String '{data: STOP}'
+	
+<<<<<<<<<<<<<<vision_object_detector 패키지 실행>>>>>>>>>>>>>>
+1. 환경 불러오기
+	- source ~/<ws_name>/install/local_setup.bash
+	
+2. 노드 실행[img_publisher]
+	- ros2 run vision_object_detector img_publisher 
 
+3. 노드 실행[parking_obstacle_detector_yolo_v8]
+	- ros2 run vision_object_detector parking_obstacle_detector_yolo_v8
+	
+4. 실행 결과 확인 원할 시
+	- ros2 topic echo /detection_result
