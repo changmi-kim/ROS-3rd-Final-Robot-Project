@@ -1,2 +1,0 @@
-string talker_name
-string message
