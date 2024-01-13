@@ -1,4 +1,0 @@
-[0.000000] (-) TimerEvent: {}
-[0.000203] (-) JobUnselected: {'identifier': 'communication'}
-[0.000533] (-) JobUnselected: {'identifier': 'communication_msgs'}
-[0.000791] (-) EventReactorShutdown: {}

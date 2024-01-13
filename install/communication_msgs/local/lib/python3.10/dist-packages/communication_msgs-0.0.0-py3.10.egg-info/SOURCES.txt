@@ -1,8 +1,0 @@
-setup.py
-communication_msgs/__init__.py
-communication_msgs.egg-info/PKG-INFO
-communication_msgs.egg-info/SOURCES.txt
-communication_msgs.egg-info/dependency_links.txt
-communication_msgs.egg-info/top_level.txt
-communication_msgs/msg/__init__.py
-communication_msgs/msg/_talker.py
