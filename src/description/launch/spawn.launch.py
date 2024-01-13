@@ -92,5 +92,7 @@ def generate_launch_description():
             description='로봇 y좌표'),
 
         node_robot_state_publisher,
-        spawn_robot
+        spawn_robot,
+        load_joint_state_controller,
+        load_base_controller
     ])
