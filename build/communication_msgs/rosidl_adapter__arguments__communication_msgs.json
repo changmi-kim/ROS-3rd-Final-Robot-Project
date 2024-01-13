@@ -1,0 +1,6 @@
+{
+  "package_name": "communication_msgs",
+  "non_idl_tuples": [
+    "/home/jo/final_commit/src/communication_msgs:msg/Talker.msg"
+  ]
+}

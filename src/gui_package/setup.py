@@ -21,7 +21,8 @@ setup(
     entry_points={
         'console_scripts': [
             'gui_node = gui_package.gui_node:main',
-            'camera_test = gui_package.camera_test:main'
+            'camera_test = gui_package.camera_test:main',
+            'cam_listener = gui_package.cam_listener:main',
         ],
     },
 )
