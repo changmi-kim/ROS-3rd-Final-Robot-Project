@@ -1,5 +1,4 @@
 [console_scripts]
-connect_ros = communication.connect:main
 controller_listener = communication.controller_listener:main
 controller_talker = communication.controller_talker:main
 minibot_listener = communication.minibot_listener:main
