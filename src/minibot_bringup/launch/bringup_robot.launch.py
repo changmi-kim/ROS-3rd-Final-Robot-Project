@@ -23,7 +23,7 @@ def generate_launch_description():
         'xacro ',
         PathJoinSubstitution([
             FindPackageShare('description'),
-            'urdf/robot.urdf.xacro',
+            'urdf/robot_core.xacro',
         ]),
         ' is_sim:=', 'false',
         ' lidar_model:=', LaunchConfiguration('lidar_model'),
