@@ -239,30 +239,6 @@ def pose_estimation(frame, aruco_dict_type, matrix_coefficients, distortion_coef
 
     corners, ids, rejected_img_points = cv2.aruco.detectMarkers(gray, cv2.aruco_dict, parameters=parameters)
 
-    # if len(corners) > 0:
-    #     cv2.aruco.drawDetectedMarkers(frame, corners, ids)
-    #     for i in range(len(ids)):
-    #         rvec, tvec, _ = cv2.aruco.estimatePoseSingleMarkers(corners[i], 0.022, matrix_coefficients, distortion_coefficients) #기본 0.022m ,테스트 0.027m, 0.065m
-    #         x, y, z = tvec[0][0]
-    #         distance_to_marker = z
-
-    #         print(f"Distance to ArUco marker {ids[i]}: {distance_to_marker*100} CM")
-    #         print(f"X: {x}, Y: {y}, Z: {z}")
-
-    #         cv2.putText(frame, f"Distance: {distance_to_marker*100:.2f} CM", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-    #         cv2.putText(frame, f"X: {x*100:.2f}, Y: {y*100:.2f}, Z: {z*100:.2f}", (10, 70), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-
-    #         cv2.aruco.drawDetectedMarkers(frame, corners, ids)
-    #         cv2.drawFrameAxes(frame, matrix_coefficients, distortion_coefficients, rvec, tvec, 0.01)
-    #         # ID가 매핑 사전에 있는 경우 숫자, 문자를 표시
-    #         if ids[i][0] in id_to_label:
-    #             number = id_to_label[ids[i][0]]
-    #             # 숫자를 표시할 위치 (마커 중심)
-    #             center_x = int(sum([corner[0] for corner in corners[i][0]]) / 4)
-    #             center_y = int(sum([corner[1] for corner in corners[i][0]]) / 4)
-    #             # 화면에 숫자 표시
-    #             cv2.putText(frame, str(number), (center_x, center_y), cv2.FONT_HERSHEY_SIMPLEX, 3, (0, 255, 255), 2) #RGB가 아니라 BGR로 되어 있다.
-    #return frame
 
     if len(corners) > 0:
         cv2.aruco.drawDetectedMarkers(frame, corners, ids)
@@ -270,25 +246,28 @@ def pose_estimation(frame, aruco_dict_type, matrix_coefficients, distortion_coef
         line_height = 30
         marker_size = 0.022
         text_y_offset = line_height
+        
 
         for i in range(len(ids)):   #["0", "1", "2", "9", "10", "11", "12"]
 
             if ids[i][0] in [70, 71, 72, 79, 80, 81, 82, 83, 84, 85, 86 ]:
                 marker_size = 0.022
                 text_y_offset = line_height
+                axis_length = 0.01
             else:
                 marker_size = 0.065
                 text_y_offset = 8 * line_height
+                axis_length = 0.03
                 
             rvec, tvec, _ = cv2.aruco.estimatePoseSingleMarkers(corners[i], marker_size, matrix_coefficients, distortion_coefficients) #기본 0.022m ,테스트 0.027m, 0.065m
             x, y, z = tvec[0][0]
             distance_to_marker = z
 
             print(f"Distance to ArUco marker {ids[i]}: {distance_to_marker*100} CM")
-            print(f"X: {x}, Y: {y}, Z: {z}")
+            print(f"X: {x*100:.2f} CM, Y: {y*100:.2f} CM, Z: {z*100:.2f} CM") # 소수점 2번쨰 자리
 
             cv2.aruco.drawDetectedMarkers(frame, corners, ids)
-            cv2.drawFrameAxes(frame, matrix_coefficients, distortion_coefficients, rvec, tvec, 0.01)
+            cv2.drawFrameAxes(frame, matrix_coefficients, distortion_coefficients, rvec, tvec, axis_length)
             # ID가 매핑 사전에 있는 경우 숫자, 문자를 표시
             if ids[i][0] in id_to_label:
                 number = id_to_label[ids[i][0]]
@@ -331,11 +310,34 @@ def pose_estimation(frame, aruco_dict_type, matrix_coefficients, distortion_coef
                 cv2.putText(frame, f"Y: {y*100:.2f} CM", (x_position, 70 + 3 * line_height + text_y_offset), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
                 cv2.putText(frame, f"Z: {z*100:.2f} CM", (x_position, 70 + 4 * line_height + text_y_offset), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
             
+            # else:
+            #     marker_size = 0.065
+            #     text_y_offset = 6 * line_height
+            
+            axis_points_3d = np.float32([[axis_length, 0, 0], [0, axis_length, 0], [0, 0, axis_length]]).reshape(-1, 3)
+            
+            # 3D 좌표를 2D 이미지 평면에 투영합니다.
+            image_points, _ = cv2.projectPoints(axis_points_3d, rvec, tvec, matrix_coefficients, distortion_coefficients)
+
+            # 이미지에 X, Y, Z 축을 표시합니다.
+            for point, axis_name in zip(image_points, ["X", "Y", "Z"]):
+                x, y = point.ravel()
+                if axis_name == "X":
+                    color = (0, 0, 255)  # 빨간색 (BGR)
+                elif axis_name == "Y":
+                    color = (0, 255, 0)  # 초록색 (BGR)
+                elif axis_name == "Z":
+                    color = (255, 0, 0)  # 파란색 (BGR)
+                # 각 축에 대한 정보를 표시할 위치를 계산합니다.
+    
+                cv2.putText(frame, axis_name, (int(x), int(y)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+            
             else:
                 marker_size = 0.065
                 text_y_offset = 6 * line_height
-
-    
+                # axis_length = 0.03
+                
+            
                 # cv2.putText(frame, f"Robot Location: {number}", (Z_position, 70 + 6 * line_height + text_y_offset), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 255), 2) # 노랑색
                 # cv2.putText(frame, f"Distance: {distance_to_marker*100:.2f} CM", (Y_position, 70 + 7 * line_height + text_y_offset),cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 71, 0), 2) # 파랑
             
