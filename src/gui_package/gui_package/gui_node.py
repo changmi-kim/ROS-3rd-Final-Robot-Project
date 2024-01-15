@@ -13,7 +13,7 @@ from PyQt5.QtGui import *
 import time, datetime
 
 
-server_ip = "192.168.0.59"
+server_ip = "192.168.1.7"
 ros_bashrc_parameter = {77:"192.168.1.7:11812", 88:"192.168.1.7:11813", 99:"192.168.1.7:11814"}  # 임시
 
 def modifyROSEnvironment(ros_bashrc_parameter, cnt):
@@ -27,7 +27,7 @@ def modifyROSEnvironment(ros_bashrc_parameter, cnt):
 
 
 # UI 파일 불러오기
-from_class = uic.loadUiType("gui_package/gui_package/gui_node.ui")[0]
+from_class = uic.loadUiType("src/gui_package/gui/gui_node.ui")[0]
 
 # Raspberry Pi의 Pi Camera(V4l2)를 구독하는 노드
 class PiCamSubscriber(Node):
@@ -135,7 +135,7 @@ class windowClass(QMainWindow, from_class):
     def CCTVstart(self):
         self.cctv.cctv_running = True
         self.cctv.start()
-        self.video = cv2.VideoCapture(0)
+        self.video = cv2.VideoCapture('/dev/YourWebCam')
 
     def CCTVstop(self):
         self.cctv.cctv_running = False

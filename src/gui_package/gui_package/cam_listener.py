@@ -31,7 +31,7 @@ def modifyROSEnvironment(ros_bashrc_parameter, cnt):
 
 
 # UI 파일 불러오기
-from_class = uic.loadUiType("src/gui_package/gui_package/gui_node.ui")[0]
+from_class = uic.loadUiType("/home/jo/final_commit/src/gui_package/gui/gui_node.ui")[0]
 
 # Raspberry Pi의 Pi Camera(V4l2)를 구독하는 노드
 class PiCamSubscriber(Node):
