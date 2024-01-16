@@ -1,0 +1,43 @@
+running egg_info
+creating ../../build/minibot_network/minibot_network.egg-info
+writing ../../build/minibot_network/minibot_network.egg-info/PKG-INFO
+writing dependency_links to ../../build/minibot_network/minibot_network.egg-info/dependency_links.txt
+writing entry points to ../../build/minibot_network/minibot_network.egg-info/entry_points.txt
+writing requirements to ../../build/minibot_network/minibot_network.egg-info/requires.txt
+writing top-level names to ../../build/minibot_network/minibot_network.egg-info/top_level.txt
+writing manifest file '../../build/minibot_network/minibot_network.egg-info/SOURCES.txt'
+reading manifest file '../../build/minibot_network/minibot_network.egg-info/SOURCES.txt'
+writing manifest file '../../build/minibot_network/minibot_network.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/jo/final_commit/build/minibot_network/build
+creating /home/jo/final_commit/build/minibot_network/build/lib
+creating /home/jo/final_commit/build/minibot_network/build/lib/minibot_network
+copying minibot_network/server.py -> /home/jo/final_commit/build/minibot_network/build/lib/minibot_network
+copying minibot_network/__init__.py -> /home/jo/final_commit/build/minibot_network/build/lib/minibot_network
+copying minibot_network/client.py -> /home/jo/final_commit/build/minibot_network/build/lib/minibot_network
+running install
+/usr/lib/python3/dist-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+  warnings.warn(
+running install_lib
+creating /home/jo/final_commit/install/minibot_network/lib/python3.10/site-packages/minibot_network
+copying /home/jo/final_commit/build/minibot_network/build/lib/minibot_network/server.py -> /home/jo/final_commit/install/minibot_network/lib/python3.10/site-packages/minibot_network
+copying /home/jo/final_commit/build/minibot_network/build/lib/minibot_network/__init__.py -> /home/jo/final_commit/install/minibot_network/lib/python3.10/site-packages/minibot_network
+copying /home/jo/final_commit/build/minibot_network/build/lib/minibot_network/client.py -> /home/jo/final_commit/install/minibot_network/lib/python3.10/site-packages/minibot_network
+byte-compiling /home/jo/final_commit/install/minibot_network/lib/python3.10/site-packages/minibot_network/server.py to server.cpython-310.pyc
+byte-compiling /home/jo/final_commit/install/minibot_network/lib/python3.10/site-packages/minibot_network/__init__.py to __init__.cpython-310.pyc
+byte-compiling /home/jo/final_commit/install/minibot_network/lib/python3.10/site-packages/minibot_network/client.py to client.cpython-310.pyc
+running install_data
+creating /home/jo/final_commit/install/minibot_network/share
+creating /home/jo/final_commit/install/minibot_network/share/ament_index
+creating /home/jo/final_commit/install/minibot_network/share/ament_index/resource_index
+creating /home/jo/final_commit/install/minibot_network/share/ament_index/resource_index/packages
+copying resource/minibot_network -> /home/jo/final_commit/install/minibot_network/share/ament_index/resource_index/packages
+creating /home/jo/final_commit/install/minibot_network/share/minibot_network
+copying package.xml -> /home/jo/final_commit/install/minibot_network/share/minibot_network
+running install_egg_info
+Copying ../../build/minibot_network/minibot_network.egg-info to /home/jo/final_commit/install/minibot_network/lib/python3.10/site-packages/minibot_network-0.0.0-py3.10.egg-info
+running install_scripts
+Installing client script to /home/jo/final_commit/install/minibot_network/lib/minibot_network
+Installing server script to /home/jo/final_commit/install/minibot_network/lib/minibot_network
+writing list of installed files to '/home/jo/final_commit/build/minibot_network/install.log'

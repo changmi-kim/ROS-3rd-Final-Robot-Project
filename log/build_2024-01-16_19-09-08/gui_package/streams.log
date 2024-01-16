@@ -1,0 +1,50 @@
+[1.000s] Invoking command in '/home/jo/final_commit/src/gui_package': PYTHONPATH=/home/jo/final_commit/build/gui_package/prefix_override:/home/jo/final_commit/install/gui_package/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/gui_package build --build-base /home/jo/final_commit/build/gui_package/build install --record /home/jo/final_commit/build/gui_package/install.log --single-version-externally-managed
+[1.207s] running egg_info
+[1.208s] creating ../../build/gui_package/gui_package.egg-info
+[1.208s] writing ../../build/gui_package/gui_package.egg-info/PKG-INFO
+[1.208s] writing dependency_links to ../../build/gui_package/gui_package.egg-info/dependency_links.txt
+[1.209s] writing entry points to ../../build/gui_package/gui_package.egg-info/entry_points.txt
+[1.209s] writing requirements to ../../build/gui_package/gui_package.egg-info/requires.txt
+[1.209s] writing top-level names to ../../build/gui_package/gui_package.egg-info/top_level.txt
+[1.209s] writing manifest file '../../build/gui_package/gui_package.egg-info/SOURCES.txt'
+[1.210s] reading manifest file '../../build/gui_package/gui_package.egg-info/SOURCES.txt'
+[1.211s] writing manifest file '../../build/gui_package/gui_package.egg-info/SOURCES.txt'
+[1.211s] running build
+[1.211s] running build_py
+[1.211s] creating /home/jo/final_commit/build/gui_package/build
+[1.211s] creating /home/jo/final_commit/build/gui_package/build/lib
+[1.211s] creating /home/jo/final_commit/build/gui_package/build/lib/gui_package
+[1.211s] copying gui_package/__init__.py -> /home/jo/final_commit/build/gui_package/build/lib/gui_package
+[1.211s] copying gui_package/solution.py -> /home/jo/final_commit/build/gui_package/build/lib/gui_package
+[1.211s] copying gui_package/gui_node.py -> /home/jo/final_commit/build/gui_package/build/lib/gui_package
+[1.211s] copying gui_package/cam_listener.py -> /home/jo/final_commit/build/gui_package/build/lib/gui_package
+[1.212s] copying gui_package/camera_test.py -> /home/jo/final_commit/build/gui_package/build/lib/gui_package
+[1.212s] running install
+[1.212s] /usr/lib/python3/dist-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+[1.212s]   warnings.warn(
+[1.212s] running install_lib
+[1.212s] creating /home/jo/final_commit/install/gui_package/lib/python3.10/site-packages/gui_package
+[1.212s] copying /home/jo/final_commit/build/gui_package/build/lib/gui_package/__init__.py -> /home/jo/final_commit/install/gui_package/lib/python3.10/site-packages/gui_package
+[1.213s] copying /home/jo/final_commit/build/gui_package/build/lib/gui_package/solution.py -> /home/jo/final_commit/install/gui_package/lib/python3.10/site-packages/gui_package
+[1.213s] copying /home/jo/final_commit/build/gui_package/build/lib/gui_package/gui_node.py -> /home/jo/final_commit/install/gui_package/lib/python3.10/site-packages/gui_package
+[1.213s] copying /home/jo/final_commit/build/gui_package/build/lib/gui_package/cam_listener.py -> /home/jo/final_commit/install/gui_package/lib/python3.10/site-packages/gui_package
+[1.213s] copying /home/jo/final_commit/build/gui_package/build/lib/gui_package/camera_test.py -> /home/jo/final_commit/install/gui_package/lib/python3.10/site-packages/gui_package
+[1.213s] byte-compiling /home/jo/final_commit/install/gui_package/lib/python3.10/site-packages/gui_package/__init__.py to __init__.cpython-310.pyc
+[1.213s] byte-compiling /home/jo/final_commit/install/gui_package/lib/python3.10/site-packages/gui_package/solution.py to solution.cpython-310.pyc
+[1.214s] byte-compiling /home/jo/final_commit/install/gui_package/lib/python3.10/site-packages/gui_package/gui_node.py to gui_node.cpython-310.pyc
+[1.215s] byte-compiling /home/jo/final_commit/install/gui_package/lib/python3.10/site-packages/gui_package/cam_listener.py to cam_listener.cpython-310.pyc
+[1.216s] byte-compiling /home/jo/final_commit/install/gui_package/lib/python3.10/site-packages/gui_package/camera_test.py to camera_test.cpython-310.pyc
+[1.216s] running install_data
+[1.216s] creating /home/jo/final_commit/install/gui_package/share/ament_index
+[1.216s] creating /home/jo/final_commit/install/gui_package/share/ament_index/resource_index
+[1.216s] creating /home/jo/final_commit/install/gui_package/share/ament_index/resource_index/packages
+[1.216s] copying resource/gui_package -> /home/jo/final_commit/install/gui_package/share/ament_index/resource_index/packages
+[1.216s] copying package.xml -> /home/jo/final_commit/install/gui_package/share/gui_package
+[1.216s] running install_egg_info
+[1.218s] Copying ../../build/gui_package/gui_package.egg-info to /home/jo/final_commit/install/gui_package/lib/python3.10/site-packages/gui_package-0.0.0-py3.10.egg-info
+[1.218s] running install_scripts
+[1.235s] Installing cam_listener script to /home/jo/final_commit/install/gui_package/lib/gui_package
+[1.235s] Installing camera_test script to /home/jo/final_commit/install/gui_package/lib/gui_package
+[1.235s] Installing gui_node script to /home/jo/final_commit/install/gui_package/lib/gui_package
+[1.235s] writing list of installed files to '/home/jo/final_commit/build/gui_package/install.log'
+[1.308s] Invoked command in '/home/jo/final_commit/src/gui_package' returned '0': PYTHONPATH=/home/jo/final_commit/build/gui_package/prefix_override:/home/jo/final_commit/install/gui_package/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/gui_package build --build-base /home/jo/final_commit/build/gui_package/build install --record /home/jo/final_commit/build/gui_package/install.log --single-version-externally-managed

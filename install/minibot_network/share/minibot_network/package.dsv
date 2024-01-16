@@ -1,0 +1,3 @@
+source;share/minibot_network/hook/pythonpath.ps1
+source;share/minibot_network/hook/pythonpath.dsv
+source;share/minibot_network/hook/pythonpath.sh
