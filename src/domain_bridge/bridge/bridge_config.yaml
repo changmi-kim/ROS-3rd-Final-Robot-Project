@@ -1,0 +1,29 @@
+# Name of the domain bridge, used for node naming and logging
+name: camera_bridge
+from_domain: 11
+to_domain: 12
+topics:
+  # Bridge "/images" topic from domain ID 12 to domain ID 11
+  image_raw/compressed:
+    type: sensor_msgs/msg/CompressedImage
+    to_domain: 11
+
+# minibot 도메인 ID 13 설정
+- name: camera_bridge_13
+  from_domain: 13
+  to_domain: 11
+  topics:
+    # Bridge "/images" topic from domain ID 13 to domain ID 11
+    image_raw/compressed:
+      type: sensor_msgs/msg/CompressedImage
+      to_domain: 11
+
+# minibot 도메인 ID 14 설정
+- name: camera_bridge_14
+  from_domain: 14
+  to_domain: 11
+  topics:
+    # Bridge "/images" topic from domain ID 14 to domain ID 11
+    image_raw/compressed:
+      type: sensor_msgs/msg/CompressedImage
+      to_domain: 11

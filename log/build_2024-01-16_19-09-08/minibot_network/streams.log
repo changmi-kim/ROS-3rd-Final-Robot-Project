@@ -1,0 +1,24 @@
+[0.915s] Invoking command in '/home/jo/final_commit/src/minibot_network': PYTHONPATH=/home/jo/final_commit/build/minibot_network/prefix_override:/home/jo/final_commit/install/minibot_network/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/minibot_network build --build-base /home/jo/final_commit/build/minibot_network/build install --record /home/jo/final_commit/build/minibot_network/install.log --single-version-externally-managed
+[1.121s] running egg_info
+[1.121s] writing ../../build/minibot_network/minibot_network.egg-info/PKG-INFO
+[1.122s] writing dependency_links to ../../build/minibot_network/minibot_network.egg-info/dependency_links.txt
+[1.122s] writing entry points to ../../build/minibot_network/minibot_network.egg-info/entry_points.txt
+[1.122s] writing requirements to ../../build/minibot_network/minibot_network.egg-info/requires.txt
+[1.122s] writing top-level names to ../../build/minibot_network/minibot_network.egg-info/top_level.txt
+[1.124s] reading manifest file '../../build/minibot_network/minibot_network.egg-info/SOURCES.txt'
+[1.125s] writing manifest file '../../build/minibot_network/minibot_network.egg-info/SOURCES.txt'
+[1.125s] running build
+[1.125s] running build_py
+[1.126s] running install
+[1.126s] /usr/lib/python3/dist-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+[1.126s]   warnings.warn(
+[1.126s] running install_lib
+[1.127s] running install_data
+[1.128s] running install_egg_info
+[1.129s] removing '/home/jo/final_commit/install/minibot_network/lib/python3.10/site-packages/minibot_network-0.0.0-py3.10.egg-info' (and everything under it)
+[1.129s] Copying ../../build/minibot_network/minibot_network.egg-info to /home/jo/final_commit/install/minibot_network/lib/python3.10/site-packages/minibot_network-0.0.0-py3.10.egg-info
+[1.130s] running install_scripts
+[1.146s] Installing client script to /home/jo/final_commit/install/minibot_network/lib/minibot_network
+[1.146s] Installing server script to /home/jo/final_commit/install/minibot_network/lib/minibot_network
+[1.146s] writing list of installed files to '/home/jo/final_commit/build/minibot_network/install.log'
+[1.168s] Invoked command in '/home/jo/final_commit/src/minibot_network' returned '0': PYTHONPATH=/home/jo/final_commit/build/minibot_network/prefix_override:/home/jo/final_commit/install/minibot_network/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/minibot_network build --build-base /home/jo/final_commit/build/minibot_network/build install --record /home/jo/final_commit/build/minibot_network/install.log --single-version-externally-managed
