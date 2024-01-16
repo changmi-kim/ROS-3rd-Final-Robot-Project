@@ -13,19 +13,6 @@ from PyQt5.QtGui import *
 import time, datetime
 
 
-server_ip = "192.168.1.7"
-ros_bashrc_parameter = {11:"192.168.1.7:11812", 12:"192.168.1.7:11813", 13:"192.168.1.7:11814"}  # 임시
-
-def modifyROSEnvironment(ros_bashrc_parameter, cnt):
-    os.environ['ROS_DOMAIN_ID'] = cnt
-    os.environ['ROS_DISCOVERY_SERVER'] = ros_bashrc_parameter[cnt]
-
-    print(f"ROS_DOMAIN_ID set to: {os.environ['ROS_DOMAIN_ID']}")
-    print(f"ROS_DISCOVERY_SERVER set to: {os.environ['ROS_DISCOVERY_SERVER']}")
-
-# 예시: 서버 IP, 도메인 ID, 디스커버리 서버 설정: modifyROSEnvironment(server_ip, 11, '192.168.0.59:11811;192.168.0.59:11812')
-
-
 # UI 파일 불러오기
 from_class = uic.loadUiType("src/gui_package/gui/gui_node.ui")[0]
 
@@ -124,7 +111,7 @@ class windowClass(QMainWindow, from_class):
             if self.isCCTVon == True:
                 self.isCCTVon = False
                 self.CCTVstop()
-                # modifyROSEnvironment(server_ip, 11, '192.168.0.59:11811;192.168.0.59:11812')
+
             if self.isBot1on == False:
                 self.node = PiCamSubscriber()
                 self.bot1_vision = CameraThread(self.node)

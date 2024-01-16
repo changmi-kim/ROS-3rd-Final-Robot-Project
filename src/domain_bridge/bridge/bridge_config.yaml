@@ -4,7 +4,7 @@ from_domain: 11
 to_domain: 12
 topics:
   # Bridge "/images" topic from domain ID 12 to domain ID 11
-  image_raw/compressed:
+  images:
     type: sensor_msgs/msg/CompressedImage
     to_domain: 11
 
@@ -14,7 +14,7 @@ topics:
   to_domain: 11
   topics:
     # Bridge "/images" topic from domain ID 13 to domain ID 11
-    image_raw/compressed:
+    images:
       type: sensor_msgs/msg/CompressedImage
       to_domain: 11
 
@@ -24,6 +24,6 @@ topics:
   to_domain: 11
   topics:
     # Bridge "/images" topic from domain ID 14 to domain ID 11
-    image_raw/compressed:
+    images:
       type: sensor_msgs/msg/CompressedImage
       to_domain: 11
