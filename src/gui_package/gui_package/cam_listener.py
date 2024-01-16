@@ -4,7 +4,7 @@ from sensor_msgs.msg import CompressedImage
 
 from PyQt5 import uic
 from PyQt5.QtWidgets import QMainWindow, QApplication
-from PyQt5.QtCore import QThread, QEvent, pyqtSignal, QCoreApplication
+from PyQt5.QtCore import QThread, QEvent, pyqtSignal, QCoreApplication, QMutex, QMutexLocker
 from PyQt5.QtGui import QImage, QPixmap
 
 import os
@@ -14,28 +14,28 @@ import numpy as np
 import time
 
 
-
+    
 # ROS 통신을 위해 서버 정의
 server_ip = "192.168.1.7"
-ros_bashrc_parameter = {11:f"{server_ip}:11811", 12:f"{server_ip}:11812", 13:f"{server_ip}:11813", 14:f"{server_ip}:11814"}  # 임시
+ros_bashrc_parameter = {10:f"{server_ip}:11811;{server_ip}:11812;{server_ip}:11813;{server_ip}:11814", 11:f"{server_ip}:11811", 12:f"{server_ip}:11812", 13:f"{server_ip}:11813", 14:f"{server_ip}:11814"}  # 임시
 
 
-def modifyROSEnvironment(ros_bashrc_parameter, cnt):
-    os.environ['ROS_DOMAIN_ID'] = cnt
-    os.environ['ROS_DISCOVERY_SERVER'] = ros_bashrc_parameter[cnt]
+def modifyROSEnvironment(cnt):
+    os.environ['ROS_DOMAIN_ID'] = str(cnt)
+    os.environ['ROS_DISCOVERY_SERVER'] = str(ros_bashrc_parameter[cnt])
 
     print(f"ROS_DOMAIN_ID set to: {os.environ['ROS_DOMAIN_ID']}")
     print(f"ROS_DISCOVERY_SERVER set to: {os.environ['ROS_DISCOVERY_SERVER']}")
-
-# 예시: 서버 IP, 도메인 ID, 디스커버리 서버 설정: modifyROSEnvironment(server_ip, 11, '192.168.0.59:11811;192.168.0.59:11812')
 
 
 # UI 파일 불러오기
 from_class = uic.loadUiType("/home/jo/final_commit/src/gui_package/gui/gui_node.ui")[0]
 
+
+
 # Raspberry Pi의 Pi Camera(V4l2)를 구독하는 노드
 class PiCamSubscriber(Node):
-    def __init__(self):
+    def __init__(self, node_name):
         super().__init__('pi_cam_subscriber')
         self.subscription = self.create_subscription(
             CompressedImage,
@@ -54,6 +54,8 @@ class PiCamSubscriber(Node):
         q_img = QImage(img.data, w, h, bytesPerLine, QImage.Format_RGB888)
         QCoreApplication.postEvent(window, ImageEvent(q_img))
 
+
+
 class ImageEvent(QEvent):
     EVENT_TYPE = QEvent.Type(QEvent.registerEventType())
 
@@ -71,9 +73,12 @@ class CameraThread(QThread):
 
         
     def run(self):
-        while self.pi_cam_running == True:
-            rp.spin_once(self.node, timeout_sec=0.1)
-            # rp.spin(self.node)
+        try:
+            while self.pi_cam_running:
+                rp.spin(self.node)
+
+        except Exception as e:
+            print(f"Error in CameraThread: {e}")
     
     def stop(self):
         self.pi_cam_running = False
@@ -81,20 +86,25 @@ class CameraThread(QThread):
 
 
 class CCTVCam(QThread):
-    update = pyqtSignal()
+    update = pyqtSignal()  # 이름을 update로 변경
 
     def __init__(self, sec=0, parent=None):
         super().__init__()
         self.main = parent
-        self.cctv_running = True
+        self.running = True  # 종료 플래그 추가
+        self.mutex = QMutex()
 
     def run(self):
-        while self.cctv_running == True:
-            self.update.emit()
-            time.sleep(0.1)
-    
+        try:
+            while self.running:  # 종료 플래그 확인
+                with QMutexLocker(self.mutex):
+                    self.update.emit()  # 신호를 발생시킴 (이름을 update로 변경)
+
+        except Exception as e:
+            print(f"Error in CCTVCam: {e}")
+
     def stop(self):
-        self.cctv_running = False
+        self.running = False  # 종료 플래그 설정
 
 
 
@@ -106,16 +116,10 @@ class windowClass(QMainWindow, from_class):
 
         
         # CCTV 설정
-        self.isCCTVon = False
         self.image = None
         self.pixmap = QPixmap()
         self.cctv = CCTVCam()
         self.cctv.update.connect(self.updateCCTV)
-
-        # PiCam 설정
-        self.isBot1on = False
-        self.isBot2on = False
-        self.isBot3on = False
 
         self.bot1_vision = None
         self.bot2_vision = None
@@ -127,52 +131,55 @@ class windowClass(QMainWindow, from_class):
         self.minibot2_convert.toggled.connect(self.display_radio_clicked)
         self.minibot3_convert.toggled.connect(self.display_radio_clicked)
 
-    
+
+    def display_radio_clicked(self):
+        if self.minibot1_convert.isChecked():
+            modifyROSEnvironment(12)
+
+            self.node = PiCamSubscriber("minibot1")
+            self.bot1_vision = CameraThread(self.node)
+            self.bot1_vision.start()
+
+        else:
+            if self.bot1_vision is not None:
+                self.bot1_vision.stop()
+                self.bot1_vision.quit()
+                self.bot1_vision.wait()
+
+
+        if self.minibot2_convert.isChecked():
+            modifyROSEnvironment(13)
+            self.node = PiCamSubscriber("minibot2")
+            self.bot2_vision = CameraThread(self.node)
+            self.bot2_vision.start()
+
+        else:
+            if self.bot2_vision is not None:
+                self.bot2_vision.stop()
+                self.bot2_vision.quit()
+                self.bot2_vision.wait()
+
+
+        if self.minibot3_convert.isChecked():
+            modifyROSEnvironment(14)
+            self.node = PiCamSubscriber("minibot3")
+            self.bot3_vision = CameraThread(self.node)
+            self.bot3_vision.start()
+
+        else:
+            if self.bot3_vision is not None:
+                self.bot3_vision.stop()
+                self.bot3_vision.quit()
+                self.bot3_vision.wait()
+
+
     def start_cctv(self):
         #  CCTV Play
         if self.cctv_convert.isChecked():
-            self.isCCTVon = True
             self.CCTVstart()
         
         else:
-            self.isCCTVon = False
             self.CCTVstop()
-
-
-    def start_picam(self, ros_id, video_thread, is_on):
-        modifyROSEnvironment(ros_bashrc_parameter, ros_id)
-
-        node = PiCamSubscriber()
-        video_thread = CameraThread(node)
-        video_thread.start()
-        is_on = True
-
-    
-    def stop_picam(self, video_thread, is_on):
-        video_thread.stop()
-        video_thread.quit()
-        video_thread.wait()
-        is_on = False
-
-
-    def display_radio_clicked(self):
-        minibot_convert = [
-            (self.minibot1_convert, self.bot1_vision, self.isBot1on, 12),
-            (self.minibot2_convert, self.bot2_vision, self.isBot2on, 13),
-            (self.minibot3_convert, self.bot3_vision, self.isBot3on, 14),
-        ]
-        try:
-            for bot, vision, is_on, ros_id in minibot_convert:
-                if bot.isChecked():
-                    if not is_on:
-                        self.start_picam(ros_id, vision, is_on)
-
-                else:
-                    if is_on:
-                        self.stop_picam(vision, is_on)
-
-        except:
-            pass
 
 
     def CCTVstart(self):
@@ -183,6 +190,7 @@ class windowClass(QMainWindow, from_class):
 
     def CCTVstop(self):
         self.cctv.cctv_running = False
+        self.cctv.stop()
         self.video.release()
 
 

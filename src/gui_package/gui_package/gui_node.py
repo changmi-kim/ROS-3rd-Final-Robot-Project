@@ -14,7 +14,7 @@ import time, datetime
 
 
 server_ip = "192.168.1.7"
-ros_bashrc_parameter = {77:"192.168.1.7:11812", 88:"192.168.1.7:11813", 99:"192.168.1.7:11814"}  # 임시
+ros_bashrc_parameter = {11:"192.168.1.7:11812", 12:"192.168.1.7:11813", 13:"192.168.1.7:11814"}  # 임시
 
 def modifyROSEnvironment(ros_bashrc_parameter, cnt):
     os.environ['ROS_DOMAIN_ID'] = cnt
@@ -135,7 +135,7 @@ class windowClass(QMainWindow, from_class):
     def CCTVstart(self):
         self.cctv.cctv_running = True
         self.cctv.start()
-        self.video = cv2.VideoCapture('/dev/YourWebCam')
+        self.video = cv2.VideoCapture(0)
 
     def CCTVstop(self):
         self.cctv.cctv_running = False
