@@ -13,13 +13,17 @@ from PyQt5.QtGui import *
 import time, datetime
 
 
-ros_bashrc_parameter = {'minibot1' : 12, 'minibot2' : 13, 'minibot3' : 14}  # 임시
+server_ip = "192.168.0.59"
+ros_bashrc_parameter = {77:"192.168.1.7:11812", 88:"192.168.1.7:11813", 99:"192.168.1.7:11814"}  # 임시
 
-def modifyROSEnvironment(cnt):
-    os.environ['ROS_DOMAIN_ID'] = str(cnt)
+def modifyROSEnvironment(ros_bashrc_parameter, cnt):
+    os.environ['ROS_DOMAIN_ID'] = cnt
+    os.environ['ROS_DISCOVERY_SERVER'] = ros_bashrc_parameter[cnt]
 
     print(f"ROS_DOMAIN_ID set to: {os.environ['ROS_DOMAIN_ID']}")
+    print(f"ROS_DISCOVERY_SERVER set to: {os.environ['ROS_DISCOVERY_SERVER']}")
 
+# 예시: 서버 IP, 도메인 ID, 디스커버리 서버 설정: modifyROSEnvironment(server_ip, 11, '192.168.0.59:11811;192.168.0.59:11812')
 
 
 # UI 파일 불러오기
@@ -117,11 +121,10 @@ class windowClass(QMainWindow, from_class):
                 self.CCTVstart()
 
         elif self.minibot1_convert.isChecked():
-            modifyROSEnvironment(ros_bashrc_parameter['minibot1'])
             if self.isCCTVon == True:
                 self.isCCTVon = False
                 self.CCTVstop()
-
+                # modifyROSEnvironment(server_ip, 11, '192.168.0.59:11811;192.168.0.59:11812')
             if self.isBot1on == False:
                 self.node = PiCamSubscriber()
                 self.bot1_vision = CameraThread(self.node)
