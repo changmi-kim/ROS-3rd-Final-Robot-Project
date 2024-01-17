@@ -13,6 +13,15 @@ from PyQt5.QtGui import *
 import time, datetime
 
 
+ros_bashrc_parameter = {'minibot1' : 12, 'minibot2' : 13, 'minibot3' : 14}  # 임시
+
+def modifyROSEnvironment(cnt):
+    os.environ['ROS_DOMAIN_ID'] = str(cnt)
+
+    print(f"ROS_DOMAIN_ID set to: {os.environ['ROS_DOMAIN_ID']}")
+
+
+
 # UI 파일 불러오기
 from_class = uic.loadUiType("src/gui_package/gui/gui_node.ui")[0]
 
@@ -108,6 +117,7 @@ class windowClass(QMainWindow, from_class):
                 self.CCTVstart()
 
         elif self.minibot1_convert.isChecked():
+            modifyROSEnvironment(ros_bashrc_parameter['minibot1'])
             if self.isCCTVon == True:
                 self.isCCTVon = False
                 self.CCTVstop()

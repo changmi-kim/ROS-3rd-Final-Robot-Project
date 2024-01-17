@@ -13,6 +13,13 @@ from PyQt5.QtGui import *
 import time, datetime
 
 
+ros_bashrc_parameter = {'minibot1_id':"12", 'minibot2_id':"13", 'minibot3_id':"14"}
+
+def modifyROSEnvironment(cnt):
+    os.environ['ROS_DOMAIN_ID'] = cnt
+
+    print(f"ROS_DOMAIN_ID set to: {os.environ['ROS_DOMAIN_ID']}")
+
 
 # UI 파일 불러오기
 from_class = uic.loadUiType("src/gui_package/gui/gui_node.ui")[0]
@@ -109,10 +116,12 @@ class windowClass(QMainWindow, from_class):
                 self.CCTVstart()
 
         elif self.minibot1_convert.isChecked():
+            modifyROSEnvironment(ros_bashrc_parameter['minibot1_id'])
+
             if self.isCCTVon == True:
                 self.isCCTVon = False
                 self.CCTVstop()
-                # modifyROSEnvironment(server_ip, 11, '192.168.0.59:11811;192.168.0.59:11812')
+
             if self.isBot1on == False:
                 self.node = PiCamSubscriber()
                 self.bot1_vision = CameraThread(self.node)
