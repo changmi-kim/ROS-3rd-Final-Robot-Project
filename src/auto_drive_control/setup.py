@@ -20,7 +20,9 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-        'arduino_protocol_sender = auto_drive_control.arduino_protocol_sender:main'
+        'arduino_protocol_sender = auto_drive_control.arduino_protocol_sender:main',
+        'EVCS_navigator_BasicNavigator = auto_drive_control.EVCS_navigator_BasicNavigator:main',
+        'EVCS_navigator_NavigateToPose = auto_drive_control.EVCS_navigator_NavigateToPose:main'
         ],
     },
 )
