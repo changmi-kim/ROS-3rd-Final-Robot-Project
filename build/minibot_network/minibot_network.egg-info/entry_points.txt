@@ -1,4 +1,0 @@
-[console_scripts]
-client = minibot_network.client:main
-server = minibot_network.server:main
-

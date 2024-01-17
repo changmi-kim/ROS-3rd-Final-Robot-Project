@@ -1,5 +1,0 @@
-[console_scripts]
-cam_listener = gui_package.cam_listener:main
-camera_test = gui_package.camera_test:main
-gui_node = gui_package.gui_node:main
-
