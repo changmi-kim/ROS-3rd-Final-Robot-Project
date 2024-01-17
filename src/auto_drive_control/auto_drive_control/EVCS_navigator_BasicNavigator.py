@@ -36,6 +36,8 @@ class EVCSNavigator(Node) :
             self.goal_charge_hub_0(self.navigator, self.goal)
         elif msg.data in {'0', '1', '2', '3'}:
             self.goal_charge_pillar(self.navigator, self.goal, int(msg.data))
+        elif msg.data in {'0', '1', '2', '3'}:
+            self.goal_charge_pillar(self.navigator, self.goal, int(msg.data))
         else:
             self.get_logger().warn(f'Invalid pillar ID: {msg.data}')
 
@@ -54,7 +56,7 @@ class EVCSNavigator(Node) :
             if feedback and i % 5 == 0:
                 print('Distance remaining: ' + '{:.2f}'.format(feedback.distance_remaining) + ' meters.')
             
-            if Duration.from_msg(feedback.navigation_time) > Duration(seconds=10.0):
+            if Duration.from_msg(feedback.navigation_time) > Duration(seconds=20.0):
                 self.navigator.cancelTask()
 
             if not feedback:
@@ -111,10 +113,10 @@ class EVCSNavigator(Node) :
 
     def goal_charge_pillar(self, navigator, goal, pillar_id):
         pillar_positions = [
-            (0.6356891087237043, -0.8164219814925002, 0, 0, 0, 0.09352443469149051, 0.995616984646022),
-            (1.401678884726616, -0.7519872729787022, 0, 0, 0, 0.9991115499496068, 0.04214392906806647),
-            (1.3725857049388175, -0.4437872703170306, 0, 0, 0, -0.9982873476374894, 0.058501038853224364),
-            (0.5561160143525906, -0.5244608377884499, 0, 0, 0, 0.03360435697535025, 0.9994352141045828)
+            (0.6356891087237043, -0.8164219814925002, 0.0, 0.0, 0.0, 0.09352443469149051, 0.995616984646022),
+            (1.401678884726616, -0.7519872729787022, 0.0, 0.0, 0.0, 0.9991115499496068, 0.04214392906806647),
+            (1.3725857049388175, -0.4437872703170306, 0.0, 0.0, 0.0, -0.9982873476374894, 0.058501038853224364),
+            (0.5561160143525906, -0.5244608377884499, 0.0, 0.0, 0.0, 0.03360435697535025, 0.9994352141045828)
         ]
         goal_pose = self.create_goal_pose(navigator, *pillar_positions[pillar_id])
         goal.append(goal_pose)
