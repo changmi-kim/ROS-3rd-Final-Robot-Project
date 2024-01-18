@@ -22,6 +22,8 @@ setup(
         'console_scripts': [
             'minibot_cam_publish = minibot_network.minibot_cam_publish:main',
             'minibot_cam_subscriber = minibot_network.minibot_cam_subscriber:main',
+            'main_client = minibot_network.main_client:main',
+            'main_server = minibot_network.main_server:main',
         ],
     },
 )
