@@ -28,7 +28,7 @@ class MyClient(Node):
         self.bridge_ = CvBridge()
 
         # self.image_subscriber_ = self.create_subscription(CompressedImage, '/image_raw/compressed', self.image_callback, self.qos_profile_)
-        self.image_subscriber_ = self.create_subscription(Image, 'minibot_image', self.image_callback2, self.qos_profile_)
+        self.image_subscriber_ = self.create_subscription(Image, 'minibot2_image', self.image_callback, self.qos_profile_)
 
     
     def image_callback2(self, msg):
@@ -51,12 +51,10 @@ class MyClient(Node):
     def image_callback(self, msg):
         try:
             # 이미지 데이터를 ROS 메시지에서 numpy 배열로 변환
-            arr = np.frombuffer(msg.data, np.uint8)
-            img = cv2.imdecode(arr, cv2.IMREAD_COLOR)
-
+            cv_image = self.bridge_.imgmsg_to_cv2(msg, 'bgr8')
 
             # 이미지를 JPEG 형식으로 다시 인코딩
-            _, img_encoded = cv2.imencode('.jpg', img)
+            _, img_encoded = cv2.imencode('.jpg', cv_image)
             img_bytes = img_encoded.tobytes()
 
             # TCP/IP 소켓을 통해 이미지 데이터 전송

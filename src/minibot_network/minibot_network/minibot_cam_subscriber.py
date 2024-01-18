@@ -10,7 +10,7 @@ from cv_bridge import CvBridge
 class CamSubscriber(Node):
     
     def __init__(self):
-        super().__init__('cam_subscripber')
+        super().__init__('minibot_cam_subscriber')
 
 
         self.bridge_ = CvBridge()
