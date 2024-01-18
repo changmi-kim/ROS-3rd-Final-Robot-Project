@@ -27,8 +27,8 @@ class MyClient(Node):
 
         self.bridge_ = CvBridge()
 
-        self.declare_parameter('width', 640)
-        self.declare_parameter('length', 480)
+        self.declare_parameter('width', 20)
+        self.declare_parameter('length', 15)
 
         self.width = self.get_parameter('width').value
         self.length = self.get_parameter('length').value
@@ -74,6 +74,12 @@ class MyClient(Node):
 
                 # 이미지 데이터를 전송
                 self.client_socket.sendall(img_bytes)
+
+                # CHUNK_SIZE = 1024  # 청크 크기를 1KB로 설정
+                # for i in range(0, len(img_bytes), CHUNK_SIZE):
+                #     chunk = img_bytes[i:i + CHUNK_SIZE]
+                #     self.client_socket.sendall(chunk)
+
 
             except Exception as e:
                 self.get_logger().error(f'Error sending image data: {e}')

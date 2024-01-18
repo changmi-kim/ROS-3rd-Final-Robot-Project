@@ -58,6 +58,17 @@ class MyServer():
             count -= len(newbuf)
 
         return buf
+                
+                
+    # 청크용
+    # def recvall(self, sock, length):
+    #     data = bytearray()
+    #     while len(data) < length:
+    #         packet = sock.recv(length - len(data))
+    #         if not packet:
+    #             return None
+    #         data.extend(packet)
+    #     return data
 
     
 
@@ -76,6 +87,7 @@ class MyServer():
                     print(image_length)
                     # 이미지 데이터 수신
                     image_data = self.recvall(sock, image_length)
+                    print(image_data)
 
                     # 이미지 데이터를 numpy 배열로 변환 및 디코딩
                     image = np.frombuffer(image_data, np.uint8)

@@ -29,8 +29,8 @@ class MyClient(Node):
         self.width = self.get_parameter('width').value
         self.length = self.get_parameter('length').value
 
-
-        self.camera_callback()
+        self.time_preiod_ = 0.01
+        self.timer = self.create_timer(self.time_preiod_, self.camera_callback)
 
 
     def camera_callback(self):
