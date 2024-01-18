@@ -34,7 +34,7 @@ class MyClient(Node):
         self.length = self.get_parameter('length').value
 
         # self.image_subscriber_ = self.create_subscription(CompressedImage, '/image_raw/compressed', self.image_callback, self.qos_profile_)
-        self.image_subscriber_ = self.create_subscription(Image, 'minibot2_image', self.image_callback, self.qos_profile_)
+        self.image_subscriber_ = self.create_subscription(Image, 'minibot2_image', self.image_callback2, self.qos_profile_)
 
     
     def image_callback2(self, msg):

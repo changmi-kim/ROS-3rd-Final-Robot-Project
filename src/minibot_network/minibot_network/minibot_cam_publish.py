@@ -34,24 +34,24 @@ class MyClient(Node):
 
 
     def camera_callback(self):
-        while rclpy.ok():
-            ret, frame = self.cap_.read()
-            
-            frame = cv2.resize(frame, (self.width, self.length))
+        ret, frame = self.cap_.read()
+        
+        frame = cv2.resize(frame, (self.width, self.length))
 
-            if ret:
-                image = self.bridge_.cv2_to_imgmsg(frame, 'bgr8')
-                self.image_publisher_.publish(image)
-                cv2.waitKey(1)
+        if ret:
+            frame = cv2.resize(frame, (self.width, self.length))
+            image = self.bridge_.cv2_to_imgmsg(frame, 'bgr8')
+            self.image_publisher_.publish(image)
 
 
 def main(args=None):
     rclpy.init(args=args)
     client_node = MyClient()
     rclpy.spin(client_node)
+    
+    client_node.cap_.release()  # Add this line to release the camera resource
     client_node.destroy_node()
     rclpy.shutdown()
-
 
 if __name__ == '__main__':
     main()

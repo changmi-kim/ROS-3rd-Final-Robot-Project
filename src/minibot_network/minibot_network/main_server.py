@@ -46,7 +46,7 @@ class MyServer():
 
 
     def recvall(self, sock, count):
-        buf = bytearray(b'')
+        buf = b''
 
         while count:
             newbuf = sock.recv(min(1024, count))
@@ -73,7 +73,7 @@ class MyServer():
     
 
     def read_image_length(self, sock):
-        length_str = bytearray(b'')  # 바이트 문자열로 초기화
+        length_str = b''  # 바이트 문자열로 초기화
 
         while True:
             try:
