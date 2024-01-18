@@ -27,6 +27,12 @@ class MyClient(Node):
 
         self.bridge_ = CvBridge()
 
+        self.declare_parameter('width', 640)
+        self.declare_parameter('length', 480)
+
+        self.width = self.get_parameter('width').value
+        self.length = self.get_parameter('length').value
+
         # self.image_subscriber_ = self.create_subscription(CompressedImage, '/image_raw/compressed', self.image_callback, self.qos_profile_)
         self.image_subscriber_ = self.create_subscription(Image, 'minibot2_image', self.image_callback, self.qos_profile_)
 
@@ -52,6 +58,9 @@ class MyClient(Node):
         try:
             # 이미지 데이터를 ROS 메시지에서 numpy 배열로 변환
             cv_image = self.bridge_.imgmsg_to_cv2(msg, 'bgr8')
+
+            cv_image = cv2.resize(cv_image, (self.width, self.length))
+            print(cv_image.shape)
 
             # 이미지를 JPEG 형식으로 다시 인코딩
             _, img_encoded = cv2.imencode('.jpg', cv_image)
