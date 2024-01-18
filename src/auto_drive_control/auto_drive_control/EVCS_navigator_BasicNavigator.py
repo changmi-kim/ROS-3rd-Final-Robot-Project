@@ -23,21 +23,24 @@ class EVCSNavigator(Node) :
         # self.subscriber_arucomarker_id = self.create_subscription(UInt16, '/arucomarker_id', self.arucomarker_id, 10)
 
         # self.publisher = self.create_publisher(Twist, '/base_controller/cmd_vel_unstamped', 10)
-
+        # print('test_1')
         self.goal = []
         self.navigator = BasicNavigator()
 
     def charge_pillar_id_callback(self, msg):
         self.goal = []
-        self.navigator.waitUntilNav2Active()
+        print(msg)
+        print("debug!!!!!")
+        # BasicNavigator.waitUntilNav2Active()
+
         self.get_logger().info('Waiting for Navigator Start')
 
         if msg.data == 'robot_0':
             self.goal_charge_hub_0(self.navigator, self.goal)
         elif msg.data in {'0', '1', '2', '3'}:
             self.goal_charge_pillar(self.navigator, self.goal, int(msg.data))
-        elif msg.data in {'0', '1', '2', '3'}:
-            self.goal_charge_pillar(self.navigator, self.goal, int(msg.data))
+        elif msg.data in {'C'}:
+            self.navigator.cancelTask()
         else:
             self.get_logger().warn(f'Invalid pillar ID: {msg.data}')
 
@@ -108,7 +111,7 @@ class EVCSNavigator(Node) :
         return goal_pose
 
     def goal_charge_hub_0(self, navigator, goal):
-        goal_pose = self.create_goal_pose(navigator, 0.239762048683475, -1.2045658922123377, 0.001021641637081884, 0.9999983326642647)
+        goal_pose = self.create_goal_pose(navigator, 0.239762048683475, -1.2045658922123377, 0.0, 0.0, 0.0, 0.001021641637081884, 0.9999983326642647)
         goal.append(goal_pose)
 
     def goal_charge_pillar(self, navigator, goal, pillar_id):
@@ -128,7 +131,10 @@ def main(args=None):
 
     rclpy.spin(EVCS_navigator)
 
+
+    # print("debug1")
     EVCS_navigator.navigator.lifecycleShutdown()
+    # print("debug2")
     EVCS_navigator.destroy_node()
     rclpy.shutdown()
 
