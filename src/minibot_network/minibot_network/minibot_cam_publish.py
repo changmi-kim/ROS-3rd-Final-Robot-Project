@@ -49,6 +49,7 @@ def main(args=None):
     rclpy.init(args=args)
     client_node = MyClient()
     rclpy.spin(client_node)
+    client_node.destroy_node()
     rclpy.shutdown()
 
 
