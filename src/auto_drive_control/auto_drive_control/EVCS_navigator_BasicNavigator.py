@@ -16,19 +16,15 @@ from datetime import timedelta
 class EVCSNavigator(Node) :
     def __init__(self) :
         super().__init__('EVCS_navigator')
-        self.subscriber_charge_pillar_id = self.create_subscription(String, '/charge_pillar_id', self.charge_pillar_id_callback, 10)
-        # self.subscriber_vision_detection_result = self.create_subscription(String, '/detection_result', self.vision_detection_result_callback, 10)
-        # self.subscriber_lidar_depth = self.create_subscription(UInt16, '/lidar_depth', self.lidar_depth_callback, 10)
+        self.subscriber_goal = self.create_subscription(String, '/goal', self.goal_timer_callback, 10)
         # self.subscriber_arucomarker_id = self.create_subscription(UInt16, '/arucomarker_id', self.arucomarker_id, 10)
-
-        # self.publisher = self.create_publisher(Twist, '/base_controller/cmd_vel_unstamped', 10)
 
         self.get_logger().info('Waiting for Navigator Start')
 
         self.goal = []
         self.navigator = BasicNavigator()
 
-    def charge_pillar_id_callback(self, msg):
+    def goal_timer_callback(self, msg):
         self.goal = []
 
         # print("debug!!!!!")
