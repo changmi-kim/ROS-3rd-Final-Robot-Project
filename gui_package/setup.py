@@ -20,8 +20,9 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'gui_node = gui_package.gui_node:main',
-            'camera_test = gui_package.camera_test:main'
+            'gui_4_controlPC = gui_package.gui_4_controlPC:main',
+            'camera_test = gui_package.camera_test:main',
+            'gui_4_kiosk = gui_package.gui_4_kiosk:main'
         ],
     },
 )
