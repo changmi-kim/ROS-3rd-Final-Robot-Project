@@ -16,12 +16,10 @@ class MyServer():
         self.server_socket = None
                 
 
-
     def client_threaded(self, client_socket, client_address):
         try:
             print(f'Connected by: {client_address[0]}:{client_address[1]}')
             threading.Thread(target=self.image_callback, args=(client_socket, )).start()
-
 
         except ConnectionResetError as e:
             print(f'Disconnected by {client_address[0]}:{client_address[1]}')
@@ -29,81 +27,45 @@ class MyServer():
 
     
     def image_callback(self, client_socket):
-        while True:
-            try:
-                # 이미지 길이 정보 수신
-                self.read_image_length(client_socket)
+        try:
+            while True:
+            
+                # client에서 받은 stringData의 크기 (==(str(len(stringData))).encode().ljust(16))
+                length = self.recvall(client_socket, 16)
+                stringData = self.recvall(client_socket, int(length))
+                data = np.fromstring(stringData, dtype = 'uint8')
                 
+                #data를 디코딩한다.
+                frame = cv2.imdecode(data, cv2.IMREAD_COLOR)
+                cv2.imshow('ImageWindow',frame)
+                cv2.waitKey(1)
+                    
 
-            finally:  
-                client_socket.close()
+        finally:  
+            client_socket.close()
 
-                with self.client_sockets_lock:
-                    if client_socket in self.client_sockets:
-                        self.client_sockets.remove(client_socket)
+            with self.client_sockets_lock:
+                if client_socket in self.client_sockets:
+                    self.client_sockets.remove(client_socket)
 
                 print(f'남은 클라이언트 수: {len(self.client_sockets)}')
 
 
+    #socket에서 수신한 버퍼를 반환하는 함수
     def recvall(self, sock, count):
+        # 바이트 문자열
         buf = b''
 
         while count:
-            newbuf = sock.recv(min(1024, count))
+            newbuf = sock.recv(count)
 
-            if not newbuf:
-                return None
+            if not newbuf: return None
             
             buf += newbuf
             count -= len(newbuf)
 
         return buf
-                
-                
-    # 청크용
-    # def recvall(self, sock, length):
-    #     data = bytearray()
-    #     while len(data) < length:
-    #         packet = sock.recv(length - len(data))
-    #         if not packet:
-    #             return None
-    #         data.extend(packet)
-    #     return data
-
     
-
-    def read_image_length(self, sock):
-        length_str = b''  # 바이트 문자열로 초기화
-
-        while True:
-            try:
-                char = sock.recv(1)
-
-                if not char:  # 비어 있는 바이트 문자열 확인 (소켓 닫힘)
-                    raise ConnectionError("Socket connection closed while reading length")
-
-                if char == b'\n':  # 바이트 형태로 개행 문자를 확인
-                    image_length = int(length_str.decode('utf-8'))
-                    print(image_length)
-                    # 이미지 데이터 수신
-                    image_data = self.recvall(sock, image_length)
-                    print(image_data)
-
-                    # 이미지 데이터를 numpy 배열로 변환 및 디코딩
-                    image = np.frombuffer(image_data, np.uint8)
-                    image = cv2.imdecode(image, cv2.IMREAD_COLOR)
-
-                    # 이미지 처리 (예: 표시 또는 저장)
-                    cv2.imshow("Received Image", image)
-                    if cv2.waitKey(1) == ord('q'):
-                        break
-
-                length_str += char
-            
-            except:
-                pass
-                # print(f"Received char: {char}, Current length_str: {length_str}") 
-            
 
     def run_server(self):
         print(f'Server Start with IP: {self.HOST}')

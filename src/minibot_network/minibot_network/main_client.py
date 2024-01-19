@@ -26,31 +26,34 @@ class MyClient(Node):
 
         self.bridge_ = CvBridge()
 
-        self.declare_parameter('width', 20)
-        self.declare_parameter('length', 15)
+        self.declare_parameter('width', 640)
+        self.declare_parameter('length', 480)
 
         self.width = self.get_parameter('width').value
         self.length = self.get_parameter('length').value
 
-        # self.image_subscriber_ = self.create_subscription(CompressedImage, '/image_raw/compressed', self.image_callback, self.qos_profile_)
-        self.image_subscriber_ = self.create_subscription(Image, 'minibot2_image', self.image_callback, self.qos_profile_)
-        self.image_subscriber_ = self.create_subscription(CompressedImage, '/image_raw/compressed', self.image_callback2, self.qos_profile_)
+        # self.image_subscriber_ = self.create_subscription(CompressedImage, '/image_raw/compressed', self.image_callback2, self.qos_profile_)
+        self.image_subscriber_ = self.create_subscription(Image, 'minibot2_image', self.image_callback2, self.qos_profile_)
+        # self.image_subscriber_ = self.create_subscription(Image, 'minibot2_image', self.image_callback, self.qos_profile_)
 
 
     
     def image_callback2(self, msg):
-        # self.get_logger().info(f"받은 이미지의 인코딩: {msg}")
         try:
-            # ROS 이미지 메시지를 OpenCV 이미지로 변환
+            # Convert the compressed image data to OpenCV format
+            # np_arr = np.frombuffer(msg.data, np.uint8)
+            # cv_image = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
 
+            # Convert the normal image data to OpenCV format
             cv_image = self.bridge_.imgmsg_to_cv2(msg, 'bgr8')
+            cv_image = cv2.resize(cv_image, (self.width, self.length))
 
-            # 이미지를 화면에 표시
+            # Display the image
             cv2.imshow("Image from ROS", cv_image)
             cv2.waitKey(1)
 
         except Exception as e:
-            self.get_logger().error(f'Error in listener_callback: {e}')
+            self.get_logger().error(f'Error in image_callback: {e}')
 
 
 
@@ -61,7 +64,6 @@ class MyClient(Node):
             cv_image = self.bridge_.imgmsg_to_cv2(msg, 'bgr8')
 
             cv_image = cv2.resize(cv_image, (self.width, self.length))
-            print(cv_image.shape)
 
             # 이미지를 JPEG 형식으로 다시 인코딩
             _, img_encoded = cv2.imencode('.jpg', cv_image)
