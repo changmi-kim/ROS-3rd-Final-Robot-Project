@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import socket
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Image
@@ -11,6 +12,10 @@ class MyClient(Node):
 
     def __init__(self):
         super().__init__('minibot_cam_publish')
+
+        self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.server_address = ('192.168.1.7', 3306)
+        self.connect_to_server()
 
         self.qos_profile_ = QoSProfile(
                         depth=10,
@@ -33,9 +38,6 @@ class MyClient(Node):
         ## 0~100에서 90의 이미지 품질로 설정 (default = 95)
         self.encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 90]
 
-        # self.time_preiod_ = 0.01
-        # self.timer = self.create_timer(self.time_preiod_, self.camera_callback)
-
         self.camera_callback()
 
     def camera_callback(self):
@@ -44,13 +46,25 @@ class MyClient(Node):
 
             if ret:
                 frame = cv2.resize(frame, (self.width, self.length))
-                image = self.bridge_.cv2_to_imgmsg(frame, 'bgr8')
-                self.image_publisher_.publish(image)
 
-                # _, frame = cv2.imencode('.jpg', frame, self.encode_param)
+                _, frame = cv2.imencode('.jpg', frame, self.encode_param)
 
-                # data = np.array(frame)
-                # stringData = data.tostring()
+                data = np.array(frame)
+                stringData = data.tostring()
+
+                self.client_socket.sendall((str(len(stringData))).encode().ljust(16) + stringData)
+
+
+    def connect_to_server(self):
+        try:
+            self.client_socket.connect(self.server_address)
+            self.get_logger().info('Connected to the server')
+
+        except Exception as e:
+            self.get_logger().error(f'Failed to connect to the server: {str(e)}')
+            self.client_socket.close()
+            rclpy.shutdown()
+            exit(1)
             
 
 
