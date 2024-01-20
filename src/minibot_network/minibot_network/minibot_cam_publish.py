@@ -33,9 +33,6 @@ class MyClient(Node):
         ## 0~100에서 90의 이미지 품질로 설정 (default = 95)
         self.encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 90]
 
-        # self.time_preiod_ = 0.01
-        # self.timer = self.create_timer(self.time_preiod_, self.camera_callback)
-
         self.camera_callback()
 
     def camera_callback(self):

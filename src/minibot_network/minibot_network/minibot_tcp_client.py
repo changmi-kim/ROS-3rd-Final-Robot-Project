@@ -17,6 +17,11 @@ class MyClient(Node):
         self.server_address = ('192.168.1.7', 3306)
         self.connect_to_server()
 
+        client_name = "minibot_1"
+        self.client_socket.sendall((str(len(client_name))).encode().ljust(16) + client_name)
+        
+        self.get_logger().info(f"{self.server_address[0]} 서버에 연결하였습니다.")
+
         self.qos_profile_ = QoSProfile(
                         depth=10,
                         reliability=ReliabilityPolicy.BEST_EFFORT,

@@ -14,21 +14,39 @@ class MyServer():
         self.HOST = "192.168.1.7" # 로컬 IP 주소
         self.PORT = 3306
         self.server_socket = None
+
+        self.client_thread_count = 0
+        self.image_thread_count = 0
+
+        self.ip_name = {"192.168.1.14" : "minibot1",
+                        "192.168.1.7" : "minibot2",
+                        }
+        
+        self.images = {}  # 클라이언트별 최신 이미지를 저장하는 딕셔너리
+        self.display_client = None  # 현재 표시중인 클라이언트
+
+        self.thread_stop_flags = {}  # 쓰레드들 플레그 확인
+        self.threads = {}  # 스레드 참조를 저장할 딕셔너리
+                        
                 
 
-    def client_threaded(self, client_socket, client_address):
+    def client_threaded(self, client_socket, client_address, flag):
         try:
+            self.client_thread_count += 1
+            print("생성된 고객 쓰레드 갯수 : ", self.client_thread_count)
             print(f'Connected by: {client_address[0]}:{client_address[1]}')
-            threading.Thread(target=self.image_callback, args=(client_socket, )).start()
+            threading.Thread(target=self.image_callback, args=(client_socket, flag)).start()
 
         except ConnectionResetError as e:
             print(f'Disconnected by {client_address[0]}:{client_address[1]}')
                 
 
     
-    def image_callback(self, client_socket):
+    def image_callback(self, client_socket, client_id, stop_event):
+        self.image_thread_count += 1
+        print("생성된 이미지 쓰레드 갯수 : ", self.image_thread_count)
         try:
-            while True:
+            while not stop_event.is_set():
             
                 # client에서 받은 stringData의 크기 (==(str(len(stringData))).encode().ljust(16))
                 length = self.recvall(client_socket, 16)
@@ -37,12 +55,25 @@ class MyServer():
                 
                 #data를 디코딩한다.
                 frame = cv2.imdecode(data, cv2.IMREAD_COLOR)
-                cv2.imshow('ImageWindow',frame)
-                cv2.waitKey(1)
+
+                self.images[client_id] = frame  # 클라이언트 별로 이미지 저장
+
+                if self.display_client == client_id:
+                    cv2.imshow('ImageWindow',frame)
+                    cv2.waitKey(1)
+
+                # 종료 플래그 확인
+                if stop_event.is_set():
+                    break
                     
 
         finally:  
             client_socket.close()
+            self.client_thread_count -= 1
+            self.image_thread_count -= 1
+
+            print("생성된 고객 쓰레드 갯수 : ", self.client_thread_count)
+            print("생성된 이미지 쓰레드 갯수 : ", self.image_thread_count)
 
             with self.client_sockets_lock:
                 if client_socket in self.client_sockets:
@@ -67,6 +98,21 @@ class MyServer():
         return buf
     
 
+    def thread_start(self, thread_number):
+        print(self.active_thread, thread_number)
+        if self.active_thread is not None:
+            self.run_flags[self.active_thread].clear()
+
+        self.threads[thread_number].start()
+        self.active_thread = thread_number
+
+    
+    def user_input_thread(self):
+        while True:
+            client_id = input("보여줄 클라이언트 번호를 입력하세요: ")
+            self.display_client = client_id
+    
+
     def run_server(self):
         print(f'Server Start with IP: {self.HOST}')
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -77,27 +123,54 @@ class MyServer():
 
         print("Server is listening...")
 
+        input_thread = threading.Thread(target=self.user_input_thread)
+        input_thread.start()
+
 
         try:
             while True:
-                print('Wait...')
                 client_socket, client_address = self.server_socket.accept()
-                print(f'연결 수락됨: {client_address}')
-
-                with self.client_sockets_lock:
-                    self.client_sockets.append(client_socket)
-                    threading.Thread(target=self.client_threaded, args=(client_socket, client_address)).start()
-                
+                client_id = str(client_address[0])
+                print(f'연결 수락됨: {self.ip_name[client_address[0]]}')
+                print("client_id : ", client_id)
 
                 print(f'참여한 클라이언트 수: {len(self.client_sockets)}')
                 response = '서버 연결 성공'
                 client_socket.sendall(response.encode())
 
+                with self.client_sockets_lock:
+                    self.client_sockets.append(client_socket)
 
+                # 쓰레드 종료 플래그 생성 또는 재설정
+                if client_id in self.thread_stop_flags:
+                    self.thread_stop_flags[client_id].set()  # 기존 쓰레드 종료 신호
+
+                    if client_id in self.threads:
+                        self.threads[client_id].join()  # 종료될 때까지 기다리기
+
+                self.thread_stop_flags[client_id] = threading.Event()
+
+                # 클라이언트별 쓰레드 시작
+                self.threads[client_id] = threading.Thread(
+                                                            target=self.image_callback, 
+                                                            args=(client_socket, client_id, self.thread_stop_flags[client_id])
+                                                            )
+                self.threads[client_id].start()
+
+                
         except KeyboardInterrupt:
             print('서버를 종료합니다.')
+
+            # 종료 시 모든 스레드 정리
+            for flag in self.run_flags:
+                flag.clear()
+
+            for t in self.threads:
+                t.join()
+
             for client_socket in self.client_sockets:
                 client_socket.close()
+
             self.server_socket.close()
             
         
