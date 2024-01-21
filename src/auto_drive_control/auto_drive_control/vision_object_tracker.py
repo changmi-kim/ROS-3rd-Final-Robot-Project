@@ -9,9 +9,9 @@ import cv2
 import numpy
 import math
 
-class VisionTracker(Node):
+class VisionObjectTracker(Node):
     def __init__(self):
-        super().__init__('vision_tracker')
+        super().__init__('vision_object_tracker')
         self.qos = QoSProfile(depth=10)
         self.cv_bridge = CvBridge()
 
@@ -62,14 +62,14 @@ class VisionTracker(Node):
 def main(args=None):
     rclpy.init(args=args)
     
-    vision_tracker = VisionTracker()
+    vision_object_tracker = VisionObjectTracker()
 
     try:
-        rclpy.spin(vision_tracker)
+        rclpy.spin(vision_object_tracker)
 
     except KeyboardInterrupt:
-        vision_tracker.stop()
-        vision_tracker.destroy_node()
+        vision_object_tracker.stop()
+        vision_object_tracker.destroy_node()
         rclpy.shutdown()
 
 if __name__ == '__main__':
