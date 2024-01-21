@@ -59,7 +59,7 @@ class MyServer():
                 # client에서 받은 stringData의 크기 (==(str(len(stringData))).encode().ljust(16))
                 length = self.recvall(client_socket, 16)
                 stringData = self.recvall(client_socket, int(length))
-                data = np.fromstring(stringData, dtype = 'uint8')
+                data = np.frombuffer(stringData, dtype = 'uint8')
                 
                 #data를 디코딩한다.
                 frame = cv2.imdecode(data, cv2.IMREAD_COLOR)
@@ -67,14 +67,11 @@ class MyServer():
                 self.images[client_id] = frame  # 클라이언트 별로 이미지 저장
 
                 if self.display_client == client_id:
-                    cv2.imshow('ImageWindow', frame)
+                    cv2.imshow('ImageWindow', self.images[client_id])
                     cv2.waitKey(1)
 
                 elif self.display_client == "-1":
                     cv2.destroyAllWindows()
-
-        except Exception as e:
-            print(f'예외 발생: {e}')
                     
 
         finally:  
