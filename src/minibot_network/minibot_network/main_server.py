@@ -39,9 +39,17 @@ class MyServer():
 
         except ConnectionResetError as e:
             print(f'Disconnected by {client_address[0]}:{client_address[1]}')
-                
 
     
+    def user_input_thread(self):
+        while True:
+            client_id = input("보여줄 클라이언트 번호를 입력하세요 (숨기려면 -1): ")
+            if client_id in self.images or client_id == "-1":
+                self.display_client = client_id
+            else:
+                print(f"잘못된 클라이언트 번호: {client_id}")
+
+            
     def image_callback(self, client_socket, client_id, stop_event):
         self.image_thread_count += 1
         print("생성된 이미지 쓰레드 갯수 : ", self.image_thread_count)
@@ -59,12 +67,14 @@ class MyServer():
                 self.images[client_id] = frame  # 클라이언트 별로 이미지 저장
 
                 if self.display_client == client_id:
-                    cv2.imshow('ImageWindow',frame)
+                    cv2.imshow('ImageWindow', frame)
                     cv2.waitKey(1)
 
-                # 종료 플래그 확인
-                if stop_event.is_set():
-                    break
+                elif self.display_client == "-1":
+                    cv2.destroyAllWindows('ImageWindow')
+
+        except Exception as e:
+            print(f'예외 발생: {e}')
                     
 
         finally:  
@@ -105,12 +115,6 @@ class MyServer():
 
         self.threads[thread_number].start()
         self.active_thread = thread_number
-
-    
-    def user_input_thread(self):
-        while True:
-            client_id = input("보여줄 클라이언트 번호를 입력하세요: ")
-            self.display_client = client_id
     
 
     def run_server(self):

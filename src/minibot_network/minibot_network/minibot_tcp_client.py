@@ -18,7 +18,10 @@ class MyClient(Node):
         self.connect_to_server()
 
         client_name = "minibot_1"
-        self.client_socket.sendall((str(len(client_name))).encode().ljust(16) + client_name)
+        data = np.array(client_name)
+        stdata = data.tostring()
+
+        self.client_socket.sendall((str(len(stdata))).encode().ljust(16) + stdata)
         
         self.get_logger().info(f"{self.server_address[0]} 서버에 연결하였습니다.")
 
