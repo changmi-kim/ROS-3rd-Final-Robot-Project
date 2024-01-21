@@ -22,7 +22,7 @@ setup(
         'console_scripts': [
         'arduino_protocol_sender = auto_drive_control.arduino_protocol_sender:main',
         'EVCS_navigator_BasicNavigator = auto_drive_control.EVCS_navigator_BasicNavigator:main',
-        'vision_tracker = vision_object_detector.vision_tracker:main',
+        'vision_object_tracker = vision_object_detector.vision_object_tracker:main',
         'vision_obstacle_avoidance = vision_object_detector.vision_obstacle_avoidance:main',
         'lidar = auto_drive_control.lidar:main'        
         ],
