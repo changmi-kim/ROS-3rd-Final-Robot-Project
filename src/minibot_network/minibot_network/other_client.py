@@ -39,7 +39,7 @@ try:
         result, frame = cv2.imencode('.jpg', frame, encode_param)
         # frame을 String 형태로 변환
         data = np.array(frame)
-        stringData = data.tostring()
+        stringData = data.tobytes()
     
         #서버에 데이터 전송
         #(str(len(stringData))).encode().ljust(16)

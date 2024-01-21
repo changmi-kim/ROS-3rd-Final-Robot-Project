@@ -19,7 +19,7 @@ class MyClient(Node):
 
         client_name = "minibot_1"
         data = np.array(client_name)
-        stdata = data.tostring()
+        stdata = data.tobytes()
 
         self.client_socket.sendall((str(len(stdata))).encode().ljust(16) + stdata)
         

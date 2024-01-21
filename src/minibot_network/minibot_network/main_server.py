@@ -71,7 +71,7 @@ class MyServer():
                     cv2.waitKey(1)
 
                 elif self.display_client == "-1":
-                    cv2.destroyAllWindows('ImageWindow')
+                    cv2.destroyAllWindows()
 
         except Exception as e:
             print(f'예외 발생: {e}')
