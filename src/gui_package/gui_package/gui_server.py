@@ -17,33 +17,48 @@ from PyQt5.QtGui import *
 
 
 
+# class CameraThread(QThread):
+
+#     def __init__(self, camera_info):
+#         super().__init__()
+
+#         self.deque_size = 1
+#         self.deque = deque(maxlen=self.deque_size)
+
+#         self.buffer_size = 16
+
+#         self.minibot_camera = camera_info
+
+#         self.display = False
+#         self.cam0 = False
+#         self.cam1 = False
+#         self.cam2 = False
+#         self.cam3 = False
+
+
+#         self.load_camera(camera_info)
+
+
+
+#     def load_camera(self, camera_info):
+#         pass
+                
+
+
+
 # UI 파일 불러오기
 from_class = uic.loadUiType("src/gui_package/gui/gui_node.ui")[0]
 
 
-class windowClass(QMainWindow, from_class):
-    def __init__(self, camera_link):
+class WindowClass(QMainWindow, from_class):
+    def __init__(self):
         super().__init__()
         self.setupUi(self)  # UI 설정
         self.setWindowTitle('Voltie')
-        
-        self.client_sockets = []
 
-        self.deque = deque(maxlen=1)
-        self.camera_stream_link = camera_link
-
-        #카메라 정보 가져오기
-        self.load_camera()
-
-        # 프레임 읽어오기
-        self.get_frame_thread = Thread(target=self.get_frame, args=())
-        self.get_frame_thread.daemon = True
-        self.get_frame_thread.start()
-
-        self.v1 = False
-        self.v2 = False
-        self.v3 = False
-
+        self.minibot1_convert.hide()
+        self.minibot2_convert.hide()
+        self.minibot3_convert.hide()
 
         # CCTV 설정
         self.isCCTVon = False
@@ -57,41 +72,100 @@ class windowClass(QMainWindow, from_class):
         self.minibot2_convert.clicked.connect(self.display_radio_clicked)
         self.minibot3_convert.clicked.connect(self.display_radio_clicked)
 
-        self.isBot1on = False
+    
+    def button_hide_and_show(self, num):
+        if num == 1:
+            self.minibot1_convert.show()
+            self.minibot2_convert.hide()
+            self.minibot3_convert.hide()
+
+        elif num == 2:
+            self.minibot2_convert.show()
+            self.minibot3_convert.hide()
+
+
+        elif num == 3:
+            self.minibot3_convert.show()
+
+        elif num == 0:
+            self.minibot1_convert.hide()
+            self.minibot2_convert.hide()
+            self.minibot3_convert.hide()
+            
+
+    
+    def display_radio_clicked(self):
+        if self.cctv_convert.isChecked():
+            if self.isBot1on == True:
+
+                self.bot1_vision.stop()
+                self.bot1_vision.quit()
+                self.bot1_vision.wait()
+                self.isBot1on = False
+
+            if self.isCCTVon == False:
+                self.isCCTVon = True
+                self.CCTVstart()
+
+    
+    def CCTVstart(self):
+        self.cctv.cctv_running = True
+        self.cctv.start()
+        self.video = cv2.VideoCapture(0)
+
+
+    def CCTVstop(self):
+        self.cctv.cctv_running = False
+        self.video.release()
+
+
+    def updateCCTV(self):
+        retval, self.image = self.video.read()
+        if retval:
+            self.image = cv2.cvtColor(self.image, cv2.COLOR_BGR2RGB)
+
+            h,w,c = self.image.shape
+            qimage = QImage(self.image.data, w, h, w*c, QImage.Format_RGB888)
+
+            self.pixmap = self.pixmap.fromImage(qimage)
+            self.pixmap = self.pixmap.scaled(self.display.width(), self.display.height())
+            
+            self.display.setPixmap(self.pixmap)
+
+
+    def customEvent(self, event):
+        if event.type() == ImageEvent.EVENT_TYPE:
+            self.setImage(event.img)
+
+
+    def setImage(self, img):
+        self.display.setPixmap(QPixmap.fromImage(img))
 
 
 
-    # 영상을 받아서 쓰레드로 시작
-    def load_camera(self):
-        self.load_stream_thread = Thread(target=self.image_callback_thread, args=())
-        self.load_stream_thread.daemon = True
-        self.load_stream_thread.start()
+class ImageEvent(QEvent):
+    EVENT_TYPE = QEvent.Type(QEvent.registerEventType())
+
+    def __init__(self, img):
+        super().__init__(ImageEvent.EVENT_TYPE)
+        self.img = img
 
 
-    def image_callback_thread(self):
+class CCTVCam(QThread):
+    update = pyqtSignal()
 
+    def __init__(self, sec=0, parent=None):
+        super().__init__()
+        self.main = parent
+        self.cctv_running = True
 
-    def get_frame(self):
-        """Reads frame, resizes, and converts image to pixmap"""
-
-        while True:
-            try:
-                if self.v1:
-                    # Read next frame from stream and insert into deque
-                    status, frame = self.capture.read()
-                    if status:
-                        self.deque.append(frame)
-                    else:
-                        self.capture.release()
-                        self.online = False
-                else:
-                    # Attempt to reconnect
-                    print('attempting to reconnect', self.camera_stream_link)
-                    self.load_network_stream()
-                    self.spin(2)
-                self.spin(.001)
-            except AttributeError:
-                pass
+    def run(self):
+        while self.cctv_running == True:
+            self.update.emit()
+            time.sleep(0.1)
+    
+    def stop(self):
+        self.cctv_running = False
 
 
 
@@ -100,6 +174,7 @@ class OpenServer():
     def __init__(self):
         self.HOST = "192.168.1.7" # 로컬 IP 주소
         self.PORT = 3306
+        self.client_sockets = []
 
 
     def run_server(self):
@@ -119,28 +194,14 @@ class OpenServer():
                 print(f'연결 수락됨: {self.ip_name[client_address[0]]}')
                 print("client_id : ", client_id)
 
-                print(f'참여한 클라이언트 수: {len(self.client_sockets)}')
                 response = '서버 연결 성공'
                 client_socket.sendall(response.encode())
 
-                with self.client_sockets_lock:
-                    self.client_sockets.append(client_socket)
+                self.client_sockets.append(client_socket)
+                print(f'참여한 클라이언트 수: {len(self.client_sockets)}')
 
-                # 쓰레드 종료 플래그 생성 또는 재설정
-                if client_id in self.thread_stop_flags:
-                    self.thread_stop_flags[client_id].set()  # 기존 쓰레드 종료 신호
-
-                    if client_id in self.threads:
-                        self.threads[client_id].join()  # 종료될 때까지 기다리기
-
-                self.thread_stop_flags[client_id] = threading.Event()
-
-                # 클라이언트별 쓰레드 시작
-                self.threads[client_id] = threading.Thread(
-                                                            target=self.image_callback, 
-                                                            args=(client_socket, client_id, self.thread_stop_flags[client_id])
-                                                            )
-                self.threads[client_id].start()
+                gui = WindowClass(self.client_sockets)
+                gui.button_hide_and_show(len(self.client_sockets))
 
                 
         except KeyboardInterrupt:
@@ -162,18 +223,27 @@ class OpenServer():
 
 def main():
     server = OpenServer()
+    
 
     # 서버를 쓰레드로 시작
     server_thread = Thread(target=server.run_server, args=())
     server_thread.start()
 
     # 가져올 카메라 정보
-    minibot_1 = 
-    minibot_2 = 
-    minibot_3 = 
+    minibot_1 = "192.168.1.7"
+    minibot_2 = "192.168.1.14"
+    # minibot_3 = 
+
+    app = QApplication(sys.argv)
+
+    window = WindowClass()
+    window.show()
 
     # 서브쓰레드 종료까지 메인쓰레드 대기
     server_thread.join()
+
+    exit_code = app.exec_()
+    sys.exit(exit_code)
 
 
 if __name__ == "__main__":

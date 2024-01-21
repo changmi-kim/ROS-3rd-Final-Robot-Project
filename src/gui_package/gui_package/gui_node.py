@@ -13,39 +13,6 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 
 
-def modifyROSEnvironment(ros_bashrc_parameter, cnt):
-    os.environ['ROS_DOMAIN_ID'] = cnt
-    os.environ['ROS_DISCOVERY_SERVER'] = ros_bashrc_parameter[cnt]
-
-    print(f"ROS_DOMAIN_ID set to: {os.environ['ROS_DOMAIN_ID']}")
-    print(f"ROS_DISCOVERY_SERVER set to: {os.environ['ROS_DISCOVERY_SERVER']}")
-
-# 예시: 서버 IP, 도메인 ID, 디스커버리 서버 설정: modifyROSEnvironment(server_ip, 11, '192.168.0.59:11811;192.168.0.59:11812')
-
-
-# UI 파일 불러오기
-from_class = uic.loadUiType("src/gui_package/gui/gui_node.ui")[0]
-
-# Raspberry Pi의 Pi Camera(V4l2)를 구독하는 노드
-class PiCamSubscriber(Node):
-    def __init__(self):
-        super().__init__('pi_cam_subscriber')
-        self.subscription = self.create_subscription(
-            CompressedImage,
-            'image_raw/compressed',
-            self.listener_callback,
-            10)
-
-    def listener_callback(self, msg):
-        arr = np.frombuffer(msg.data, np.uint8)  # 수신 받은 데이터를 numpy 배열로 변환.
-        img = cv2.imdecode(arr, cv2.IMREAD_COLOR)  # image data를 decode
-        cv2.cvtColor(img, cv2.COLOR_BGR2RGB, img)  # BGR을 RGB로.
-        
-        # PyQt에 image를 표시하기 위해 QImage 객체 생성.
-        h, w, c = img.shape
-        bytesPerLine = c * w
-        q_img = QImage(img.data, w, h, bytesPerLine, QImage.Format_RGB888)
-        QCoreApplication.postEvent(window, ImageEvent(q_img))
 
 class ImageEvent(QEvent):
     EVENT_TYPE = QEvent.Type(QEvent.registerEventType())
@@ -83,6 +50,8 @@ class CCTVCam(QThread):
     
     def stop(self):
         self.cctv_running = False
+
+
 
 class windowClass(QMainWindow, from_class):
     def __init__(self):
