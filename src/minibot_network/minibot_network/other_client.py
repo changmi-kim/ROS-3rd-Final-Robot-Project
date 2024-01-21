@@ -9,7 +9,7 @@ s.connect(('192.168.1.7', 3306))
 
 name = "minibot2"
 data = np.array(name)
-stdata = data.tostring()
+stdata = data.tobytes()
 
 s.sendall((str(len(stdata))).encode().ljust(16) + stdata)
  

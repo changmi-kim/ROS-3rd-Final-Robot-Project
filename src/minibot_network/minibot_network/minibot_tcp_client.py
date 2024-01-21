@@ -58,7 +58,7 @@ class MyClient(Node):
                 _, frame = cv2.imencode('.jpg', frame, self.encode_param)
 
                 data = np.array(frame)
-                stringData = data.tostring()
+                stringData = data.tobytes()
 
                 self.client_socket.sendall((str(len(stringData))).encode().ljust(16) + stringData)
 
