@@ -318,9 +318,9 @@ ros2topic==0.18.7
 rosbag2-interfaces==0.15.8
 rosbag2-py==0.15.8
 rosdep==0.22.2
-rosdep-modules==0.22.2
+#rosdep-modules==0.22.2
 rosdistro==0.9.0
-rosdistro-modules==0.9.0
+#rosdistro-modules==0.9.0
 rosgraph-msgs==1.2.1
 rosidl-adapter==3.1.5
 rosidl-cli==3.1.5
@@ -337,7 +337,7 @@ rosidl-typesupport-fastrtps-cpp==2.2.2
 rosidl-typesupport-introspection-c==3.1.5
 rosidl-typesupport-introspection-cpp==3.1.5
 rospkg==1.5.0
-rospkg-modules==1.5.0
+#rospkg-modules==1.5.0
 rpds-py==0.12.0
 rpyutils==0.2.1
 rqt==1.1.5
@@ -367,7 +367,7 @@ rqt-srv==1.0.3
 rqt-tf-tree==1.0.4
 rqt-topic==1.5.0
 scipy==1.8.0
-screen-resolution-extra==0.0.0
+#screen-resolution-extra==0.0.0
 scripts==3.7.0
 SecretStorage==3.3.1
 Send2Trash==1.8.2

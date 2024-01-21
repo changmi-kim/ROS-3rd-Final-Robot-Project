@@ -1,20 +1,17 @@
 import os
-
 import sys
+import cv2
+import numpy as np
+import time, datetime
+
 import rclpy as rp
 from rclpy.node import Node
 from sensor_msgs.msg import CompressedImage
-import cv2
-import numpy as np
 from PyQt5 import uic
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
-import time, datetime
 
-
-server_ip = "192.168.0.59"
-ros_bashrc_parameter = {77:"192.168.1.7:11812", 88:"192.168.1.7:11813", 99:"192.168.1.7:11814"}  # 임시
 
 def modifyROSEnvironment(ros_bashrc_parameter, cnt):
     os.environ['ROS_DOMAIN_ID'] = cnt
