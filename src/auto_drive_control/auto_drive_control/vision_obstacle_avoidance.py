@@ -10,9 +10,9 @@ import cv2
 import numpy
 import math
 
-class VisionAvoidance(Node):
+class VisionObstacleAvoidance(Node):
     def __init__(self):
-        super().__init__('vision_avoidance')
+        super().__init__('vision_obstacle_avoidance')
         self.cv_bridge = CvBridge()
         self.qos = QoSProfile(depth=10)
 
@@ -50,8 +50,8 @@ class VisionAvoidance(Node):
         if self.label == 'person': 
             if self.bbox_w > 40 and self.bbox_h > 100:
                 if self.min_distance < 0.3:
-                    # self.publish_stop_cmd()
-                    self.publish_back_cmd
+                    # self.publish_cmd_stop()
+                    self.publish_cmd_back()
 
     def detection_result_callback(self, msg):
         for detection in msg.detection_result:
@@ -78,8 +78,6 @@ class VisionAvoidance(Node):
 
         front_degree_msg = LaserScan()
         front_degree_msg.header = msg.header
-        # front_degree_msg.angle_min = msg.angle_min + math.radians(22.5)
-        # front_degree_msg.angle_max = msg.angle_min + math.radians(67.5)
         front_degree_msg.angle_min = msg.angle_min - math.radians(45 + 180)
         front_degree_msg.angle_max = msg.angle_min + math.radians(0 + 180)
         front_degree_msg.angle_increment = msg.angle_increment
@@ -110,29 +108,31 @@ class VisionAvoidance(Node):
         if key == ord('q'):
             self.stop()
 
-    def publish_stop_cmd(self):
-        self.twist.linear.x = 0.0
-        self.twist.angular.z = 0.0
-        self.publisher_cmd_vel.publish(self.twist)
-        self.get_logger().info(f'Robot stopped. Front obstacle distance:{self.min_distance}')
-
-    def publish_back_cmd(self):
+    def publish_cmd_back(self):
         self.twist.linear.x = -0.5
         self.twist.angular.z = 0.0
         self.publisher_cmd_vel.publish(self.twist)
-        self.get_logger().info(f'Robot has reversed. Front obstacle distance:{self.min_distance}')
+        self.get_logger().info(f'Robot has reversed.')
+        self.get_logger().info(f'Front obstacle distance:{self.min_distance}')
+
+    def publish_cmd_stop(self):
+        self.twist.linear.x = 0.0
+        self.twist.angular.z = 0.0
+        self.publisher_cmd_vel.publish(self.twist)
+        self.get_logger().info(f'Robot stopped.')
+        self.get_logger().info(f'Front obstacle distance:{self.min_distance}')
 
 def main(args=None):
     rclpy.init(args=args)
     
-    vision_avoidance = VisionAvoidance()
+    vision_obstacle_avoidance = VisionObstacleAvoidance()
 
     try:
-        rclpy.spin(vision_avoidance)
+        rclpy.spin(vision_obstacle_avoidance)
 
     except KeyboardInterrupt:
-        vision_avoidance.stop()
-        vision_avoidance.destroy_node()
+        vision_obstacle_avoidance.stop()
+        vision_obstacle_avoidance.destroy_node()
         rclpy.shutdown()
 
 if __name__ == '__main__':
