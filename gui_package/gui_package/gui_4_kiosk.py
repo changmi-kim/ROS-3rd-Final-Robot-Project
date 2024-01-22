@@ -9,9 +9,8 @@ import datetime, time
 from serial import Serial
 import mysql.connector
 
-
 # DB에 접근
-def import_aws_rds_access_key(file_path):
+def create_DB_cursor(file_path):
     access_key_info = []
 
     try:
@@ -24,48 +23,51 @@ def import_aws_rds_access_key(file_path):
     
     except Exception as e:
         print(f"파일 읽기 오류: {str(e)}")
+
+    remote = mysql.connector.connect(
+       host = access_key_info[0],
+        port = int(access_key_info[1]),
+        user = access_key_info[2],
+        password = access_key_info[3],
+        database = access_key_info[4]
+    )
     
-    return access_key_info
+    return remote
 
-aws_rds_access_key = import_aws_rds_access_key("/home/wintercamo/Documents/aws_rds_access_key.txt")
-
-remote = mysql.connector.connect(
-    host = aws_rds_access_key[0],
-    port = int(aws_rds_access_key[1]),
-    user = aws_rds_access_key[2],
-    password = aws_rds_access_key[3],
-    database = aws_rds_access_key[4]
-)
-
-remote_cursor = remote.cursor()
+# AWS RDS 엑세스 정보 경로
+access_key = "/home/wintercamo/Documents/aws_rds_access_key.txt"
 
 # UI 파일 불러오기
-from_class = uic.loadUiType("/home/wintercamo/gui_study/src/gui_package/gui_package/kiosk.ui")[0]
+from_class = uic.loadUiType("/home/wintercamo/git_ws/ros-repo-2/gui_package/gui_package/kiosk.ui")[0]
 
 # GUI 클래스
-class windowClass(QMainWindow, from_class):
+class KioskWindow(QMainWindow, from_class):
     def __init__(self):
         super().__init__()
         self.setupUi(self)  # UI 설정
         self.setWindowTitle('Kiosk Manager')
 
-        self.groupboxes = [self.phase0, self.phase1, self.phase2, self.phase3, self.phase4, self.phase5]
+        self.groupboxes = [self.phase0, self.phase1, self.phase2, self.phase3, self.phase4, self.phase5, self.phase6]
+        self.connectors = [self.A1, self.A2, self.A3, self.A4]
+        self.park_loc = [self.B1, self.B2, self.B3]
+        self.start_charing = True  # True: 충전시작, False: 충전종료
         self.phase = 0
         self.buffer = ""
         self.captured_img.setText("본인의 차량을\n선택해주세요")
-        self.start_charing = True  # True: 충전시작, False: 충전종료
+        
         self.update_kiosk_UI()
-
-        # 관제 PC에서 가져올 정보들
-        self.isBotsReday = True  # 현재 사용가능한 로봇의 유무
 
         self.timer = QTimer()
         self.timer.timeout.connect(self.auto_phase_shift)
 
+        # Phase 0
         self.phase0.mousePressEvent = self.phase0_clicked
+        # Phase 1
+        self.home_btn.clicked.connect(self.home_btn_click)
+        self.back_btn.clicked.connect(self.back_btn_click)
         self.charge_start_btn.clicked.connect(self.push_charge_start_btn)
         self.charge_end_btn.clicked.connect(self.push_charge_end_btn)
-        self.home_btn.clicked.connect(self.home_btn_click)
+        # Phase 2
         self.btn9.clicked.connect(self.push_btn9)
         self.btn8.clicked.connect(self.push_btn8)
         self.btn7.clicked.connect(self.push_btn7)
@@ -78,88 +80,242 @@ class windowClass(QMainWindow, from_class):
         self.btn0.clicked.connect(self.push_btn0)
         self.btnClear.clicked.connect(self.push_btnClear)
         self.btnConfirm.clicked.connect(self.push_btnConfirm)
-        
+        # Phase 3
         self.parked_list.itemSelectionChanged.connect(self.handle_selected_car)
+        self.parked_list.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.parked_list.horizontalHeader().setSectionResizeMode(0, QHeaderView.Interactive)
         self.select_car_btn.clicked.connect(self.push_select_car_btn)
         self.pay_cancel_btn.clicked.connect(self.home_btn_click)
         self.pay_btn.clicked.connect(self.pay_confirmed)
-        # 테이블 위젯 길이 조정
-        self.parked_list.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        self.parked_list.horizontalHeader().setSectionResizeMode(0, QHeaderView.Interactive)
+        # Phase 4
+        self.A4_btn.clicked.connect(self.push_A4_btn)
+        self.A3_btn.clicked.connect(self.push_A3_btn)
+        self.A2_btn.clicked.connect(self.push_A2_btn)
+        self.A1_btn.clicked.connect(self.push_A1_btn)
 
-        # 가라용 자료
-        self.parked_list.setRowCount(2)
-        self.parked_list.setColumnCount(2)
-        self.parked_list.setItem(0,0, QTableWidgetItem("123가1234"))
-        self.parked_list.setItem(0,1, QTableWidgetItem("01M-18D-14H-55M"))
-        self.parked_list.setItem(1,0, QTableWidgetItem("999나1234"))
-        self.parked_list.setItem(1,1, QTableWidgetItem("01M-18D-07H-32M"))
-
-        
+    # 결제 버튼
     def pay_confirmed(self):
-        self.result_pay.setText(" ****원이 결제 되었습니다.\n이용해주셔서 감사합니다.")  # 미구현!
+        # DB 연결
+        self.pay_btn.hide()
+        self.pay_cancel_btn.hide()
+
+        self.result_pay.setText(f"{self.price}원이 결제 되었습니다.\n이용해주셔서 감사합니다.")  # 미구현!
         self.timer.start(2000)
-
-    def push_select_car_btn(self):
-        self.captured_img.setText("본인의 차량을\n선택해주세요")
-        if self.start_charing:
-            self.phase = 4
-            self.update_kiosk_UI()
-        
-            if self.isBotsReday:
-                now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                
-                sql_query = f"UPDATE park_system_log SET charging_start_time = '{now}' WHERE car_number = '{self.target}'"
-                remote_cursor.execute(sql_query)
-                remote.commit()
-                
-                self.result_mention.setText(f"충전 로봇이\n{self.target} 차량에\n배정되었습니다.")
-            else:
-                self.result_mention.setText("죄송합니다.\n현재 로봇들이 충전 중 입니다.")
-
-            self.timer.start(2000)
-        
-        else:
-            self.phase = 5
-            self.update_kiosk_UI()
-            self.result_pay.setText("충전 시간은 30분이며\n금액은 ****원입니다.")
     
+    # 충전 시작/끝이 완료되어 홈으로 돌아가기 위한 함수
     def auto_phase_shift(self):
         self.home_btn_click()
         self.timer.stop()
 
-    def handle_selected_car(self):
-        selected_items = self.parked_list.selectedItems()
+    def isBotsAvailable(self):
+        # DB 연결
+        self.remote = create_DB_cursor(access_key)
+        remote_cursor = self.remote.cursor()
+
+        sql_query = f'''SELECT id FROM robot_status
+                        WHERE status = "사용가능"
+                        ORDER BY battery_level DESC
+                        LIMIT 1
+                     '''
+            
+        remote_cursor.execute(sql_query)
+        result = remote_cursor.fetchall()
+        result = result[0][0]
+        print(result)
+
+        if not result:
+            print(result)
+            return None
+        else:
+            return result
+
+    def bot_designation_results(self):
+        self.bot_id = self.isBotsAvailable()
+        # 사용가능한 봇이 있으면
+
+        if self.bot_id:
+            self.remote = create_DB_cursor(access_key)
+            remote_cursor = self.remote.cursor()
+
+            now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            
+            sql_query = f'''UPDATE park_system_log
+                            SET charging_start_time = '{now}',
+                                robot_number = '{self.bot_id}',
+                                connector = '{self.connector}'
+                            WHERE car_number = '{self.target}'
+                            AND entry_time = '{self.target_entry_time}'
+                            AND departure_time IS NULL
+                        '''
+            remote_cursor.execute(sql_query)
+            self.remote.commit()
+
+            sql_query = f'''UPDATE robot_status
+                            SET status = '사용불가',
+                                request = '{self.connector}',
+                                progress = '이동 중'
+                                WHERE id = {str(self.bot_id)}
+                            '''
+            remote_cursor.execute(sql_query)
+            self.remote.commit()
+            self.remote.close()
         
+            self.result_mention.setText(f"{self.target}차량 충전을 위해\n로봇이 {self.connector}에\n배정되었습니다.")
+
+        # 봇이 전부 사용할 수 없는 경우
+        else:
+            self.result_mention.setText("죄송합니다.\n현재 이용 가능한 로봇이 없습니다.\n잠시 후에 이용해주세요")
+
+        self.timer.start(2000)
+        
+        self.home_btn_click()
+
+
+    # phase4에서 커넥터 현황을 파악하는 함수
+    def select_connector(self):
+        self.A1.setStyleSheet("color: black; background-color: lightgreen;")
+        self.A2.setStyleSheet("color: black; background-color: lightgreen;")
+        self.A3.setStyleSheet("color: black; background-color: lightgreen;")
+        self.A4.setStyleSheet("color: black; background-color: lightgreen;")
+        
+        # DB 연결
+        self.remote = create_DB_cursor(access_key)
+        remote_cursor = self.remote.cursor()
+
+        sql_query = f'''SELECT connector FROM park_system_log
+                        WHERE charging_start_time IS NOT NULL
+                        AND charging_end_time IS NULL
+                        '''
+    
+        remote_cursor.execute(sql_query)
+        self.using_connector = remote_cursor.fetchall()
+
+        if "A1" in self.using_connector:
+            self.A1.setStyleSheet("color: black; background-color: pink;")
+        if "A2" in self.using_connector:
+            self.A2.setStyleSheet("color: black; background-color: pink;")
+        if "A3" in self.using_connector:
+            self.A3.setStyleSheet("color: black; background-color: pink;")
+        if "A4" in self.using_connector:
+            self.A4.setStyleSheet("color: black; background-color: pink;")
+
+        self.remote.close()
+    
+    # 커넥트 버튼을 눌렀을 때 이를 반영
+    def update_connector(self):
+        if self.connector not in self.using_connector:
+            self.bot_designation_results()
+            self.phase = 5
+            self.update_kiosk_UI()
+
+        else:
+            print('모든 커넥터 사용중')
+            self.home_btn_click()
+
+    def push_A4_btn(self):
+        self.connector = "A4"
+        self.update_connector()
+
+    def push_A3_btn(self):
+        self.connector = "A3"
+        self.update_connector()
+
+    def push_A2_btn(self):
+        self.connector = "A2"
+        self.update_connector()
+
+    def push_A1_btn(self):
+        self.connector = "A1"
+        self.update_connector()
+
+    # phase3에서 phase4(충전시작) 혹은 phase5(충전종료)로 넘어가는 단계
+    def push_select_car_btn(self):
+        # 충전 시작 상태(phase4)일 경우
+        if self.start_charing:
+            self.phase = 4
+            self.update_kiosk_UI()
+            self.select_connector()
+        
+        # 충전 종료 상태일 경우
+            ####################
+            # 미구현 #
+            ##################
+        else:
+            # DB 연결
+            self.remote = create_DB_cursor(access_key)
+            remote_cursor = self.remote.cursor()
+
+            self.phase = 5
+            self.update_kiosk_UI()
+
+            self.target_end = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            charge_time = datetime.datetime.strptime(self.target_end, "%Y-%m-%d %H:%M:%S") - datetime.datetime.strptime(self.target_time, "%Y-%m-%d %H:%M:%S")
+            
+            sql_query = f'''UPDATE park_system_log
+                            SET charging_end_time = '{self.target_end}',
+                                price = (TIMESTAMPDIFF(SECOND, charging_start_time, '{self.target_end}') / 3600 * 3)
+                            WHERE car_number = '{self.target}'
+                            AND entry_time = '{self.target_time}'
+                            AND departure_time IS NULL
+                        '''
+
+            remote_cursor.execute(sql_query)
+            self.remote.commit()
+
+            sql_query = f'''SELECT price FROM park_system_log
+                            WHERE car_number = '{self.target}'
+                            AND charging_end_time = '{self.target_end}'
+                            AND departure_time IS NULL
+                         '''
+        
+            remote_cursor.execute(sql_query)
+            self.price = remote_cursor.fetchall()[0]
+            self.price = self.price[0]
+
+            self.result_pay.setText(f"충전 시간은 {charge_time}분이며\n금액은 {self.price}원입니다.")
+
+            self.pay_btn.show()
+            self.pay_cancel_btn.show()
+        
+        self.remote.close()
+
+    # phase3에서 조회된 차량 목록 중 자신의 차량을 선택하는 단게
+    def handle_selected_car(self):
+        self.captured_img.setText("본인의 차량을\n선택해주세요")
+        selected_items = self.parked_list.selectedItems()
+
         if selected_items:
             selected_row = selected_items[0].row()
             self.target = self.parked_list.item(selected_row, 0).text()
-            
+            self.target_entry_time = self.parked_list.item(selected_row, 1).text()
             # 미구현... 입구에서 번호판 촬영하여 S3에 업로드. 그리고 해당 차량에 맞는 이미지를 띄워야하는 부분...
             pixmap = QPixmap("/home/wintercamo/gui_study/src/gui_package/resource/SNOW_20240108_171332_671.jpg")
             self.captured_img.setPixmap(pixmap)
             self.captured_img.setPixmap(pixmap.scaled(self.captured_img.size(), Qt.KeepAspectRatio))
             self.captured_img.setAlignment(Qt.AlignCenter)
 
-    def push_btnConfirm(self):
-        if len(self.buffer) == 4:
-            self.target_car_search()
-
+    # phase 3로 넘어가기 위한 단계.
     def target_car_search(self):
+        # DB 연결
+        self.remote = create_DB_cursor(access_key)
+        remote_cursor = self.remote.cursor()
         # 테이블위젯 초기화
         self.parked_list.clearContents()
         self.parked_list.setRowCount(0)
-        
-        # 아직 주차장에 있는 차만 나오도록 쿼리 작성.
 
-        if self.start_charing:  # 충전 시작 버튼을 누를 때 실행할 쿼리
+        # 충전 시작일 경우? 주차장에 들어와있고, 출차를 안했으며, 충전 시작을 안한 차량.
+        if self.start_charing:  
             sql_query = f'''SELECT * FROM park_system_log WHERE RIGHT(car_number, 4) = "{self.buffer}"
+                            AND entry_time IS NOT NULL
+                            AND charging_start_time IS NULL
                             AND departure_time IS NULL'''
-        else:                   # 충전 종료 버튼을 누를 때 실행할 쿼리
+        # 충전 종료일 경우? 주차장에 들어와있고, 출차를 안했으며, 충전 시작을 한 차량.
+        else:
             sql_query = f'''SELECT * FROM park_system_log WHERE RIGHT(car_number, 4) = "{self.buffer}"
-                            AND departure_time IS NULL
-                            AND charging_start_time IS NOT NULL'''
-
+                            AND entry_time IS NOT NULL
+                            AND charging_start_time IS NOT NULL
+                            AND departure_time IS NULL'''
+            
         remote_cursor.execute(sql_query)
         result = remote_cursor.fetchall()
 
@@ -176,42 +332,19 @@ class windowClass(QMainWindow, from_class):
                 self.parked_list.insertRow(row_num)
 
                 for col_num, col_data in enumerate(row_data):
-                    self.parked_list.setItem(row_num, col_num, QTableWidgetItem(str(col_data)))
-                
+                    self.parked_list.setItem(row_num, col_num - 1, QTableWidgetItem(str(col_data)))
+
                 self.phase = 3
                 self.update_kiosk_UI()
+        
+        self.remote.close()
 
-    # phase 변수에 따라 보여줄 UI 선택
-    def update_kiosk_UI(self):
-        for i, g_box in enumerate(self.groupboxes):
-            if i == self.phase:
-                g_box.show()
-            else:
-                g_box.hide()
+    # phase2에서 phase 3로 넘어가는 단계
+    def push_btnConfirm(self):
+        if len(self.buffer) == 4:  # 차량번호 뒤 4자리를 전부 입력할 때만 반응
+            self.target_car_search()
 
-    # 초기화면에서 선택 단계로
-    def phase0_clicked(self, event):
-        if event.button() == 1:  # 마우스 왼쪽 버튼 클릭 확인
-            self.phase = 1
-        self.update_kiosk_UI()
-
-    # 초기화면으로
-    def home_btn_click(self):
-        self.phase = 0
-        self.buffer = ""; self.car_num_buffer.setPlainText(self.buffer)
-        self.update_kiosk_UI()
-    
-    def push_charge_end_btn(self):
-        self.phase = 2
-        self.start_charing = False
-        self.update_kiosk_UI()
-
-    # 충전할 차량 조회 창으로
-    def push_charge_start_btn(self):
-        self.phase = 2
-        self.start_charing = True
-        self.update_kiosk_UI()
-
+    # phase 1에서 phase2로 넘어와서 차량번호를 선택하는 단계
     def push_btn9(self):
         if len(self.buffer) < 4: self.buffer += "9"; self.car_num_buffer.setPlainText(self.buffer)
     def push_btn8(self):
@@ -234,11 +367,69 @@ class windowClass(QMainWindow, from_class):
         if len(self.buffer) < 4: self.buffer += "0"; self.car_num_buffer.setPlainText(self.buffer)
     def push_btnClear(self):
         self.buffer = ""; self.car_num_buffer.setPlainText(self.buffer)
+    
+    # phase1에서 충전 종료 버튼을 눌렀을 때
+    def push_charge_end_btn(self):
+        self.phase = 2
+        self.buffer = ""; self.car_num_buffer.setPlainText(self.buffer)
+        self.start_charing = False
+        self.update_kiosk_UI()
+
+    # phase1에서 충전 시작 버튼을 눌렀을 때
+    def push_charge_start_btn(self):
+        self.phase = 2
+        self.buffer = ""; self.car_num_buffer.setPlainText(self.buffer)
+        self.start_charing = True
+        self.update_kiosk_UI()
+    
+    # 홈 화면 가기 버튼
+    def home_btn_click(self):
+        self.phase = 0
+        try:
+            self.remote.close()
+        except:
+            pass
+        finally:
+            self.buffer = ""; self.car_num_buffer.setPlainText(self.buffer)
+            self.update_kiosk_UI()
+    
+    # 뒤로가기 버튼
+    def back_btn_click(self):
+        if self.phase > 0:
+            self.phase -= 1
+            self.update_kiosk_UI()
+        
+        try:
+            self.remote.close()
+        except:
+            pass
+        finally:
+            self.buffer = ""; self.car_num_buffer.setPlainText(self.buffer)
+            self.update_kiosk_UI()
+
+    # phase0에서 phase1(충전 시작/종료 선택)로
+    def phase0_clicked(self, event):
+        if event.button() == 1:  # 마우스 왼쪽 버튼 클릭 확인
+            self.phase = 1
+        self.update_kiosk_UI()
+
+    # phase 변수에 따라 보여줄 UI 선택
+    def update_kiosk_UI(self):
+        for i, g_box in enumerate(self.groupboxes):
+            if i == self.phase:
+                g_box.show()
+            else:
+                g_box.hide()
+        
+        if self.phase == 1:
+            self.back_btn.hide()
+        else:
+            self.back_btn.show()
 
 def main():
     app = QApplication(sys.argv)
-    window = windowClass()
-    window.show()
+    kiosk_window = KioskWindow()
+    kiosk_window.show()
     sys.exit(app.exec_())
 
 if __name__ == '__main__':

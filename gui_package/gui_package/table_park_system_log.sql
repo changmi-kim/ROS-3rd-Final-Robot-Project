@@ -1,10 +1,12 @@
 CREATE TABLE park_system_log (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    car_number VARCHAR(16),
     entry_time DATETIME,
     charging_start_time DATETIME,
     charging_end_time DATETIME,
     departure_time DATETIME,
-    robot_number VARCHAR(4),
+    robot_number INT,
     price FLOAT,
     isPayed VARCHAR(2),
-    parking_location VARCHAR(4)
-)
+    connector VARCHAR(4)
+);

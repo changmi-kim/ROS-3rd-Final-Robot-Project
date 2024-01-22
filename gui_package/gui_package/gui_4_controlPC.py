@@ -37,29 +37,6 @@ def create_DB_cursor(file_path):
 
 access_key = "/home/wintercamo/Documents/aws_rds_access_key.txt"
 
-# 로봇의 요청 및 상태
-bots_status = {"사용가능":["대기 중"],
-               "사용불가":["충전필요", "수리 중"],
-               "사용 중":["이동 중", "사용 중"]}
-bots_request = ["HUB", "B1", "B2", "B3"]
-
-class CharingBot:
-    def __init__(self, id, status = "사용가능", status_detail = bots_status["사용가능"][0], request=bots_request[0], battery_remain = 0):
-        self.id = id
-        self.status = status
-        self.status_detail = status_detail
-        self.request = request
-        self.isArrived = True  # True: 목적지에 도착, False: 이동 중
-        self.battery_remain = battery_remain
-    
-    def __str__(self):
-        return f'''{self.id}번 로봇\n
-                    상태:{self.status} {self.status_detail}\n
-                    요청:{self.request}\n
-                    도착:{self.request}\n
-                    잔여량: {self.battery_remain}
-                '''
-
 # UI 파일 불러오기
 from_class = uic.loadUiType("/home/wintercamo/gui_study/src/gui_package/gui_package/gui_4_controlPC.ui")[0]
 
@@ -332,15 +309,18 @@ class ControlPCWindow(QMainWindow, from_class):
             self.B1.setText("B1"); self.B1.setStyleSheet("color: black; background-color: lightblue;")
             self.B2.setText("B2"); self.B2.setStyleSheet("color: black; background-color: lightblue;")
             self.B3.setText("B3"); self.B3.setStyleSheet("color: black; background-color: lightblue;")
-            # print(self.isOuppied)
+            
             if self.isOuppied[0] == 0:
                 self.B1.setText("B1"); self.B1.setStyleSheet("color: black; background-color: #f0c5c6;")
+                parking_location = "B1"
 
             if self.isOuppied[1] == 0:
                 self.B2.setText("B2"); self.B2.setStyleSheet("color: black; background-color: #f0c5c6;")
+                parking_location = "B2"
 
             if self.isOuppied[2] == 0:
                 self.B3.setText("B3"); self.B3.setStyleSheet("color: black; background-color: #f0c5c6;")
+                parking_location = "B3"
 
             self.park_num.setText(f"{self.isOuppied[3]} 대"); self.park_num.setStyleSheet("color: #f6d32d; background-color: transparent;")
 
