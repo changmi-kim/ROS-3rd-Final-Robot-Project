@@ -4,7 +4,7 @@ from rclpy.node import Node
 from rclpy.duration import Duration
 from nav2_simple_commander.robot_navigator import BasicNavigator, TaskResult
 from geometry_msgs.msg import Twist, PoseStamped, PoseWithCovarianceStamped
-from std_msgs.msg import String, UInt16
+from std_msgs.msg import String, UInt16, Bool
 
 from tf_transformations import euler_from_quaternion
 
@@ -16,56 +16,52 @@ from datetime import timedelta
 class EVCSNavigator(Node) :
     def __init__(self) :
         super().__init__('EVCS_navigator')
+        self.subscriber_control_event = self.create_subscription(String, '/control_event', self.control_event_callback, 10)
         self.subscriber_goal = self.create_subscription(String, '/goal', self.goal_timer_callback, 10)
-        # self.subscriber_arucomarker_id = self.create_subscription(UInt16, '/arucomarker_id', self.arucomarker_id, 10)
+
+        self.publisher_control_event = self.create_publisher(Bool, '/is_docking_area', 10)
 
         self.get_logger().info('Waiting for Navigator Start')
 
         self.goal = []
         self.navigator = BasicNavigator()
 
+        self.control_start_event = String()
+
+    def control_event_callback(self, msg: String):
+        self.control_start_event = msg
+
+        if self.control_start_event.data == ('0' or '2'):  # charging_hub or obstacle_found
+            self.navigator.cancelTask()
+            self.get_logger().warn('Navigation execution canceled.')
+        elif self.control_start_event.data == '1':
+            self.send_to_goal()
+        elif self.self.control_start_event.data.split(',')[0] == '3':
+            self.goal_charge_pillar(int(self.self.control_start_event.data.split(',')[1]))
+            self.send_to_goal()
+
     def goal_timer_callback(self, msg):
         self.goal = []
 
         # print("debug!!!!!")
         # BasicNavigator.waitUntilNav2Active()
-        self.current_msg = msg
+        self.current_goal_msg = msg
 
         if msg.data == 'c':
             self.navigator.cancelTask()
             self.get_logger().warn('Navigation execution canceled.')
         elif msg.data in {'o', 'i'}:
             self.goal_charge_hub_inout(msg.data)
-            self.send_to_goal()
         elif msg.data in {'00', '01', '02'}:
             self.goal_charge_hub(int(msg.data))
-            self.send_to_goal()
         elif msg.data in {'0', '1', '2', '3'}:
             self.goal_charge_pillar(int(msg.data))
-            self.send_to_goal()
         else:
             self.get_logger().warn(f'Invalid Data: {msg.data}')
         
     def send_to_goal(self):
-        if self.current_msg is not None:
-            self.get_logger().info(f'Configured Navigation Goal: {self.current_msg.data}')
-
-        # self.navigator.goThroughPoses(self.goal)
-        # self.get_logger().info('Moving to Goal')
-
-        # i = 0
-        # while not self.navigator.isTaskComplete():
-        #     i = i + 1
-        #     feedback = self.navigator.getFeedback()
-
-        #     if feedback and i % 5 == 0:
-        #         print('Distance remaining: ' + '{:.2f}'.format(feedback.distance_remaining) + ' meters.')
-            
-        #     if Duration.from_msg(feedback.navigation_time) > Duration(seconds=15.0):
-        #         self.navigator.cancelTask()
-
-        #     if not feedback:
-        #         self.get_logger().info('No feedback received.')
+        if self.current_goal_msg is not None:
+            self.get_logger().info(f'Configured Navigation Goal: {self.current_goal_msg.data}')
 
         for goal_index, goal_pose in enumerate(self.goal, start=1):
             self.navigator.goToPose(goal_pose)
@@ -147,10 +143,9 @@ def main(args=None):
 
     rclpy.spin(EVCS_navigator)
 
-
-    # print("debug1")
+    # print('debug1')
     EVCS_navigator.navigator.lifecycleShutdown()
-    # print("debug2")
+    # print('debug2')
     EVCS_navigator.destroy_node()
     rclpy.shutdown()
 
