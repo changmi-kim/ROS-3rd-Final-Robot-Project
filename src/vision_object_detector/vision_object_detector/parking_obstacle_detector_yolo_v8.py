@@ -35,7 +35,7 @@ class ParkingObstacleDetectorYoloV8(Node):
     def __init__(self):
         super().__init__('parking_obstacle_detector_yolo_v8')
         self.subscriber_img = self.create_subscription(Image, '/image_raw', self.yolo_image_callback, qos_profile_sensor_data)
-        # self.subscriber_control_event = self.create_subscription(String, '/control_event', self.control_event_callback, 10)
+        self.subscriber_control_event = self.create_subscription(String, '/control_event', self.control_event_callback, 10)
         
         # self.publisher_detections = self.create_publisher(DetectionResult, '/detection_result', 10)
         self.publisher_detections = self.create_publisher(DetectionResultArray, '/detection_result', 10)
@@ -70,8 +70,13 @@ class ParkingObstacleDetectorYoloV8(Node):
         self.yolo.fuse()
         self.yolo.to(device)
 
+        self.control_start_event = String()
+
         self.detection = DetectionResult()
         self.detection_msg = DetectionResultArray()
+
+    def control_event_callback(self, msg: String):
+        self.control_start_event = msg
 
     def yolo_image_callback(self, msg: Image) -> None:
         if self.enable:
@@ -109,7 +114,8 @@ class ParkingObstacleDetectorYoloV8(Node):
                 if label not in ['car', 'person']:
                     continue
 
-                if label == 'car':
+                if self.control_start_event.data == '4' and label == 'car':
+                # if label == 'car':
                     car_number_msg = String()
                     
                     height, width, _ = cv_image.shape
@@ -120,6 +126,8 @@ class ParkingObstacleDetectorYoloV8(Node):
                         self.get_logger().info(result.decode('utf8'))
                         car_number_msg = String(data = str(result.decode('utf8')))
                         self.publisher_car_number.publish(car_number_msg)
+
+                # print(f'debug: {self.control_start_event}')
 
                 # detection = Detection2D()
                 self.detection = DetectionResult()
