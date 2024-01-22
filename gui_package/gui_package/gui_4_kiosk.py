@@ -8,6 +8,7 @@ from PyQt5.QtGui import *
 import datetime, time
 from serial import Serial
 import mysql.connector
+import pygame
 
 # DB에 접근
 def create_DB_cursor(file_path):
@@ -40,6 +41,30 @@ access_key = "/home/wintercamo/Documents/aws_rds_access_key.txt"
 # UI 파일 불러오기
 from_class = uic.loadUiType("/home/wintercamo/git_ws/ros-repo-2/gui_package/gui_package/kiosk.ui")[0]
 
+# 경고음 플레이어
+class Mp3Player(QThread):
+    def __init__(self, file_path):
+        super().__init__()
+        self.file_path = file_path
+
+    def run(self):
+        # Pygame 초기화
+        pygame.init()
+        pygame.mixer.init()
+
+        # MP3 파일 로드 및 재생
+        pygame.mixer.music.load(self.file_path)
+        pygame.mixer.music.play()
+
+        # 음악 재생 상태 체크
+        while pygame.mixer.music.get_busy():
+            pygame.time.Clock().tick(10)
+
+    def stop(self):
+        # 음악 종료
+        pygame.mixer.music.stop()
+        self.terminate()
+
 # GUI 클래스
 class KioskWindow(QMainWindow, from_class):
     def __init__(self):
@@ -56,9 +81,6 @@ class KioskWindow(QMainWindow, from_class):
         self.captured_img.setText("본인의 차량을\n선택해주세요")
         
         self.update_kiosk_UI()
-
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.auto_phase_shift)
 
         # Phase 0
         self.phase0.mousePressEvent = self.phase0_clicked
@@ -92,20 +114,41 @@ class KioskWindow(QMainWindow, from_class):
         self.A3_btn.clicked.connect(self.push_A3_btn)
         self.A2_btn.clicked.connect(self.push_A2_btn)
         self.A1_btn.clicked.connect(self.push_A1_btn)
+        self.mp3Player = Mp3Player("/home/wintercamo/git_ws/ros-repo-2/gui_package/resource/EAS.mp3")
 
-    # 결제 버튼
+    # 결제 요청 버튼
     def pay_confirmed(self):
         # DB 연결
         self.pay_btn.hide()
         self.pay_cancel_btn.hide()
 
-        self.result_pay.setText(f"{self.price}원이 결제 되었습니다.\n이용해주셔서 감사합니다.")  # 미구현!
+        self.remote = create_DB_cursor(access_key)
+        remote_cursor = self.remote.cursor()
+
+        # 해당 로봇 귀환 시킴.
+        # 단, 실제 커넥터에서 HUB로 복귀하는 것은 고려하지 않았기 때문에 추후에 쿼리를 수정해야함.
+        sql_query = f'''UPDATE robot_status
+                        SET 
+                     '''
+        
+        # 결제했다고 표시
+        sql_query = f'''UPDATE park_system_log
+                        SET isPayed = 'Done'
+                        WHERE car_number = '{self.target}'
+                        AND entry_time = '{self.target_entry_time}'
+                        AND charging_end_time = '{self.target_charging_end}')
+                        AND price = '{self.price}'
+                        AND departure_time IS NULL
+                    '''
+        
+        remote_cursor.execute(sql_query)
+        self.remote.commit()
+        self.remote.close()
+
+        self.result_pay.setText(f"{self.price}원이 결제 되었습니다.\n이용해주셔서 감사합니다.")
+        
         self.timer.start(2000)
-    
-    # 충전 시작/끝이 완료되어 홈으로 돌아가기 위한 함수
-    def auto_phase_shift(self):
         self.home_btn_click()
-        self.timer.stop()
 
     def isBotsAvailable(self):
         # DB 연결
@@ -120,11 +163,9 @@ class KioskWindow(QMainWindow, from_class):
             
         remote_cursor.execute(sql_query)
         result = remote_cursor.fetchall()
-        result = result[0][0]
-        print(result)
 
         if not result:
-            print(result)
+            # print("로봇확인",result)
             return None
         else:
             return result
@@ -164,12 +205,11 @@ class KioskWindow(QMainWindow, from_class):
 
         # 봇이 전부 사용할 수 없는 경우
         else:
-            self.result_mention.setText("죄송합니다.\n현재 이용 가능한 로봇이 없습니다.\n잠시 후에 이용해주세요")
+            self.result_mention.setText("죄송합니다.\n현재 이용 가능한\n로봇이 없습니다.\n잠시 후에 이용해주세요")
 
-        self.timer.start(2000)
+        self.timer.start(4000)
         
         self.home_btn_click()
-
 
     # phase4에서 커넥터 현황을 파악하는 함수
     def select_connector(self):
@@ -189,28 +229,37 @@ class KioskWindow(QMainWindow, from_class):
     
         remote_cursor.execute(sql_query)
         self.using_connector = remote_cursor.fetchall()
+        self.using_connector = [item[0] for item in self.using_connector]
 
-        if "A1" in self.using_connector:
-            self.A1.setStyleSheet("color: black; background-color: pink;")
-        if "A2" in self.using_connector:
-            self.A2.setStyleSheet("color: black; background-color: pink;")
-        if "A3" in self.using_connector:
-            self.A3.setStyleSheet("color: black; background-color: pink;")
-        if "A4" in self.using_connector:
-            self.A4.setStyleSheet("color: black; background-color: pink;")
+        for item in self.using_connector:
+            if "A1" == item:
+                self.A1.setStyleSheet("color: black; background-color: pink;")
+            if "A2" == item:
+                self.A2.setStyleSheet("color: black; background-color: pink;")
+            if "A3" == item:
+                self.A3.setStyleSheet("color: black; background-color: pink;")
+            if "A4" == item:
+                self.A4.setStyleSheet("color: black; background-color: pink;")
 
         self.remote.close()
     
     # 커넥트 버튼을 눌렀을 때 이를 반영
     def update_connector(self):
-        if self.connector not in self.using_connector:
+        if self.connector in self.using_connector:
+            # 사용 중인 것을 선택할 때 경고
+            self.mp3Player.start()
+            self.connetor_alert.setText("해당 커넥터는\n사용 중입니다!")
+            QApplication.processEvents()
+            time.sleep(2)
+            self.mp3Player.stop()
+
+        # 사용 중이 아닌 것을 선택하면 넘어감.
+        else:
             self.bot_designation_results()
             self.phase = 5
             self.update_kiosk_UI()
 
-        else:
-            print('모든 커넥터 사용중')
-            self.home_btn_click()
+        self.connetor_alert.setText("잘못된 커넥터를 선택하면\n충전이 되지 않습니다!")
 
     def push_A4_btn(self):
         self.connector = "A4"
@@ -236,35 +285,34 @@ class KioskWindow(QMainWindow, from_class):
             self.update_kiosk_UI()
             self.select_connector()
         
-        # 충전 종료 상태일 경우
-            ####################
-            # 미구현 #
-            ##################
+        # 충전 종료 상태(phase6)일 경우
         else:
+            self.phase = 6
+            self.update_kiosk_UI()
             # DB 연결
             self.remote = create_DB_cursor(access_key)
             remote_cursor = self.remote.cursor()
-
-            self.phase = 5
-            self.update_kiosk_UI()
-
-            self.target_end = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            charge_time = datetime.datetime.strptime(self.target_end, "%Y-%m-%d %H:%M:%S") - datetime.datetime.strptime(self.target_time, "%Y-%m-%d %H:%M:%S")
+            # 일단 충전 종료 버튼을 누르면 가격과 충전 종료 시간을 갱신
+            self.target_charging_end = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            charge_time = datetime.datetime.strptime(self.target_charging_end, "%Y-%m-%d %H:%M:%S") - datetime.datetime.strptime(self.target_entry_time, "%Y-%m-%d %H:%M:%S")
             
             sql_query = f'''UPDATE park_system_log
-                            SET charging_end_time = '{self.target_end}',
-                                price = (TIMESTAMPDIFF(SECOND, charging_start_time, '{self.target_end}') / 3600 * 3)
+                            SET charging_end_time = '{self.target_charging_end}',
+                                price = (TIMESTAMPDIFF(SECOND, charging_start_time, '{self.target_charging_end}') / 3600 * 3)
                             WHERE car_number = '{self.target}'
-                            AND entry_time = '{self.target_time}'
+                            AND entry_time = '{self.target_entry_time}'
                             AND departure_time IS NULL
                         '''
 
             remote_cursor.execute(sql_query)
             self.remote.commit()
-
+            # 충전 종료하는 차량의 가격을 불러오기
             sql_query = f'''SELECT price FROM park_system_log
                             WHERE car_number = '{self.target}'
-                            AND charging_end_time = '{self.target_end}'
+                            AND entry_time = '{self.target_entry_time}'
+                            AND charging_start_time IS NOT NULL
+                            AND charging_end_time = '{self.target_charging_end}'
+                            AND isPayed IS NULL
                             AND departure_time IS NULL
                          '''
         
@@ -273,11 +321,12 @@ class KioskWindow(QMainWindow, from_class):
             self.price = self.price[0]
 
             self.result_pay.setText(f"충전 시간은 {charge_time}분이며\n금액은 {self.price}원입니다.")
+            
+            self.remote.close()
 
             self.pay_btn.show()
             self.pay_cancel_btn.show()
         
-        self.remote.close()
 
     # phase3에서 조회된 차량 목록 중 자신의 차량을 선택하는 단게
     def handle_selected_car(self):
@@ -321,9 +370,11 @@ class KioskWindow(QMainWindow, from_class):
 
         # 조회된 차량이 없을 경우
         if not result:
+            self.mp3Player.start()
             self.car_num_buffer.setPlainText("조회된 차량이 없습니다...")
             QApplication.processEvents()
             time.sleep(2)
+            self.mp3Player.stop()
             self.push_btnClear()
         
         # 조회되었을 경우
