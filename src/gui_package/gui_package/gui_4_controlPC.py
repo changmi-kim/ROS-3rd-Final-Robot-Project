@@ -61,7 +61,7 @@ class CharingBot:
                 '''
 
 # UI 파일 불러오기
-from_class = uic.loadUiType("/home/wintercamo/gui_study/src/gui_package/gui_package/gui_4_controlPC.ui")[0]
+from_class = uic.loadUiType("src/gui_package/gui_package/gui_4_controlPC.ui")[0]
 
 # CCTV 용도를 위한 웹캠 스레드 클래스
 class CCTVCam(QThread):

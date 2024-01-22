@@ -9,6 +9,10 @@ from PyQt5.QtGui import *
 import time, datetime
 from serial import Serial
 from mysql.connector import connect
+from dotenv import load_dotenv
+
+
+load_dotenv()
 
 
 
@@ -131,9 +135,9 @@ class ControlPCWindow(QMainWindow, from_class):
 
         # 주자창에 주차된 차를 파악하기 위한 MCU 설정
         arduino_port = os.environ["Arduino_port"]
-        baud_rate = os.environ["Baud_rate"]
+        baud_rate = int(os.environ["Baud_rate"])
 
-        self.arduino_conn = Serial(port=arduino_port, baudrate=baud_rate)
+        self.arduino_conn = Serial(port="/dev/ttyUSB0", baudrate=baud_rate)
         self.arduino = ArduinoSerial(self.arduino_conn)
         self.arduino.receive.connect(self.parking_lot_status)
         self.arduino.start()
@@ -179,7 +183,7 @@ class ControlPCWindow(QMainWindow, from_class):
 
 
     # DB 정보 가져오기
-     def update_parking_system_log(self):
+    def update_parking_system_log(self):
         self.remote = MySQL()
         self.remote.connectDB()
         
@@ -287,11 +291,10 @@ class ControlPCWindow(QMainWindow, from_class):
 
     def bots_status(self):
         # DB 연결
-        self.remote = create_DB_cursor(access_key)
-        remote_cursor = self.remote.cursor()
-        sql_query = f"SELECT * FROM robot_status"
-        remote_cursor.execute(sql_query)
-        result = remote_cursor.fetchall()
+        self.remote = MySQL()
+        self.remote.connectDB()
+        result = self.remote.serchDB("SELECT * FROM robot_status")
+
         
         for info, table, status in zip(result, self.M_tables, self.M_status):
             
@@ -309,7 +312,7 @@ class ControlPCWindow(QMainWindow, from_class):
             table.setItem(1,0, QTableWidgetItem(info[3]))
             table.setItem(2,0, QTableWidgetItem(str(info[4])))
 
-        self.remote.close()
+        self.remote.disconnectDB()
 
 
     def parking_lot_status(self, data):
