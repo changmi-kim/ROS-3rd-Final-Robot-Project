@@ -1,0 +1,50 @@
+[1.132s] Invoking command in '/home/jo/ros-repo-2/src/gui_package': PYTHONPATH=/home/jo/ros-repo-2/build/gui_package/prefix_override:/home/jo/ros-repo-2/install/gui_package/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/gui_package build --build-base /home/jo/ros-repo-2/build/gui_package/build install --record /home/jo/ros-repo-2/build/gui_package/install.log --single-version-externally-managed
+[1.372s] running egg_info
+[1.372s] creating ../../build/gui_package/gui_package.egg-info
+[1.373s] writing ../../build/gui_package/gui_package.egg-info/PKG-INFO
+[1.373s] writing dependency_links to ../../build/gui_package/gui_package.egg-info/dependency_links.txt
+[1.373s] writing entry points to ../../build/gui_package/gui_package.egg-info/entry_points.txt
+[1.373s] writing requirements to ../../build/gui_package/gui_package.egg-info/requires.txt
+[1.374s] writing top-level names to ../../build/gui_package/gui_package.egg-info/top_level.txt
+[1.374s] writing manifest file '../../build/gui_package/gui_package.egg-info/SOURCES.txt'
+[1.376s] reading manifest file '../../build/gui_package/gui_package.egg-info/SOURCES.txt'
+[1.377s] writing manifest file '../../build/gui_package/gui_package.egg-info/SOURCES.txt'
+[1.377s] running build
+[1.377s] running build_py
+[1.377s] creating /home/jo/ros-repo-2/build/gui_package/build
+[1.377s] creating /home/jo/ros-repo-2/build/gui_package/build/lib
+[1.377s] creating /home/jo/ros-repo-2/build/gui_package/build/lib/gui_package
+[1.377s] copying gui_package/__init__.py -> /home/jo/ros-repo-2/build/gui_package/build/lib/gui_package
+[1.377s] copying gui_package/solution.py -> /home/jo/ros-repo-2/build/gui_package/build/lib/gui_package
+[1.378s] copying gui_package/gui_node.py -> /home/jo/ros-repo-2/build/gui_package/build/lib/gui_package
+[1.378s] copying gui_package/cam_listener.py -> /home/jo/ros-repo-2/build/gui_package/build/lib/gui_package
+[1.378s] copying gui_package/camera_test.py -> /home/jo/ros-repo-2/build/gui_package/build/lib/gui_package
+[1.378s] running install
+[1.378s] /usr/lib/python3/dist-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+[1.378s]   warnings.warn(
+[1.378s] running install_lib
+[1.379s] creating /home/jo/ros-repo-2/install/gui_package/lib/python3.10/site-packages/gui_package
+[1.379s] copying /home/jo/ros-repo-2/build/gui_package/build/lib/gui_package/__init__.py -> /home/jo/ros-repo-2/install/gui_package/lib/python3.10/site-packages/gui_package
+[1.379s] copying /home/jo/ros-repo-2/build/gui_package/build/lib/gui_package/solution.py -> /home/jo/ros-repo-2/install/gui_package/lib/python3.10/site-packages/gui_package
+[1.379s] copying /home/jo/ros-repo-2/build/gui_package/build/lib/gui_package/gui_node.py -> /home/jo/ros-repo-2/install/gui_package/lib/python3.10/site-packages/gui_package
+[1.380s] copying /home/jo/ros-repo-2/build/gui_package/build/lib/gui_package/cam_listener.py -> /home/jo/ros-repo-2/install/gui_package/lib/python3.10/site-packages/gui_package
+[1.380s] copying /home/jo/ros-repo-2/build/gui_package/build/lib/gui_package/camera_test.py -> /home/jo/ros-repo-2/install/gui_package/lib/python3.10/site-packages/gui_package
+[1.380s] byte-compiling /home/jo/ros-repo-2/install/gui_package/lib/python3.10/site-packages/gui_package/__init__.py to __init__.cpython-310.pyc
+[1.381s] byte-compiling /home/jo/ros-repo-2/install/gui_package/lib/python3.10/site-packages/gui_package/solution.py to solution.cpython-310.pyc
+[1.381s] byte-compiling /home/jo/ros-repo-2/install/gui_package/lib/python3.10/site-packages/gui_package/gui_node.py to gui_node.cpython-310.pyc
+[1.383s] byte-compiling /home/jo/ros-repo-2/install/gui_package/lib/python3.10/site-packages/gui_package/cam_listener.py to cam_listener.cpython-310.pyc
+[1.384s] byte-compiling /home/jo/ros-repo-2/install/gui_package/lib/python3.10/site-packages/gui_package/camera_test.py to camera_test.cpython-310.pyc
+[1.384s] running install_data
+[1.385s] creating /home/jo/ros-repo-2/install/gui_package/share/ament_index
+[1.385s] creating /home/jo/ros-repo-2/install/gui_package/share/ament_index/resource_index
+[1.385s] creating /home/jo/ros-repo-2/install/gui_package/share/ament_index/resource_index/packages
+[1.385s] copying resource/gui_package -> /home/jo/ros-repo-2/install/gui_package/share/ament_index/resource_index/packages
+[1.386s] copying package.xml -> /home/jo/ros-repo-2/install/gui_package/share/gui_package
+[1.386s] running install_egg_info
+[1.388s] Copying ../../build/gui_package/gui_package.egg-info to /home/jo/ros-repo-2/install/gui_package/lib/python3.10/site-packages/gui_package-0.0.0-py3.10.egg-info
+[1.389s] running install_scripts
+[1.412s] Installing cam_listener script to /home/jo/ros-repo-2/install/gui_package/lib/gui_package
+[1.412s] Installing camera_test script to /home/jo/ros-repo-2/install/gui_package/lib/gui_package
+[1.412s] Installing gui_node script to /home/jo/ros-repo-2/install/gui_package/lib/gui_package
+[1.413s] writing list of installed files to '/home/jo/ros-repo-2/build/gui_package/install.log'
+[1.492s] Invoked command in '/home/jo/ros-repo-2/src/gui_package' returned '0': PYTHONPATH=/home/jo/ros-repo-2/build/gui_package/prefix_override:/home/jo/ros-repo-2/install/gui_package/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/gui_package build --build-base /home/jo/ros-repo-2/build/gui_package/build install --record /home/jo/ros-repo-2/build/gui_package/install.log --single-version-externally-managed

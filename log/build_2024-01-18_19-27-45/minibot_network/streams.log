@@ -1,0 +1,32 @@
+[0.738s] Invoking command in '/home/jo/ros-repo-2/src/minibot_network': PYTHONPATH=/home/jo/ros-repo-2/build/minibot_network/prefix_override:/home/jo/ros-repo-2/install/minibot_network/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/minibot_network build --build-base /home/jo/ros-repo-2/build/minibot_network/build install --record /home/jo/ros-repo-2/build/minibot_network/install.log --single-version-externally-managed
+[0.950s] running egg_info
+[0.951s] writing ../../build/minibot_network/minibot_network.egg-info/PKG-INFO
+[0.951s] writing dependency_links to ../../build/minibot_network/minibot_network.egg-info/dependency_links.txt
+[0.951s] writing entry points to ../../build/minibot_network/minibot_network.egg-info/entry_points.txt
+[0.952s] writing requirements to ../../build/minibot_network/minibot_network.egg-info/requires.txt
+[0.952s] writing top-level names to ../../build/minibot_network/minibot_network.egg-info/top_level.txt
+[0.953s] reading manifest file '../../build/minibot_network/minibot_network.egg-info/SOURCES.txt'
+[0.954s] writing manifest file '../../build/minibot_network/minibot_network.egg-info/SOURCES.txt'
+[0.954s] running build
+[0.954s] running build_py
+[0.954s] copying minibot_network/main_server.py -> /home/jo/ros-repo-2/build/minibot_network/build/lib/minibot_network
+[0.954s] copying minibot_network/main_client.py -> /home/jo/ros-repo-2/build/minibot_network/build/lib/minibot_network
+[0.955s] running install
+[0.955s] running install_lib
+[0.955s] /usr/lib/python3/dist-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+[0.955s]   warnings.warn(
+[0.956s] copying /home/jo/ros-repo-2/build/minibot_network/build/lib/minibot_network/main_server.py -> /home/jo/ros-repo-2/install/minibot_network/lib/python3.10/site-packages/minibot_network
+[0.956s] copying /home/jo/ros-repo-2/build/minibot_network/build/lib/minibot_network/main_client.py -> /home/jo/ros-repo-2/install/minibot_network/lib/python3.10/site-packages/minibot_network
+[0.956s] byte-compiling /home/jo/ros-repo-2/install/minibot_network/lib/python3.10/site-packages/minibot_network/main_server.py to main_server.cpython-310.pyc
+[0.957s] byte-compiling /home/jo/ros-repo-2/install/minibot_network/lib/python3.10/site-packages/minibot_network/main_client.py to main_client.cpython-310.pyc
+[0.957s] running install_data
+[0.958s] running install_egg_info
+[0.959s] removing '/home/jo/ros-repo-2/install/minibot_network/lib/python3.10/site-packages/minibot_network-0.0.0-py3.10.egg-info' (and everything under it)
+[0.959s] Copying ../../build/minibot_network/minibot_network.egg-info to /home/jo/ros-repo-2/install/minibot_network/lib/python3.10/site-packages/minibot_network-0.0.0-py3.10.egg-info
+[0.960s] running install_scripts
+[0.975s] Installing main_client script to /home/jo/ros-repo-2/install/minibot_network/lib/minibot_network
+[0.975s] Installing main_server script to /home/jo/ros-repo-2/install/minibot_network/lib/minibot_network
+[0.975s] Installing minibot_cam_publish script to /home/jo/ros-repo-2/install/minibot_network/lib/minibot_network
+[0.976s] Installing minibot_cam_subscriber script to /home/jo/ros-repo-2/install/minibot_network/lib/minibot_network
+[0.976s] writing list of installed files to '/home/jo/ros-repo-2/build/minibot_network/install.log'
+[0.992s] Invoked command in '/home/jo/ros-repo-2/src/minibot_network' returned '0': PYTHONPATH=/home/jo/ros-repo-2/build/minibot_network/prefix_override:/home/jo/ros-repo-2/install/minibot_network/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/minibot_network build --build-base /home/jo/ros-repo-2/build/minibot_network/build install --record /home/jo/ros-repo-2/build/minibot_network/install.log --single-version-externally-managed

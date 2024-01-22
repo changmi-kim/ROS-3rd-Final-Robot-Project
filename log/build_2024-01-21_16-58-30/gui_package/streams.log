@@ -1,0 +1,25 @@
+[0.791s] Invoking command in '/home/jo/ros-repo-2/src/gui_package': PS1=(final_venv) \[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ PYTHONPATH=/home/jo/ros-repo-2/build/gui_package/prefix_override:/home/jo/ros-repo-2/install/gui_package/lib/python3.10/site-packages: VIRTUAL_ENV_PROMPT=(final_venv) /usr/bin/python3 setup.py egg_info --egg-base ../../build/gui_package build --build-base /home/jo/ros-repo-2/build/gui_package/build install --record /home/jo/ros-repo-2/build/gui_package/install.log --single-version-externally-managed
+[0.963s] running egg_info
+[0.964s] writing ../../build/gui_package/gui_package.egg-info/PKG-INFO
+[0.964s] writing dependency_links to ../../build/gui_package/gui_package.egg-info/dependency_links.txt
+[0.964s] writing entry points to ../../build/gui_package/gui_package.egg-info/entry_points.txt
+[0.964s] writing requirements to ../../build/gui_package/gui_package.egg-info/requires.txt
+[0.965s] writing top-level names to ../../build/gui_package/gui_package.egg-info/top_level.txt
+[0.966s] reading manifest file '../../build/gui_package/gui_package.egg-info/SOURCES.txt'
+[0.967s] writing manifest file '../../build/gui_package/gui_package.egg-info/SOURCES.txt'
+[0.967s] running build
+[0.967s] running build_py
+[0.967s] running install
+[0.968s] running install_lib
+[0.968s] /usr/lib/python3/dist-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+[0.968s]   warnings.warn(
+[0.969s] running install_data
+[0.970s] running install_egg_info
+[0.971s] removing '/home/jo/ros-repo-2/install/gui_package/lib/python3.10/site-packages/gui_package-0.0.0-py3.10.egg-info' (and everything under it)
+[0.971s] Copying ../../build/gui_package/gui_package.egg-info to /home/jo/ros-repo-2/install/gui_package/lib/python3.10/site-packages/gui_package-0.0.0-py3.10.egg-info
+[0.972s] running install_scripts
+[0.987s] Installing cam_listener script to /home/jo/ros-repo-2/install/gui_package/lib/gui_package
+[0.987s] Installing camera_test script to /home/jo/ros-repo-2/install/gui_package/lib/gui_package
+[0.987s] Installing gui_node script to /home/jo/ros-repo-2/install/gui_package/lib/gui_package
+[0.988s] writing list of installed files to '/home/jo/ros-repo-2/build/gui_package/install.log'
+[1.011s] Invoked command in '/home/jo/ros-repo-2/src/gui_package' returned '0': PS1=(final_venv) \[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ PYTHONPATH=/home/jo/ros-repo-2/build/gui_package/prefix_override:/home/jo/ros-repo-2/install/gui_package/lib/python3.10/site-packages: VIRTUAL_ENV_PROMPT=(final_venv) /usr/bin/python3 setup.py egg_info --egg-base ../../build/gui_package build --build-base /home/jo/ros-repo-2/build/gui_package/build install --record /home/jo/ros-repo-2/build/gui_package/install.log --single-version-externally-managed
