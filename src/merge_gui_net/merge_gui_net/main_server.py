@@ -30,14 +30,6 @@ class MyServer():
         self.threads = {}  # 스레드 참조를 저장할 딕셔너리
                         
 
-    
-    def user_input_thread(self):
-        while True:
-            client_id = input("보여줄 클라이언트 번호를 입력하세요 (숨기려면 -1): ")
-            if client_id in self.images or client_id == "-1":
-                self.display_client = client_id
-            else:
-                print(f"잘못된 클라이언트 번호: {client_id}")
 
             
     def image_callback(self, client_socket, client_id, stop_event):
@@ -49,13 +41,12 @@ class MyServer():
                 # client에서 받은 stringData의 크기 (==(str(len(stringData))).encode().ljust(16))
                 length = self.recvall(client_socket, 16)
                 stringData = self.recvall(client_socket, int(length))
-                data = np.frombuffer(stringData, dtype = 'uint8')
+                data = np.frombuffer(stringData, dtype='uint8')
                 
                 #data를 디코딩한다.
                 frame = cv2.imdecode(data, cv2.IMREAD_COLOR)
 
-                self.images["192.168.1.14"] = frame  # 클라이언트 별로 이미지 저장
-                    
+                self.images[client_id] = frame  # 클라이언트 별로 이미지 저장
 
         finally:  
             client_socket.close()
@@ -98,9 +89,6 @@ class MyServer():
 
         print("Server is listening...")
 
-        # input_thread = threading.Thread(target=self.user_input_thread)
-        # input_thread.start()
-
 
         try:
             while True:
@@ -109,12 +97,13 @@ class MyServer():
                 print(f'연결 수락됨: {self.ip_name[client_address[0]]}')
                 print("client_id : ", client_id)
 
+                self.client_sockets.append(client_socket)
+
                 print(f'참여한 클라이언트 수: {len(self.client_sockets)}')
                 response = '서버 연결 성공'
                 client_socket.sendall(response.encode())
 
-                self.client_sockets.append(client_socket)
-
+            
                 # 쓰레드 종료 플래그 생성 또는 재설정
                 if client_id in self.thread_stop_flags:
                     self.thread_stop_flags[client_id].set()  # 기존 쓰레드 종료 신호

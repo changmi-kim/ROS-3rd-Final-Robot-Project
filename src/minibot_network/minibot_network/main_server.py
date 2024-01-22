@@ -11,8 +11,10 @@ class MyServer():
         super().__init__()
         self.client_sockets = []
         self.client_sockets_lock = threading.Lock()
-        self.HOST = "192.168.1.7" # 로컬 IP 주소
-        self.PORT = 3306
+        # self.HOST = "192.168.1.7" # 로컬 IP 주소
+        # self.PORT = 3306
+        self.HOST = "192.168.219.145"
+        self.PORT = 5715
         self.server_socket = None
 
         self.client_thread_count = 0
@@ -20,7 +22,9 @@ class MyServer():
 
         self.ip_name = {"192.168.1.14" : "minibot1",
                         "192.168.1.7" : "minibot2",
-                        "192.168.1.6" : "minibot3"
+                        "192.168.1.6" : "minibot3",
+                        "192.168.219.145" : "minibot4",
+                        "192.168.219.128" : "minibot5",
                         }
         
         self.images = {}  # 클라이언트별 최신 이미지를 저장하는 딕셔너리
@@ -54,16 +58,16 @@ class MyServer():
                 #data를 디코딩한다.
                 frame = cv2.imdecode(data, cv2.IMREAD_COLOR)
 
-                self.images["192.168.1.14"] = frame  # 클라이언트 별로 이미지 저장
+                self.images[client_id] = frame  # 클라이언트 별로 이미지 저장
 
-                # if self.display_client == client_id:
-                #     cv2.imshow('ImageWindow', self.images["192.168.1.7"])
-                #     cv2.imshow('ImageWindow2', self.images["192.168.1.14"])
-                #     cv2.imshow('ImageWindow3', self.images["192.168.1.6"])
-                #     cv2.waitKey(1)
+                if self.display_client == client_id:
+                    cv2.imshow('ImageWindow', self.images["192.168.1.7"])
+                    cv2.imshow('ImageWindow2', self.images["192.168.1.14"])
+                    # cv2.imshow('ImageWindow3', self.images["192.168.1.6"])
+                    cv2.waitKey(1)
 
-                # elif self.display_client == "-1":
-                #     cv2.destroyAllWindows()
+                elif self.display_client == "-1":
+                    cv2.destroyAllWindows()
                     
 
         finally:  

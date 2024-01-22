@@ -13,8 +13,11 @@ def recvall(sock, count):
         count -= len(newbuf)
     return buf
  
-HOST='192.168.1.7'
-PORT=3306
+# HOST='192.168.1.7'
+# PORT=3306
+
+HOST = "192.168.219.145"
+PORT = 5715
  
 #TCP 사용
 s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
@@ -29,6 +32,7 @@ print('Socket now listening')
  
 #연결, conn에는 소켓 객체, addr은 소켓에 바인드 된 주소
 conn,addr=s.accept()
+print("연결되었습니다 : ", addr)
  
 while True:
     # client에서 받은 stringData의 크기 (==(str(len(stringData))).encode().ljust(16))

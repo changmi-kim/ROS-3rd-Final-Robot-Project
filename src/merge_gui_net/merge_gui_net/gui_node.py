@@ -156,6 +156,9 @@ class ControlPCWindow(QMainWindow, from_class):
         self.isCCTVon = False
         self.image = None
         self.cctv_pixmap = QPixmap()
+        self.bot1_pixmap = QPixmap()
+        self.bot2_pixmap = QPixmap()
+        self.bot3_pixmap = QPixmap()
         self.cctv = CCTVCam()
         self.cctv.update.connect(self.updateCCTV)
 
@@ -212,99 +215,6 @@ class ControlPCWindow(QMainWindow, from_class):
         self.remote.disconnectDB()
 
 
-    def display_radio_clicked(self):
-        # 라디오 버튼 체크 항목 반영 전 초기화
-        if self.isCCTVon == True:
-            self.CCTVstop()
-
-        ########################################
-        #                                      #
-        # 모든 로봇의 화면을 OFF하는 코드를 작성.     #
-        #                                      #
-        ########################################
-
-        self.m1_name.setText("M-1"); self.m1_name.setStyleSheet("color: #f6d32d;")
-        self.m2_name.setText("M-2"); self.m2_name.setStyleSheet("color: #f6d32d;")
-        self.m3_name.setText("M-3"); self.m3_name.setStyleSheet("color: #f6d32d;")
-
-        # CCTV 라디오가 체크 될 경우
-        if self.cctv_convert.isChecked():
-            threading.Thread(target=self.CCTVstart)
-        
-        # 로봇1이 체크 될 경우
-        if self.minibot1_convert.isChecked():
-            self.m1_name.setText("M-1"); self.m1_name.setStyleSheet("color: black; background-color: lightgreen;")
-     
-            while True:
-                try:
-                    threading.Thread(target=self.gui_display, args=("192.168.1.14",))
-
-                except Exception as e:
-                    print(e)
-
-
-        # 로봇2가 체크 될 경우
-        if self.minibot2_convert.isChecked():
-            self.m2_name.setText("M-2"); self.m2_name.setStyleSheet("color: black; background-color: lightgreen;")
-
-            while True:
-                try:
-                    threading.Thread(target=self.gui_display, args=("192.168.1.6",))
-
-                except Exception as e:
-                    print(e)
-
-        # 로봇3가 체크 될 경우  
-        if self.minibot3_convert.isChecked():
-            self.m3_name.setText("M-3"); self.m3_name.setStyleSheet("color: black; background-color: lightgreen;")
-
-            while True:
-                try:
-                    threading.Thread(target=self.gui_display, args=("192.168.1.8",))
-
-                except Exception as e:
-                    print(e)
-
-
-    def CCTVstart(self):
-        self.cctv.cctv_running = True
-        self.cctv.start()
-        # self.video = cv2.VideoCapture('/dev/YourWebCam')
-        self.video = cv2.VideoCapture(0)
-
-
-    def CCTVstop(self):
-        self.cctv.cctv_running = False
-        self.video.release()
-
-
-    def updateCCTV(self):
-        retval, self.image = self.video.read()
-        if retval:
-            self.image = cv2.cvtColor(self.image, cv2.COLOR_BGR2RGB)
-            print(self.image)
-
-            h,w,c = self.image.shape
-            qimage = QImage(self.image.data, w, h, w*c, QImage.Format_RGB888)
-
-            self.cctv_pixmap = self.cctv_pixmap.fromImage(qimage)
-            self.cctv_pixmap = self.cctv_pixmap.scaled(self.display.width(), self.display.height())
-            
-            self.display.setPixmap(self.cctv_pixmap)
-
-
-    def gui_display(self, ip):
-        self.cvt_frame = cv2.cvtColor(frame[ip], cv2.COLOR_BGR2RGB)
-
-        h,w,c = self.cvt_frame.shape
-        qimage = QImage(self.cvt_frame.data, w, h, w*c, QImage.Format_RGB888)
-
-        self.cctv_pixmap = self.cctv_pixmap.fromImage(qimage)
-        self.cctv_pixmap = self.cctv_pixmap.scaled(self.display.width(), self.display.height())
-        
-        self.display.setPixmap(self.cctv_pixmap)
-
-
     def bots_status(self):
         # DB 연결
         self.remote = MySQL()
@@ -331,6 +241,113 @@ class ControlPCWindow(QMainWindow, from_class):
         self.remote.disconnectDB()
 
 
+    def display_radio_clicked(self):
+        # 라디오 버튼 체크 항목 반영 전 초기화
+        if self.isCCTVon == True:
+            self.CCTVstop()
+
+        ########################################
+        #                                      #
+        # 모든 로봇의 화면을 OFF하는 코드를 작성.     #
+        #                                      #
+        ########################################
+
+        self.m1_name.setText("M-1"); self.m1_name.setStyleSheet("color: #f6d32d;")
+        self.m2_name.setText("M-2"); self.m2_name.setStyleSheet("color: #f6d32d;")
+        self.m3_name.setText("M-3"); self.m3_name.setStyleSheet("color: #f6d32d;")
+
+
+        while True:
+            try:
+
+                bot1 = self.gui_display("192.168.1.14")
+                self.minibot1_display.setPixmap(bot1)
+
+                bot2 = self.gui_display("192.168.1.6")
+                self.minibot1_display.setPixmap(bot2)
+
+                bot3 = self.gui_display("192.168.1.7")
+                self.minibot1_display.setPixmap(bot3)
+
+                # CCTV 라디오가 체크 될 경우
+                if self.cctv_convert.isChecked():
+                    self.CCTVstart()
+
+                    self.display.show()
+                    self.minibot1_display.hide()
+                    self.minibot2_display.hide()
+                    self.minibot3_display.hide()
+
+        
+                # 로봇1이 체크 될 경우
+                if self.minibot1_convert.isChecked():
+                    self.m1_name.setText("M-1"); self.m1_name.setStyleSheet("color: black; background-color: lightgreen;")
+
+                    self.display.hide()
+                    self.minibot1_display.show()
+                    self.minibot2_display.hide()
+                    self.minibot3_display.hide()
+
+                # 로봇2가 체크 될 경우
+                if self.minibot2_convert.isChecked():
+                    self.m2_name.setText("M-2"); self.m2_name.setStyleSheet("color: black; background-color: lightgreen;")
+                    
+                    self.display.hide()
+                    self.minibot1_display.hide()
+                    self.minibot2_display.show()
+                    self.minibot3_display.hide()
+
+                # 로봇3가 체크 될 경우  
+                if self.minibot3_convert.isChecked():
+                    self.m3_name.setText("M-3"); self.m3_name.setStyleSheet("color: black; background-color: lightgreen;")
+
+                    self.display.hide()
+                    self.minibot1_display.hide()
+                    self.minibot2_display.hide()
+                    self.minibot3_display.show()
+
+            except Exception as e:
+                print(e)
+
+
+    def CCTVstart(self):
+        self.cctv.cctv_running = True
+        self.cctv.start()
+        self.video = cv2.VideoCapture(0)
+
+
+    def CCTVstop(self):
+        self.cctv.cctv_running = False
+        self.video.release()
+
+
+    def updateCCTV(self):
+        retval, self.image = self.video.read()
+        if retval:
+            self.image = cv2.cvtColor(self.image, cv2.COLOR_BGR2RGB)
+
+            h,w,c = self.image.shape
+            qimage = QImage(self.image.data, w, h, w*c, QImage.Format_RGB888)
+
+            self.cctv_pixmap = self.cctv_pixmap.fromImage(qimage)
+            self.cctv_pixmap = self.cctv_pixmap.scaled(self.display.width(), self.display.height())
+            
+            self.display.setPixmap(self.cctv_pixmap)
+
+
+    def gui_display(self, ip):
+        self.cvt_frame = cv2.cvtColor(frame[ip], cv2.COLOR_BGR2RGB)
+
+        h,w,c = self.cvt_frame.shape
+        qimage = QImage(self.cvt_frame.data, w, h, w*c, QImage.Format_RGB888)
+
+        cctv_pixmap = self.cctv_pixmap.fromImage(qimage)
+        cctv_pixmap = cctv_pixmap.scaled(self.display.width(), self.display.height())
+        
+        return cctv_pixmap
+        
+
+
     def parking_lot_status(self, data):
         if len(data) == 4:  # 간혹 시리얼을 일부만 가져오는 경우가 있기 때문에...
             self.isOuppied = [int(data[0]), int(data[1]), int(data[2]), int(data[3])]
@@ -354,6 +371,7 @@ class ControlPCWindow(QMainWindow, from_class):
 
 def server_images(server_node):
     global frame
+
     while True:
         try:
             frame = server_node.images
@@ -362,24 +380,30 @@ def server_images(server_node):
             pass
 
 def main():
-    load_dotenv()
+    try:
+        load_dotenv()
 
-    server_node = MyServer()
+        server_node = MyServer()
 
-    # 서버를 별도의 스레드에서 실행
-    server_thread = threading.Thread(target=server_node.run_server)
-    server_thread.start()
+        # 서버를 별도의 스레드에서 실행
+        server_thread = threading.Thread(target=server_node.run_server)
+        server_thread.start()
 
-    update_images = threading.Thread(target=server_images, args=(server_node,))
-    update_images.start()
+        update_images = threading.Thread(target=server_images, args=(server_node,))
+        update_images.start()
 
-    print("된거냐?????????????????????")
+        app = QApplication(sys.argv)
+        control_PC_window = ControlPCWindow()
+        control_PC_window.show()
 
-    app = QApplication(sys.argv)
-    control_PC_window = ControlPCWindow()
-    control_PC_window.show()
+        server_thread.join()
+        update_images.join()
 
-    sys.exit(app.exec_())
+    except Exception as e:
+        print(e)
+
+    finally:
+        sys.exit(app.exec_())
 
 if __name__ == '__main__':
     main()
