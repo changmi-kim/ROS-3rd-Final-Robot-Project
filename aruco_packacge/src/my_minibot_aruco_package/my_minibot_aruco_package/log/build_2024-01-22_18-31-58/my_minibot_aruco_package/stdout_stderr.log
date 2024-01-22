@@ -1,0 +1,126 @@
+running egg_info
+creating build/my_minibot_aruco_package/my_minibot_aruco_package.egg-info
+writing build/my_minibot_aruco_package/my_minibot_aruco_package.egg-info/PKG-INFO
+writing dependency_links to build/my_minibot_aruco_package/my_minibot_aruco_package.egg-info/dependency_links.txt
+writing entry points to build/my_minibot_aruco_package/my_minibot_aruco_package.egg-info/entry_points.txt
+writing requirements to build/my_minibot_aruco_package/my_minibot_aruco_package.egg-info/requires.txt
+writing top-level names to build/my_minibot_aruco_package/my_minibot_aruco_package.egg-info/top_level.txt
+writing manifest file 'build/my_minibot_aruco_package/my_minibot_aruco_package.egg-info/SOURCES.txt'
+reading manifest file 'build/my_minibot_aruco_package/my_minibot_aruco_package.egg-info/SOURCES.txt'
+writing manifest file 'build/my_minibot_aruco_package/my_minibot_aruco_package.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build
+creating /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib
+creating /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package
+copying my_minibot_aruco_package/the_sub.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package
+copying my_minibot_aruco_package/my_minibot_aruco_node.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package
+copying my_minibot_aruco_package/__init__.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package
+copying my_minibot_aruco_package/pose_estimation_test1.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package
+copying my_minibot_aruco_package/pose_estimation_test2.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package
+copying my_minibot_aruco_package/minibot_cmd_and_pose.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package
+copying my_minibot_aruco_package/aruco_processing.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package
+copying my_minibot_aruco_package/aruco_minibit_cmd_and_pose.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package
+copying my_minibot_aruco_package/my_subscriber.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package
+copying my_minibot_aruco_package/my_publisher.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package
+copying my_minibot_aruco_package/visual.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package
+copying my_minibot_aruco_package/pose_estimation_test2_pinkbot.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package
+copying my_minibot_aruco_package/pose_estimation_test2_pinkbot_backup.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package
+copying my_minibot_aruco_package/pose_estimation.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package
+copying my_minibot_aruco_package/calibrate.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package
+copying my_minibot_aruco_package/pi_cam_node.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package
+copying my_minibot_aruco_package/img_publisher.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package
+copying my_minibot_aruco_package/detect_aruco_video.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package
+copying my_minibot_aruco_package/aruco_tracker.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package
+copying my_minibot_aruco_package/aruco_trackor.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package
+copying my_minibot_aruco_package/the_pub.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package
+copying my_minibot_aruco_package/aruco_trackor_backup.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package
+running install
+/home/kang/.local/lib/python3.10/site-packages/setuptools/_distutils/cmd.py:66: SetuptoolsDeprecationWarning: setup.py install is deprecated.
+!!
+
+        ********************************************************************************
+        Please avoid running ``setup.py`` directly.
+        Instead, use pypa/build, pypa/installer or other
+        standards-based tools.
+
+        See https://blog.ganssle.io/articles/2021/10/setup-py-deprecated.html for details.
+        ********************************************************************************
+
+!!
+  self.initialize_options()
+running install_lib
+creating /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package
+copying /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package/the_sub.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package
+copying /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package/my_minibot_aruco_node.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package
+copying /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package/__init__.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package
+copying /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package/pose_estimation_test1.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package
+copying /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package/pose_estimation_test2.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package
+copying /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package/minibot_cmd_and_pose.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package
+copying /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package/aruco_processing.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package
+copying /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package/aruco_minibit_cmd_and_pose.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package
+copying /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package/my_subscriber.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package
+copying /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package/my_publisher.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package
+copying /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package/visual.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package
+copying /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package/pose_estimation_test2_pinkbot.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package
+copying /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package/pose_estimation_test2_pinkbot_backup.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package
+copying /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package/pose_estimation.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package
+copying /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package/calibrate.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package
+copying /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package/pi_cam_node.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package
+copying /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package/img_publisher.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package
+copying /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package/detect_aruco_video.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package
+copying /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package/aruco_tracker.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package
+copying /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package/aruco_trackor.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package
+copying /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package/the_pub.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package
+copying /home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/build/lib/my_minibot_aruco_package/aruco_trackor_backup.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package
+byte-compiling /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package/the_sub.py to the_sub.cpython-310.pyc
+byte-compiling /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package/my_minibot_aruco_node.py to my_minibot_aruco_node.cpython-310.pyc
+byte-compiling /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package/__init__.py to __init__.cpython-310.pyc
+byte-compiling /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package/pose_estimation_test1.py to pose_estimation_test1.cpython-310.pyc
+byte-compiling /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package/pose_estimation_test2.py to pose_estimation_test2.cpython-310.pyc
+byte-compiling /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package/minibot_cmd_and_pose.py to minibot_cmd_and_pose.cpython-310.pyc
+byte-compiling /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package/aruco_processing.py to aruco_processing.cpython-310.pyc
+byte-compiling /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package/aruco_minibit_cmd_and_pose.py to aruco_minibit_cmd_and_pose.cpython-310.pyc
+byte-compiling /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package/my_subscriber.py to my_subscriber.cpython-310.pyc
+byte-compiling /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package/my_publisher.py to my_publisher.cpython-310.pyc
+byte-compiling /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package/visual.py to visual.cpython-310.pyc
+byte-compiling /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package/pose_estimation_test2_pinkbot.py to pose_estimation_test2_pinkbot.cpython-310.pyc
+byte-compiling /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package/pose_estimation_test2_pinkbot_backup.py to pose_estimation_test2_pinkbot_backup.cpython-310.pyc
+byte-compiling /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package/pose_estimation.py to pose_estimation.cpython-310.pyc
+byte-compiling /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package/calibrate.py to calibrate.cpython-310.pyc
+byte-compiling /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package/pi_cam_node.py to pi_cam_node.cpython-310.pyc
+byte-compiling /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package/img_publisher.py to img_publisher.cpython-310.pyc
+byte-compiling /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package/detect_aruco_video.py to detect_aruco_video.cpython-310.pyc
+byte-compiling /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package/aruco_tracker.py to aruco_tracker.cpython-310.pyc
+byte-compiling /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package/aruco_trackor.py to aruco_trackor.cpython-310.pyc
+byte-compiling /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package/the_pub.py to the_pub.cpython-310.pyc
+byte-compiling /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package/aruco_trackor_backup.py to aruco_trackor_backup.cpython-310.pyc
+running install_data
+creating /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/share
+creating /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/share/ament_index
+creating /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/share/ament_index/resource_index
+creating /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/share/ament_index/resource_index/packages
+copying resource/my_minibot_aruco_package -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/share/ament_index/resource_index/packages
+creating /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/share/my_minibot_aruco_package
+copying package.xml -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/share/my_minibot_aruco_package
+creating /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/share/my_minibot_aruco_package/launch
+copying launch/gui.launch.py -> /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/share/my_minibot_aruco_package/launch
+running install_egg_info
+Copying build/my_minibot_aruco_package/my_minibot_aruco_package.egg-info to /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/python3.10/site-packages/my_minibot_aruco_package-0.0.0-py3.10.egg-info
+running install_scripts
+Installing aruco_minibit_cmd_and_pose script to /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/my_minibot_aruco_package
+Installing aruco_processing script to /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/my_minibot_aruco_package
+Installing calibrate script to /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/my_minibot_aruco_package
+Installing minibit_cmd_and_pose script to /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/my_minibot_aruco_package
+Installing my_minibot_aruco_node script to /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/my_minibot_aruco_package
+Installing pi_cam_node script to /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/my_minibot_aruco_package
+Installing pose_estimation script to /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/my_minibot_aruco_package
+Installing pose_estimation_test1 script to /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/my_minibot_aruco_package
+Installing pose_estimation_test2 script to /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/my_minibot_aruco_package
+Installing pose_estimation_test2_pinkbot script to /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/my_minibot_aruco_package
+Installing test_node script to /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/my_minibot_aruco_package
+Installing the_pub script to /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/my_minibot_aruco_package
+Installing the_sub script to /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/my_minibot_aruco_package
+Installing visionTrackor script to /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/my_minibot_aruco_package
+Installing visual script to /home/kang/minibot_aruco/src/my_minibot_aruco_package/install/my_minibot_aruco_package/lib/my_minibot_aruco_package
+writing list of installed files to '/home/kang/minibot_aruco/src/my_minibot_aruco_package/build/my_minibot_aruco_package/install.log'

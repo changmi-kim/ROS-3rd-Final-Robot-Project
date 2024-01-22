@@ -1,0 +1,17 @@
+[console_scripts]
+aruco_minibit_cmd_and_pose = my_minibot_aruco_package.aruco_minibit_cmd_and_pose:main
+aruco_processing = my_minibot_aruco_package.aruco_processing:main
+calibrate = my_minibot_aruco_package.calibrate:main
+minibit_cmd_and_pose = my_minibot_aruco_package.minibit_cmd_and_pose:main
+my_minibot_aruco_node = my_minibot_aruco_package.my_minibot_aruco_node:main
+pi_cam_node = my_minibot_aruco_package.pi_cam_node:main
+pose_estimation = my_minibot_aruco_package.pose_estimation:main
+pose_estimation_test1 = my_minibot_aruco_package.pose_estimation_test1:main
+pose_estimation_test2 = my_minibot_aruco_package.pose_estimation_test2:main
+pose_estimation_test2_pinkbot = my_minibot_aruco_package.pose_estimation_test2_pinkbot:main
+test_node = my_minibot_aruco_package.test_node:main
+the_pub = my_minibot_aruco_package.the_pub:main
+the_sub = my_minibot_aruco_package.the_sub:main
+visionTrackor = my_minibot_aruco_package.visionTrackor:main
+visual = my_minibot_aruco_package.visual:main
+
