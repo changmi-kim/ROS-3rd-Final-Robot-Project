@@ -119,7 +119,13 @@ class MyServer():
             while True:
                 client_socket, client_address = self.server_socket.accept()
                 client_id = str(client_address[0])
-                print(f'연결 수락됨: {self.ip_name[client_address[0]]}')
+
+                if client_address[0] in self.ip_name:
+                    print(f'연결 수락됨: {self.ip_name[client_address[0]]}')
+
+                else:
+                    print("미등록 사용자입니다. : ", client_address[0])
+                    
                 print("client_id : ", client_id)
 
                 print(f'참여한 클라이언트 수: {len(self.client_sockets)}')
