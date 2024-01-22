@@ -28,17 +28,6 @@ class MyServer():
         self.thread_stop_flags = {}  # 쓰레드들 플레그 확인
         self.threads = {}  # 스레드 참조를 저장할 딕셔너리
                         
-                
-
-    def client_threaded(self, client_socket, client_address, flag):
-        try:
-            self.client_thread_count += 1
-            print("생성된 고객 쓰레드 갯수 : ", self.client_thread_count)
-            print(f'Connected by: {client_address[0]}:{client_address[1]}')
-            threading.Thread(target=self.image_callback, args=(client_socket, flag)).start()
-
-        except ConnectionResetError as e:
-            print(f'Disconnected by {client_address[0]}:{client_address[1]}')
 
     
     def user_input_thread(self):
@@ -67,7 +56,9 @@ class MyServer():
                 self.images[client_id] = frame  # 클라이언트 별로 이미지 저장
 
                 if self.display_client == client_id:
-                    cv2.imshow('ImageWindow', self.images[client_id])
+                    cv2.imshow('ImageWindow', self.images["192.168.1.7"])
+                    cv2.imshow('ImageWindow2', self.images["192.168.1.14"])
+                    cv2.imshow('ImageWindow3', self.images["192.168.1.8"])
                     cv2.waitKey(1)
 
                 elif self.display_client == "-1":
@@ -103,16 +94,7 @@ class MyServer():
             count -= len(newbuf)
 
         return buf
-    
 
-    def thread_start(self, thread_number):
-        print(self.active_thread, thread_number)
-        if self.active_thread is not None:
-            self.run_flags[self.active_thread].clear()
-
-        self.threads[thread_number].start()
-        self.active_thread = thread_number
-    
 
     def run_server(self):
         print(f'Server Start with IP: {self.HOST}')
@@ -139,8 +121,7 @@ class MyServer():
                 response = '서버 연결 성공'
                 client_socket.sendall(response.encode())
 
-                with self.client_sockets_lock:
-                    self.client_sockets.append(client_socket)
+                self.client_sockets.append(client_socket)
 
                 # 쓰레드 종료 플래그 생성 또는 재설정
                 if client_id in self.thread_stop_flags:
