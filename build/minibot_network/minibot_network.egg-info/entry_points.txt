@@ -1,8 +1,0 @@
-[console_scripts]
-main_client = minibot_network.main_client:main
-main_server = minibot_network.main_server:main
-minibot_cam_publish = minibot_network.minibot_cam_publish:main
-minibot_cam_subscriber = minibot_network.minibot_cam_subscriber:main
-minibot_tcp_client = minibot_network.minibot_tcp_client:main
-other_client = minibot_network.other_client:main
-

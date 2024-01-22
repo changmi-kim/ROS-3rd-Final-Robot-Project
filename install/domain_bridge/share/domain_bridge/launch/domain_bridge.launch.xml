@@ -1,8 +1,0 @@
-<launch>
-  <include file="$(find-pkg-share domain_bridge)/launch/domain_bridge.launch.xml">
-    <arg name="config" value="$(find-pkg-share domain_bridge)/examples/example_bridge_config.yaml" />
-    <!-- Optionally override domain IDs -->
-    <!-- <arg name="from_domain" value="42" />
-    <arg name="to_domain" value="43" /> -->
-  </include>
-</launch>
