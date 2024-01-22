@@ -20,6 +20,7 @@ class MyServer():
 
         self.ip_name = {"192.168.1.14" : "minibot1",
                         "192.168.1.7" : "minibot2",
+                        "192.168.1.6" : "minibot3"
                         }
         
         self.images = {}  # 클라이언트별 최신 이미지를 저장하는 딕셔너리
@@ -58,7 +59,7 @@ class MyServer():
                 if self.display_client == client_id:
                     cv2.imshow('ImageWindow', self.images["192.168.1.7"])
                     cv2.imshow('ImageWindow2', self.images["192.168.1.14"])
-                    cv2.imshow('ImageWindow3', self.images["192.168.1.8"])
+                    cv2.imshow('ImageWindow3', self.images["192.168.1.6"])
                     cv2.waitKey(1)
 
                 elif self.display_client == "-1":
