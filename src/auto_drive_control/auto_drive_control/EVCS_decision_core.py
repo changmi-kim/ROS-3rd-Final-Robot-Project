@@ -10,8 +10,8 @@ class EVCSDecisionCore(Node):
         super().__init__('navigation_control_node')
         self.subscriber_robot_pose = self.create_subscription(PoseWithCovarianceStamped, '/amcl_pose', self.pose_timer_callback, 10)
         self.subscriber_goal = self.create_subscription(String, '/goal', self.goal_timer_callback, 10)
-        # self.subscriber_vision_detection_result = self.create_subscription(DetectionResultArray, '/detection_result', self.detection_result_callback, 10)
         self.subscriber_obstacle_found = self.create_subscription(Bool, '/obstacle_found', self.obstacle_found_callback, 10)
+        self.subscriber_is_docking_area = self.create_subscription(Bool, '/is_docking_area', self.is_docking_area_callback, 10)
 
         self.publisher_control_event = self.create_publisher(String, '/control_event', 10)
 
@@ -25,9 +25,9 @@ class EVCSDecisionCore(Node):
         self.navigator = BasicNavigator()
 
         self.control_start_event = ''  # charging_hub = 0, parking_zone = 1, obstacle_found = 2, obstacle_navi_restart = 3, docking_area = 4
-        self.save_goal = NotImplementedError
+        self.save_goal = String()
         self.obstacle_found = False
-        bstacle_navi_restart = False
+        self.obstacle_navi_restart = False
         self.is_docking_area = False
 
     def pose_timer_callback(self, msg):
@@ -36,13 +36,14 @@ class EVCSDecisionCore(Node):
 
         if not is_inside_parking_zone:
             self.control_start_event = '0'  # charging_hub
-            self.navigator.cancelTask()
+            # self.navigator.cancelTask()
         elif is_inside_parking_zone:
             self.control_start_event = '1'  # parking_zone
         elif self.obstacle_found:
             self.control_start_event = '2'  # obstacle_found
+            # self.navigator.cancelTask()
         elif self.obstacle_navi_restart:
-            self.control_start_event = '3,' + self.save_goal  # obstacle_navi_restart
+            self.control_start_event = '3,' + self.save_goal.data  # obstacle_navi_restart
         elif self.is_docking_area:
             self.control_start_event = '4'  # docking_area
 
@@ -50,19 +51,17 @@ class EVCSDecisionCore(Node):
         self.publisher_control_event(control_msg)
         print(f'Control_start_event: {self.control_start_event}')
     
-    def goal_timer_callback(self, msg):
-        self.save_goal = str(msg)
+    def goal_timer_callback(self, msg: String):
+        self.save_goal = msg
 
-    def obstacle_found_callback(self, msg):
+    def obstacle_found_callback(self, msg: Bool):
         self.obstacle_found = msg
         
         if not self.obstacle_found:
             self.obstacle_navi_restart = True
 
-    # def detection_result_callback(self, msg):
-    #     for detection in msg.detection_result:
-    #         self.label = detection.label
-    #         self.self.obstacle_found = True
+    def is_docking_area_callback(self, msg: Bool):
+        self.is_docking_area = msg
 
     def is_inside_parking_zone(self, pose_msg):
         current_x = pose_msg.pose.pose.position.x
@@ -87,18 +86,6 @@ class EVCSDecisionCore(Node):
             p1x, p1y = p2x, p2y
 
         return inside
-
-    # def enable_navigation(self):
-    #     control_msg = String()
-    #     control_msg.data = 'enable_navigation'
-    #     print('enable_navigation')
-    #     self.publisher_control_event(control_msg)
-
-    # def disable_navigation(self):
-    #     control_msg = String()
-    #     control_msg.data = 'disable_navigation'
-    #     print('disable_navigation')
-    #     self.publisher_control_event(control_msg)
 
 def main(args=None):
     rclpy.init(args=args)
