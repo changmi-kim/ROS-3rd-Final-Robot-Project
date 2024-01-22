@@ -5,6 +5,8 @@ from cv_bridge import CvBridge
 import cv2
 import torch
 import random
+from ctypes import *
+import time
 
 from ultralytics import YOLO
 from ultralytics.trackers import BOTSORT, BYTETracker
@@ -13,29 +15,48 @@ from ultralytics.utils import IterableSimpleNamespace, yaml_load
 from ultralytics.utils.checks import check_requirements, check_yaml
 
 from sensor_msgs.msg import Image
+from std_msgs.msg import String
 from vision_object_detector_msgs.msg import DetectionResult
 from vision_object_detector_msgs.msg import DetectionResultArray
 from std_srvs.srv import SetBool
 
+LIB_PATH = '/home/ckdal/dev_ws/project/final_project_ws/final_project_ws/src/vision_object_detector/bin/linux-x86_64/libtsanpr.so'
+print('LIB_PATH=', LIB_PATH)
+
+lib = cdll.LoadLibrary(LIB_PATH)
+
+lib.anpr_initialize.argtype = c_char_p
+lib.anpr_initialize.restype = c_char_p
+
+lib.anpr_read_pixels.argtypes = (c_char_p, c_int32, c_int32, c_int32, c_char_p, c_char_p, c_char_p)
+lib.anpr_read_pixels.restype = c_char_p
 
 class ParkingObstacleDetectorYoloV8(Node):
     def __init__(self):
         super().__init__('parking_obstacle_detector_yolo_v8')
+        self.subscriber_img = self.create_subscription(Image, '/image_raw', self.yolo_image_callback, qos_profile_sensor_data)
+        # self.subscriber_control_event = self.create_subscription(String, '/control_event', self.control_event_callback, 10)
+        
+        # self.publisher_detections = self.create_publisher(DetectionResult, '/detection_result', 10)
+        self.publisher_detections = self.create_publisher(DetectionResultArray, '/detection_result', 10)
+        self.publisher_debug_image = self.create_publisher(Image, '/debug_image', 10)
+        self.publisher_car_number = self.create_publisher(String, '/car_number', 10)
 
-        # 모델
+        # 비활성화 시
+        # ros2 service call /parking_obstacle_detector_yolo_v8/service_control_enable std_srvs/SetBool "{data: false}"
+        self.service_control_enable = self.create_service(SetBool, 'enable', self.enable_callback)
+
+        lib.anpr_initialize(b'text')
+
         self.declare_parameter('model', 'yolov8m.pt')
         model = self.get_parameter('model').get_parameter_value().string_value
 
-        # object tracking 방법
         self.declare_parameter('tracker', 'bytetrack.yaml')
         tracker = self.get_parameter('tracker').get_parameter_value().string_value
 
-        # 연산 수행 device
-        # GPU 0번 사용
         self.declare_parameter('device', 'cuda:0') # "cpu"
         device = self.get_parameter('device').get_parameter_value().string_value
 
-        # detect 할 객체들의 confidence score 설정
         self.declare_parameter('threshold', 0.75)
         self.threshold = self.get_parameter('threshold').get_parameter_value().double_value
 
@@ -51,15 +72,6 @@ class ParkingObstacleDetectorYoloV8(Node):
 
         self.detection = DetectionResult()
         self.detection_msg = DetectionResultArray()
-
-        self.subscriber_img = self.create_subscription(Image, '/image_raw', self.yolo_image_callback, qos_profile_sensor_data)
-        # self.publisher_detections = self.create_publisher(DetectionResult, '/detection_result', 10)
-        self.publisher_detections = self.create_publisher(DetectionResultArray, '/detection_result', 10)
-        self.publisher_debug_image = self.create_publisher(Image, '/debug_image', 10)
-
-        # 비활성화 시
-        # ros2 service call /parking_obstacle_detector_yolo_v8/service_control_enable std_srvs/SetBool "{data: false}"
-        self.service_control_enable = self.create_service(SetBool, 'enable', self.enable_callback)
 
     def yolo_image_callback(self, msg: Image) -> None:
         if self.enable:
@@ -96,6 +108,18 @@ class ParkingObstacleDetectorYoloV8(Node):
 
                 if label not in ['car', 'person']:
                     continue
+
+                if label == 'car':
+                    car_number_msg = String()
+                    
+                    height, width, _ = cv_image.shape
+                    result = lib.anpr_read_pixels(
+                        bytes(cv_image), width, height, 0, b'BGR', b'text', b'')
+                    
+                    if len(result) > 0:
+                        self.get_logger().info(result.decode('utf8'))
+                        car_number_msg = String(data = str(result.decode('utf8')))
+                        self.publisher_car_number.publish(car_number_msg)
 
                 # detection = Detection2D()
                 self.detection = DetectionResult()
