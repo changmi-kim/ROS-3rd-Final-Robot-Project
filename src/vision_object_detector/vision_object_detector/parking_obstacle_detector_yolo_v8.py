@@ -63,7 +63,7 @@ class ParkingObstacleDetectorYoloV8(Node):
 
     def yolo_image_callback(self, msg: Image) -> None:
         if self.enable:
-            cv_image = self.cv_bridge.imgmsg_to_cv2(msg)
+            cv_image = self.cv_bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
 
             results = self.yolo.predict(
                 source=cv_image,
