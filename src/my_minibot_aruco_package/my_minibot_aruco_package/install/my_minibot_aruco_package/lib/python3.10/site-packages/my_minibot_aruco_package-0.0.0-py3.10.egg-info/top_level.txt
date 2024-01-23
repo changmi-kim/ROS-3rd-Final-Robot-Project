@@ -1,1 +1,0 @@
-my_minibot_aruco_package
