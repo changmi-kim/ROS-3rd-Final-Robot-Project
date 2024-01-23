@@ -17,19 +17,19 @@ def generate_launch_description():
     lidar_port_name = DeclareLaunchArgument("lidar_port_name", default_value="/dev/ttyLidar")
     lidar_baudrate = DeclareLaunchArgument("lidar_baudrate", default_value="57600")
     robot_port_name = DeclareLaunchArgument("robot_port_name", default_value="/dev/ttyArduino")
-    robot_baudrate = DeclareLaunchArgument("robot_baudrate", default_value="1000000")
+    robot_baudrate = DeclareLaunchArgument("robot_baudrate", default_value="500000")
 
     robot_description_content = Command([
         'xacro ',
         PathJoinSubstitution([
-            FindPackageShare('description'),
-            'urdf/robot_core.xacro',
+            FindPackageShare('minibot_description'),
+            'urdf/robot.urdf.xacro',
         ]),
         ' is_sim:=', 'false',
         ' lidar_model:=', LaunchConfiguration('lidar_model'),
         ' port_name:=', LaunchConfiguration('robot_port_name'),
-        ' baudrate:=', LaunchConfiguration(''),
-        ' prefix:=', LaunchConfiguration('prefirobot_baudratex'),
+        ' baudrate:=', LaunchConfiguration('robot_baudrate'),
+        ' prefix:=', LaunchConfiguration('prefix'),
 
     ])
     robot_description = {"robot_description": robot_description_content}
@@ -57,7 +57,7 @@ def generate_launch_description():
 
     upload_robot = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
-            get_package_share_directory('description'),
+            get_package_share_directory('minibot_description'),
             '/launch/upload_robot.launch.py']
         ),
         launch_arguments = {
