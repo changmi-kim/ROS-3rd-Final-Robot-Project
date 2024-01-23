@@ -370,7 +370,7 @@ color: rgb(249, 240, 107);</string>
     <property name="title">
      <string/>
     </property>
-    <widget class="QLabel" name="cctv_display">
+    <widget class="QLabel" name="display">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -486,7 +486,7 @@ color: rgb(249, 240, 107);</string>
       </property>
      </widget>
     </widget>
-    <widget class="QLabel" name="m1_display">
+    <widget class="QLabel" name="minibot1_display">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -509,7 +509,7 @@ color: rgb(249, 240, 107);</string>
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QLabel" name="m2_display">
+    <widget class="QLabel" name="minibot2_display">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -532,7 +532,7 @@ color: rgb(249, 240, 107);</string>
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QLabel" name="m3_display">
+    <widget class="QLabel" name="minibot3_display">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -556,10 +556,10 @@ color: rgb(249, 240, 107);</string>
      </property>
     </widget>
     <zorder>select_vision</zorder>
-    <zorder>m1_display</zorder>
-    <zorder>m3_display</zorder>
-    <zorder>m2_display</zorder>
-    <zorder>cctv_display</zorder>
+    <zorder>minibot1_display</zorder>
+    <zorder>minibot3_display</zorder>
+    <zorder>minibot2_display</zorder>
+    <zorder>display</zorder>
    </widget>
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">

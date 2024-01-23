@@ -10,7 +10,7 @@ int last_btn_status[3] = {HIGH, HIGH, HIGH};
 
 void setup()
 {
-  Serial.begin(9600);
+  Serial.begin(115200);
   pinMode(left, INPUT_PULLUP);
   pinMode(center, INPUT_PULLUP);
   pinMode(right, INPUT_PULLUP);

@@ -3,15 +3,13 @@ import threading
 import cv2
 import numpy as np
 
-
-
 class MyServer():
 
     def __init__(self):
         super().__init__()
         self.client_sockets = []
         self.client_sockets_lock = threading.Lock()
-        self.HOST = "192.168.1.7" # 로컬 IP 주소
+        self.HOST = "192.168.1.5" # 로컬 IP 주소
         self.PORT = 3306
         self.server_socket = None
 
