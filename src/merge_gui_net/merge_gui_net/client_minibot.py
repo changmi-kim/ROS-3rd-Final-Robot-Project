@@ -16,12 +16,6 @@ class MyClient(Node):
 
         self.cam_ = cv2.VideoCapture(0)
 
-        self.declare_parameter('width', 640)
-        self.declare_parameter('length', 480)
-
-        self.width = self.get_parameter('width').value
-        self.length = self.get_parameter('length').value
-
         ## 0~100에서 90의 이미지 품질로 설정 (default = 95)
         self.encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 90]
 

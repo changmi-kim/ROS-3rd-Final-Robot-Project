@@ -20,6 +20,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'server = merge_gui_net.gui_node:main',
+            'client = merge_gui_net.client_minibot.py',
         ],
     },
 )
