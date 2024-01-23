@@ -21,7 +21,7 @@ class MySQL():
 
     def __init__(self):
         self.host = os.environ["DB_address"]
-        self.port = os.environ["DB_port"]
+        self.port = int(os.environ["DB_port"])
         self.user = os.environ["admin_id"]
         self.password = os.environ["DB_password"]
         self.database = os.environ["DB_name"]
@@ -39,7 +39,7 @@ class MySQL():
 
     async def serchDB(self, command):
         if not hasattr(self, 'remote'):
-            raise Exception("Database connection not established.")
+            await self.connectDB()
         
         async with self.remote.cursor() as cur:
             await cur.execute(command)
