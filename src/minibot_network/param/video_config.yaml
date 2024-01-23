@@ -1,4 +1,0 @@
-minibot_camera_node:
-  ros__parameters:
-    width: 480
-    length: 320
