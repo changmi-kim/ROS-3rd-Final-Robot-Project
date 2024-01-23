@@ -76,35 +76,6 @@ class ArduinoSerial(QThread):
 
 
 
-# 로봇의 요청 및 상태
-class CharingBot:
-    bots_status = {
-        "사용가능":["대기 중"],
-        "사용불가":["충전필요", "수리 중"],
-        "사용 중":["이동 중", "사용 중"],
-        }
-    
-    bots_request = ["HUB", "B1", "B2", "B3"]
-
-    def __init__(self, id, status = "사용가능", status_detail = bots_status["사용가능"][0], request=bots_request[0], battery_remain = 0):
-        self.id = id
-        self.status = status
-        self.status_detail = status_detail
-        self.request = request
-        self.isArrived = True  # True: 목적지에 도착, False: 이동 중
-        self.battery_remain = battery_remain
-    
-
-    def __str__(self):
-        return f'''{self.id}번 로봇\n
-                    상태:{self.status} {self.status_detail}\n
-                    요청:{self.request}\n
-                    도착:{self.request}\n
-                    잔여량: {self.battery_remain}
-                '''
-
-
-
 # CCTV 용도를 위한 웹캠 스레드 클래스
 class CCTVCam(QThread):
     update = pyqtSignal()
@@ -133,16 +104,21 @@ class SubscriberImage(QThread):
 
     def run(self):
         while self.flag:
-            length = self.recvall(self.client_socket, 16)
+            try:
+                length = self.recvall(self.client_socket, 16)
+                string_data = self.recvall(self.client_socket, int(length))
+                data = np.frombuffer(string_data, dtype='uint8')
+                frame = cv2.imdecode(data, cv2.IMREAD_COLOR)
 
-            string_data = self.recvall(self.client_socket, int(length))
-            data = np.frombuffer(string_data, dtype='uint8')
-            frame = cv2.imdecode(data, cv2.IMREAD_COLOR)
+                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-            h, w, c = frame.shape
-            qimage = QImage(frame.data, w, h, w*c, QImage.Format_RGB888)
+                h, w, c = frame.shape
+                qimage = QImage(frame.data, w, h, w*c, QImage.Format_RGB888)
 
-            self.changePixmap.emit(qimage.scaled(200, 200), frame)
+                self.changePixmap.emit(qimage.scaled(350, 300), frame)
+
+            except:
+                pass
 
 
     def recvall(self, sock, count):
@@ -151,13 +127,9 @@ class SubscriberImage(QThread):
 
         while count:
             try:
-                print("반복문 진입")
                 newbuf = sock.recv(count)
-                print("캬 이걸 못넘네")
 
-                if not newbuf:
-                    print("여기 들어온거 아니니?")
-                    return None
+                if not newbuf: return None
                 
                 buf += newbuf
                 count -= len(newbuf)
@@ -333,11 +305,11 @@ class ControlPCWindow(QMainWindow, from_class):
         elif self.minibot1_convert.isChecked():
             self.m1_name.setText("M-1"); self.m1_name.setStyleSheet("color: black; background-color: lightgreen;")
             
-            # self.subcriber_.working = True
-            # self.subcriber_.client_socket = self.client_sockets["192.168.1.7"]
-            # print(self.subcriber_.client_socket)
-            # self.subcriber_.changePixmap.connect(self.setImage)
-            # self.subcriber_.start()
+            self.subcriber_.working = True
+            self.subcriber_.client_socket = self.client_sockets["192.168.1.7"]
+            print(self.subcriber_.client_socket)
+            self.subcriber_.changePixmap.connect(self.setImage1)
+            self.subcriber_.start()
 
             self.display.hide()
             self.minibot1_display.show()
@@ -350,6 +322,12 @@ class ControlPCWindow(QMainWindow, from_class):
             self.m2_name.setText("M-2")
             self.m2_name.setStyleSheet("color: black; background-color: lightgreen;")
 
+            self.subcriber_.working = True
+            self.subcriber_.client_socket = self.client_sockets["192.168.1.14"]
+            print(self.subcriber_.client_socket)
+            self.subcriber_.changePixmap.connect(self.setImage2)
+            self.subcriber_.start()
+
             self.display.hide()
             self.minibot1_display.hide()
             self.minibot2_display.show()
@@ -359,13 +337,27 @@ class ControlPCWindow(QMainWindow, from_class):
         elif self.minibot3_convert.isChecked():
             self.m3_name.setText("M-3"); self.m3_name.setStyleSheet("color: black; background-color: lightgreen;")
 
+            self.subcriber_.working = True
+            self.subcriber_.client_socket = self.client_sockets["192.168.1.6"]
+            print(self.subcriber_.client_socket)
+            self.subcriber_.changePixmap.connect(self.setImage3)
+            self.subcriber_.start()
+
             self.display.hide()
             self.minibot1_display.hide()
             self.minibot2_display.hide()
             self.minibot3_display.show()
 
-    def setImage(self, image):
+    def setImage1(self, image):
+        self.minibot1_display.setPixmap(QPixmap.fromImage(image))
+
+    def setImage2(self, image):
         self.minibot2_display.setPixmap(QPixmap.fromImage(image))
+
+    def setImage3(self, image):
+        self.minibot3_display.setPixmap(QPixmap.fromImage(image))
+        
+
 
 
     def CCTVstart(self):
