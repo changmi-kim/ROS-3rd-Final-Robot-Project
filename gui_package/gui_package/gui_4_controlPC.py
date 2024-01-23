@@ -14,7 +14,6 @@ import threading
 import pygame
 from main_server import MyServer
 
-
 class MySQL():
     def __init__(self):
         self.host = os.environ["DB_address"]
@@ -30,7 +29,6 @@ class MySQL():
                               password = self.password,
                               database = self.database
                               )
-
     
     def serchDB(self, sql_query):
         cur = self.remote.cursor()
@@ -92,7 +90,7 @@ class ControlPCWindow(QMainWindow, from_class):
         arduino_port = os.environ["Arduino_port"]
         baud_rate = int(os.environ["Baud_rate"])
 
-        self.arduino_conn = Serial(port="/dev/ttyUSB0", baudrate=baud_rate)
+        self.arduino_conn = Serial(port=arduino_port, baudrate=baud_rate)
         self.arduino = ArduinoSerial(self.arduino_conn)
         self.arduino.receive.connect(self.parking_lot_status)
         self.arduino.start()
@@ -133,13 +131,13 @@ class ControlPCWindow(QMainWindow, from_class):
         self.m3_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.m3_table.verticalHeader().setSectionResizeMode(QHeaderView.Stretch)
         
-        self.park_DB_timer = QTimer(self)
-        self.park_DB_timer.timeout.connect(self.update_parking_system_log)
-        self.park_DB_timer.start(5000)
+        # self.park_DB_timer = QTimer(self)
+        # self.park_DB_timer.timeout.connect(self.update_parking_system_log)
+        # self.park_DB_timer.start(5000)
 
-        self.bot_DB_timer = QTimer(self)
-        self.bot_DB_timer.timeout.connect(self.bots_status)
-        self.bot_DB_timer.start(100)
+        # self.bot_DB_timer = QTimer(self)
+        # self.bot_DB_timer.timeout.connect(self.bots_status)
+        # self.bot_DB_timer.start(100)
         
 
     # DB 정보 가져오기
