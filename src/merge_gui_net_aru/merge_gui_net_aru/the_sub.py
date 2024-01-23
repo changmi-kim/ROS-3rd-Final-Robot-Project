@@ -62,7 +62,7 @@ class Subscriber(Node):
             twist.angular.z = self.degree
             self.get_logger().info('msg: {} {}'.format(twist.linear.x, twist.angular.z))
 
-        # else:
+        # else:git
         #     # self.get_logger().info('Target lost')
         #     msg.angular.z = self.search_angular_speed
         self.publisher_.publish(twist)

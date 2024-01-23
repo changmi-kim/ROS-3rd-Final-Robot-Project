@@ -12,7 +12,7 @@ import time
 import datetime
 from rclpy.node import Node
 from sensor_msgs.msg import CompressedImage, Image
-from aruco_package_msgs.msgs import CmdAndPoseVel
+from aruco_package_msgs.msg import CmdAndPoseVel
 from std_msgs.msg import String
 from geometry_msgs.msg import Point
 import time
@@ -254,8 +254,8 @@ class PoseEstimationNode(Node):
     
 def main():
     ap = argparse.ArgumentParser() #명령줄 인수를 파싱하기 위한 ArgumentParser 객체를 생성합니다. 사용자로부터 필요한 매개변수를 받기 위해 설정됩니다.
-    ap.add_argument("-k", "--K_Matrix", required=True, help="/home/kang/minibot_aruco/src/my_minibot_aruco_package/my_minibot_aruco_package/calibration_matrix.npy")
-    ap.add_argument("-d", "--D_Coeff", required=True, help="/home/kang/minibot_aruco/src/my_minibot_aruco_package/my_minibot_aruco_package/distortion_coefficients.npy")
+    ap.add_argument("-k", "--K_Matrix", required=True, help="src/aruco_package_msgs/aruco_package_msgs/calibration_matrix.npy")
+    ap.add_argument("-d", "--D_Coeff", required=True, help="src/aruco_package_msgs/aruco_package_msgs/distortion_coefficients.npy")
     ap.add_argument("-t", "--type", type=str, default="DICT_ARUCO_ORIGINAL", help="Type of ArUCo tag to detect")
     args = vars(ap.parse_args()) #파싱된 인수들을 딕셔너리 형태로 args에 저장합니다.
 
