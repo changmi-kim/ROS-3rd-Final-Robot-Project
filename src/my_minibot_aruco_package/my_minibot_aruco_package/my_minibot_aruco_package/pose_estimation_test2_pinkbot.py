@@ -50,7 +50,7 @@ class PoseEstimationNode(Node):
 
         self.aruco_dict_type = aruco_dict_type
         self.k = k  #aruco_dict_type, k, d는 ArUco 마커 탐지 및 위치 추정에 사용되는 매개변수입니다
-        self.d = d
+        self.d = d #생성자로부터 전달받은 k와 d를 클래스 변수로 설정합니다. 이들은 카메라의 내부 파라미터와 왜곡 계수를 나타내며, 마커의 위치 추정에 필요합니다.
         self.last_time = time.time()
         self.update_interval = 0.05 # 업데이트 간격 (초 단위) 이걸 사용하면 실시간성을 조정할 수 있다.
       
@@ -58,10 +58,10 @@ class PoseEstimationNode(Node):
         self.publisher_aruco_result = self.create_publisher(
             CmdAndPoseVel,
             '/aruco_result',
-            10)
+            10) #CmdAndPoseVel 메시지를 발행(publish)하기 위한 퍼블리셔(publisher)를 생성합니다. 이 퍼블리셔는 /aruco_result 토픽으로 메시지를 보냅니다.
 
     def image_callback(self, data):
-        self.aruco_result = CmdAndPoseVel()
+        self.aruco_result = CmdAndPoseVel() #CmdAndPoseVel 타입의 객체를 생성하여 self.aruco_result에 할당합니다. 이 객체는 아마도 ArUco 마커의 위치와 관련된 명령 및 속도 정보를 담는 데 사용될 것입니
 
         current_time = time.time()
         if current_time - self.last_time > self.update_interval:
@@ -121,9 +121,9 @@ class PoseEstimationNode(Node):
                         closest_distances[marker_size] = distance_to_marker
                         closest_markers[marker_size] = (i, x, y, z, ids[i][0])
 
-                print(f"Distance to ArUco marker {ids[i]}: {distance_to_marker*100} CM")
+                print(f"Distance to ArUco marker {ids[i]}: {distance_to_marker*100:.2f} CM")
                 print(f"X: {x*100:.2f} CM, Y: {y*100:.2f} CM, Z: {z*100:.2f} CM") # 소수점 2번쨰 자리  
-                self.callback(x, y, z)
+                self.callback(x, y, z, marker_size)
                 # cv2.aruco.drawDetectedMarkers(frame, corners, ids)
                 cv2.drawFrameAxes(frame, matrix_coefficients, distortion_coefficients, rvec, tvec, axis_length)
 
@@ -134,10 +134,7 @@ class PoseEstimationNode(Node):
                     center_x = int(np.mean(corners[i][0][:, 0])) # 모든 모서리의 x 좌표를 선택
                     center_y = int(np.mean(corners[i][0][:, 1])) # 모든 모서리의 y 좌표를 선택
                     text_y_offset = 70 + 7 * line_height if marker_size == 0.065 else 70 + line_height
-                
-
-                    
-            
+                                           
                 
                     # 화면에 표시할 텍스트
                     if id in id_to_label:
@@ -216,26 +213,27 @@ class PoseEstimationNode(Node):
 
         return frame
     
-    def callback(self, x, y, z):
-        position = Point()
-        # position.x = x * 100
-        # position.y = y * 100
-        # position.z = z * 100
-        position.x = round(x * 100, 2)
-        position.y = round(y * 100, 2)
-        position.z = round(z * 100, 2)
-        self.publisher_ = self.create_publisher(Point, 'test', 10)
-        self.publisher_.publish(position)
+    def callback(self, x, y, z, marker_size):
+        if marker_size == 0.022:
+            position = Point() #Point 타입의 새 객체를 생성하여 position 변수에 할당합니다. 이 객체는 3차원 공간상의 한 점을 나타냅니다.
+            # position.x = x * 100
+            # position.y = y * 100
+            # position.z = z * 100
+            position.x = round(x * 100, 2) #x, y, z 좌표를 받아 100배 확대하고 소수점 둘째 자리까지 반올림하여 position의 x, y, z 속성에 할당합니다.
+            position.y = round(y * 100, 2)
+            position.z = round(z * 100, 2)
+            self.publisher_ = self.create_publisher(Point, 'test', 10) #Point 메시지 타입을 발행하기 위한 퍼블리셔를 생성하고 self.publisher_에 할당합니다. 이 퍼블리셔는 'test' 토픽으로 메시지를 보냅니다.
+            self.publisher_.publish(position) #앞서 설정된 position 객체를 'test' 토픽에 발행합니다.
 
 
 
     
 def main():
-    ap = argparse.ArgumentParser()
+    ap = argparse.ArgumentParser() #명령줄 인수를 파싱하기 위한 ArgumentParser 객체를 생성합니다. 사용자로부터 필요한 매개변수를 받기 위해 설정됩니다.
     ap.add_argument("-k", "--K_Matrix", required=True, help="/home/kang/minibot_aruco/src/my_minibot_aruco_package/my_minibot_aruco_package/calibration_matrix.npy")
     ap.add_argument("-d", "--D_Coeff", required=True, help="/home/kang/minibot_aruco/src/my_minibot_aruco_package/my_minibot_aruco_package/distortion_coefficients.npy")
     ap.add_argument("-t", "--type", type=str, default="DICT_ARUCO_ORIGINAL", help="Type of ArUCo tag to detect")
-    args = vars(ap.parse_args())
+    args = vars(ap.parse_args()) #파싱된 인수들을 딕셔너리 형태로 args에 저장합니다.
 
     if ARUCO_DICT.get(args["type"], None) is None:
         # print(f"ArUCo tag type '{args['type']}' is not supported")
