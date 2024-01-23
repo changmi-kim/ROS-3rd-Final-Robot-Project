@@ -8,10 +8,13 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 import time, datetime
 from serial import Serial
-from mysql.connector import connect
 from dotenv import load_dotenv
 import threading
-from main_server import MyServer
+import socket
+import asyncio
+import aiomysql
+from qasync import QEventLoop
+
 
 
 class MySQL():
@@ -24,30 +27,31 @@ class MySQL():
         self.database = os.environ["DB_name"]
 
 
-    def connectDB(self):
-        self.remote = connect(
+    async def connectDB(self):
+        self.remote = await aiomysql.connect(
             host = self.host,
             port = self.port,
             user = self.user,
             password = self.password,
-            database = self.database
+            db = self.database
         )
 
-    
-    def serchDB(self, command):
-        cur = self.remote.cursor()
 
-        sql = command
+    async def serchDB(self, command):
+        if not hasattr(self, 'remote'):
+            raise Exception("Database connection not established.")
+        
+        async with self.remote.cursor() as cur:
+            await cur.execute(command)
 
-        cur.execute(sql)
-        result = cur.fetchall()
+            result = await cur.fetchall()
 
-        return result
+            return result
 
 
-    def disconnectDB(self):
-        self.remote.commit()
-        self.remote.close()
+    async def disconnectDB(self):
+        await self.remote.commit()
+        await self.remote.close()
 
 
 
@@ -121,6 +125,52 @@ class CCTVCam(QThread):
 
 
 
+class SubscriberImage(QThread):
+    changePixmap = pyqtSignal(QImage, np.ndarray)
+    flag = True
+    client_socket = None
+
+
+    def run(self):
+        while self.flag:
+            length = self.recvall(self.client_socket, 16)
+
+            string_data = self.recvall(self.client_socket, int(length))
+            data = np.frombuffer(string_data, dtype='uint8')
+            frame = cv2.imdecode(data, cv2.IMREAD_COLOR)
+
+            h, w, c = frame.shape
+            qimage = QImage(frame.data, w, h, w*c, QImage.Format_RGB888)
+
+            self.changePixmap.emit(qimage.scaled(200, 200), frame)
+
+
+    def recvall(self, sock, count):
+        # 바이트 문자열
+        buf = b''
+
+        while count:
+            try:
+                print("반복문 진입")
+                newbuf = sock.recv(count)
+                print("캬 이걸 못넘네")
+
+                if not newbuf:
+                    print("여기 들어온거 아니니?")
+                    return None
+                
+                buf += newbuf
+                count -= len(newbuf)
+
+            except Exception as e:
+                print(e)
+                break
+
+        return buf
+
+        
+
+# UI 파일 불러오기
 from_class = uic.loadUiType("src/merge_gui_net/gui_pyqt5/controlPC_gui.ui")[0]
 
 # GUI
@@ -130,6 +180,28 @@ class ControlPCWindow(QMainWindow, from_class):
         super().__init__()
         self.setupUi(self)  # UI 설정
         self.setWindowTitle('Voltie Manager')
+
+        self.subcriber_ = SubscriberImage(self)
+        
+
+        self.client_sockets = {}
+
+        self.timer = QTimer(self)
+
+        self.HOST = os.environ["HOST_IP"]
+        self.PORT = os.environ["HOST_PORT"]
+
+
+        self.images = {}  # 클라이언트별 최신 이미지를 저장하는 딕셔너리
+
+        self.ip_name = {"192.168.1.14" : "minibot1",
+                        "192.168.1.7" : "minibot2",
+                        "192.168.1.6" : "minibot3",
+                        }
+        
+        # Run the server in a separate thread
+        server_thread = threading.Thread(target=self.run_server)
+        server_thread.start()
 
 
         # 주자창에 주차된 차를 파악하기 위한 MCU 설정
@@ -148,7 +220,7 @@ class ControlPCWindow(QMainWindow, from_class):
         self.M_tables = [self.m1_table, self.m2_table, self.m3_table]
 
         self.bot_timer = QTimer(self)
-        self.bot_timer.timeout.connect(self.bots_status)
+        self.bot_timer.timeout.connect(lambda: asyncio.create_task(self.bots_status()))
         self.bot_timer.start(100)
 
 
@@ -156,11 +228,6 @@ class ControlPCWindow(QMainWindow, from_class):
         self.isCCTVon = False
         self.image = None
         self.cctv_pixmap = QPixmap()
-        self.bot1_pixmap = QPixmap()
-        self.bot2_pixmap = QPixmap()
-        self.bot3_pixmap = QPixmap()
-        self.cctv = CCTVCam()
-        self.cctv.update.connect(self.updateCCTV)
 
 
         # 카메라 선택 구역 라디오 버튼
@@ -180,16 +247,36 @@ class ControlPCWindow(QMainWindow, from_class):
         self.m3_table.verticalHeader().setSectionResizeMode(QHeaderView.Stretch)
         
         self.park_DB_timer = QTimer(self)
-        self.park_DB_timer.timeout.connect(self.update_parking_system_log)
+        self.park_DB_timer.timeout.connect(lambda: asyncio.create_task(self.update_parking_system_log()))
         self.park_DB_timer.start(5000)
 
-
-    # DB 정보 가져오기
-    def update_parking_system_log(self):
+    
+    async def bots_status(self):
         self.remote = MySQL()
-        self.remote.connectDB()
+        await self.remote.connectDB()
+        result = await self.remote.serchDB("SELECT * FROM robot_status")
+
         
-        result = self.remote.serchDB("SELECT * FROM park_system_log")
+        for info, table, status in zip(result, self.M_tables, self.M_status):
+            
+            if info[1] == "사용가능":
+                color = "#05fa2e"  # 초록
+            elif info[1] == "사용 중":
+                color = "#f6fa05"  # 노랑
+            else: # 사용불가
+                color = "#fa0505"  # 빨강
+
+            status.setText(info[1])
+            status.setStyleSheet(f"color: black; background-color: {color};")
+
+            table.setItem(0,0, QTableWidgetItem(info[2]))
+            table.setItem(1,0, QTableWidgetItem(info[3]))
+            table.setItem(2,0, QTableWidgetItem(str(info[4])))
+
+        
+    # DB 정보 가져오기
+    async def update_parking_system_log(self):
+        result = await self.remote.serchDB("SELECT * FROM park_system_log")
 
         # 현재 데이터베이스의 행 수와 열 수 가져오기
         current_rows = self.database.rowCount()
@@ -212,34 +299,6 @@ class ControlPCWindow(QMainWindow, from_class):
                     col_data = col_data.strftime("%d-%H:%M")
                 self.database.setItem(row, col_num, QTableWidgetItem(str(col_data)))
 
-        self.remote.disconnectDB()
-
-
-    def bots_status(self):
-        # DB 연결
-        self.remote = MySQL()
-        self.remote.connectDB()
-        result = self.remote.serchDB("SELECT * FROM robot_status")
-
-        
-        for info, table, status in zip(result, self.M_tables, self.M_status):
-            
-            if info[1] == "사용가능":
-                color = "#05fa2e"  # 초록
-            elif info[1] == "사용 중":
-                color = "#f6fa05"  # 노랑
-            else: # 사용불가
-                color = "#fa0505"  # 빨강
-
-            status.setText(info[1])
-            status.setStyleSheet(f"color: black; background-color: {color};")
-
-            table.setItem(0,0, QTableWidgetItem(info[2]))
-            table.setItem(1,0, QTableWidgetItem(info[3]))
-            table.setItem(2,0, QTableWidgetItem(str(info[4])))
-
-        self.remote.disconnectDB()
-
 
     def display_radio_clicked(self):
         # 라디오 버튼 체크 항목 반영 전 초기화
@@ -257,57 +316,56 @@ class ControlPCWindow(QMainWindow, from_class):
         self.m3_name.setText("M-3"); self.m3_name.setStyleSheet("color: #f6d32d;")
 
 
-        while True:
-            try:
+        # CCTV 라디오가 체크 될 경우
+        if self.cctv_convert.isChecked():
 
-                bot1 = self.gui_display("192.168.1.14")
-                self.minibot1_display.setPixmap(bot1)
+            self.cctv = CCTVCam()
+            self.cctv.update.connect(self.updateCCTV)
+            self.CCTVstart()
 
-                bot2 = self.gui_display("192.168.1.6")
-                self.minibot1_display.setPixmap(bot2)
+            self.display.show()
+            self.minibot1_display.hide()
+            self.minibot2_display.hide()
+            self.minibot3_display.hide()
 
-                bot3 = self.gui_display("192.168.1.7")
-                self.minibot1_display.setPixmap(bot3)
 
-                # CCTV 라디오가 체크 될 경우
-                if self.cctv_convert.isChecked():
-                    self.CCTVstart()
+        # 로봇1이 체크 될 경우
+        elif self.minibot1_convert.isChecked():
+            self.m1_name.setText("M-1"); self.m1_name.setStyleSheet("color: black; background-color: lightgreen;")
+            
+            # self.subcriber_.working = True
+            # self.subcriber_.client_socket = self.client_sockets["192.168.1.7"]
+            # print(self.subcriber_.client_socket)
+            # self.subcriber_.changePixmap.connect(self.setImage)
+            # self.subcriber_.start()
 
-                    self.display.show()
-                    self.minibot1_display.hide()
-                    self.minibot2_display.hide()
-                    self.minibot3_display.hide()
+            self.display.hide()
+            self.minibot1_display.show()
+            self.minibot2_display.hide()
+            self.minibot3_display.hide()
 
-        
-                # 로봇1이 체크 될 경우
-                if self.minibot1_convert.isChecked():
-                    self.m1_name.setText("M-1"); self.m1_name.setStyleSheet("color: black; background-color: lightgreen;")
+            
+        # 로봇2가 체크 될 경우
+        elif self.minibot2_convert.isChecked():
+            self.m2_name.setText("M-2")
+            self.m2_name.setStyleSheet("color: black; background-color: lightgreen;")
 
-                    self.display.hide()
-                    self.minibot1_display.show()
-                    self.minibot2_display.hide()
-                    self.minibot3_display.hide()
+            self.display.hide()
+            self.minibot1_display.hide()
+            self.minibot2_display.show()
+            self.minibot3_display.hide()
 
-                # 로봇2가 체크 될 경우
-                if self.minibot2_convert.isChecked():
-                    self.m2_name.setText("M-2"); self.m2_name.setStyleSheet("color: black; background-color: lightgreen;")
-                    
-                    self.display.hide()
-                    self.minibot1_display.hide()
-                    self.minibot2_display.show()
-                    self.minibot3_display.hide()
+        # 로봇3가 체크 될 경우  
+        elif self.minibot3_convert.isChecked():
+            self.m3_name.setText("M-3"); self.m3_name.setStyleSheet("color: black; background-color: lightgreen;")
 
-                # 로봇3가 체크 될 경우  
-                if self.minibot3_convert.isChecked():
-                    self.m3_name.setText("M-3"); self.m3_name.setStyleSheet("color: black; background-color: lightgreen;")
+            self.display.hide()
+            self.minibot1_display.hide()
+            self.minibot2_display.hide()
+            self.minibot3_display.show()
 
-                    self.display.hide()
-                    self.minibot1_display.hide()
-                    self.minibot2_display.hide()
-                    self.minibot3_display.show()
-
-            except Exception as e:
-                print(e)
+    def setImage(self, image):
+        self.minibot2_display.setPixmap(QPixmap.fromImage(image))
 
 
     def CCTVstart(self):
@@ -324,30 +382,21 @@ class ControlPCWindow(QMainWindow, from_class):
     def updateCCTV(self):
         retval, self.image = self.video.read()
         if retval:
-            self.image = cv2.cvtColor(self.image, cv2.COLOR_BGR2RGB)
+            try:
+                self.image = cv2.cvtColor(self.image, cv2.COLOR_BGR2RGB)
 
-            h,w,c = self.image.shape
-            qimage = QImage(self.image.data, w, h, w*c, QImage.Format_RGB888)
+                h,w,c = self.image.shape
+                qimage = QImage(self.image.data, w, h, w*c, QImage.Format_RGB888)
 
-            self.cctv_pixmap = self.cctv_pixmap.fromImage(qimage)
-            self.cctv_pixmap = self.cctv_pixmap.scaled(self.display.width(), self.display.height())
-            
-            self.display.setPixmap(self.cctv_pixmap)
+                self.cctv_pixmap = self.cctv_pixmap.fromImage(qimage)
+                self.cctv_pixmap = self.cctv_pixmap.scaled(self.display.width(), self.display.height())
+                
+                self.display.setPixmap(self.cctv_pixmap)
 
-
-    def gui_display(self, ip):
-        self.cvt_frame = cv2.cvtColor(frame[ip], cv2.COLOR_BGR2RGB)
-
-        h,w,c = self.cvt_frame.shape
-        qimage = QImage(self.cvt_frame.data, w, h, w*c, QImage.Format_RGB888)
-
-        cctv_pixmap = self.cctv_pixmap.fromImage(qimage)
-        cctv_pixmap = cctv_pixmap.scaled(self.display.width(), self.display.height())
+            except:
+                print("cctv 에러")
+   
         
-        return cctv_pixmap
-        
-
-
     def parking_lot_status(self, data):
         if len(data) == 4:  # 간혹 시리얼을 일부만 가져오는 경우가 있기 때문에...
             self.isOuppied = [int(data[0]), int(data[1]), int(data[2]), int(data[3])]
@@ -369,41 +418,64 @@ class ControlPCWindow(QMainWindow, from_class):
 
 
 
-def server_images(server_node):
-    global frame
+    def run_server(self):
+        print(f'Server Start with IP: {self.HOST}')
+        self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        server_address = (self.HOST, int(self.PORT))
+        self.server_socket.bind(server_address)
+        self.server_socket.listen()
 
-    while True:
+        print("Server is listening...")
+
         try:
-            frame = server_node.images
+            while True:
+                client_socket, client_address = self.server_socket.accept()
+                client_id = str(client_address[0])
 
-        except:
-            pass
+                if client_address[0] in self.ip_name:
+                    print(f'연결 수락됨: {self.ip_name[client_address[0]]}')
 
-def main():
-    try:
-        load_dotenv()
+                else:
+                    print("미등록 사용자입니다. : ", client_address[0])
+                    
+                print("client_id : ", client_id)
 
-        server_node = MyServer()
+                self.client_sockets[client_id] = client_socket
 
-        # 서버를 별도의 스레드에서 실행
-        server_thread = threading.Thread(target=server_node.run_server)
-        server_thread.start()
+                response = '서버 연결 성공'
+                client_socket.sendall(response.encode())
 
-        update_images = threading.Thread(target=server_images, args=(server_node,))
-        update_images.start()
 
-        app = QApplication(sys.argv)
-        control_PC_window = ControlPCWindow()
-        control_PC_window.show()
+        except KeyboardInterrupt:
+            print('서버를 종료합니다.')
 
-        server_thread.join()
-        update_images.join()
+            for client_socket in self.client_sockets:
+                client_socket.close()
 
-    except Exception as e:
-        print(e)
+            self.server_socket.close()
+            
+        
+        finally:
+            # 어떠한 경우에도 마지막에 서버 소켓을 닫음
+            if self.server_socket:
+                self.remote.disconnectDB()
+                self.server_socket.close()
 
-    finally:
-        sys.exit(app.exec_())
+
+
+async def main():
+    load_dotenv()
+
+    app = QApplication(sys.argv)
+    control_PC_window = ControlPCWindow()
+    control_PC_window.show()
+
+    loop = QEventLoop(app)
+    asyncio.set_event_loop(loop)
+    
+    with loop:
+        loop.run_forever()
 
 if __name__ == '__main__':
-    main()
+    asyncio.run(main())

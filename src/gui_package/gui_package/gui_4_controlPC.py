@@ -107,7 +107,7 @@ class ControlPCWindow(QMainWindow, from_class):
         self.setWindowTitle('Voltie Manager')
         
         # 주자창에 주차된 차를 파악하기 위한 MCU 설정
-        self.arduino_conn = Serial(port='/dev/ttyACM0', baudrate=9600)
+        self.arduino_conn = Serial(port='/dev/ttyUSB0', baudrate=9600)
         self.arduino = ArduinoSerial(self.arduino_conn)
         self.arduino.receive.connect(self.parking_lot_status)
         self.arduino.start()

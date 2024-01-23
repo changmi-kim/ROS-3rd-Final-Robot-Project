@@ -11,8 +11,10 @@ class MyServer():
         super().__init__()
         self.client_sockets = []
         self.client_sockets_lock = threading.Lock()
-        self.HOST = "192.168.1.7" # 로컬 IP 주소
-        self.PORT = 3306
+        # self.HOST = "192.168.1.7" # 로컬 IP 주소
+        # self.PORT = 3306
+        self.HOST = "192.168.219.145"
+        self.PORT = 5715
         self.server_socket = None
 
         self.client_thread_count = 0
@@ -20,7 +22,7 @@ class MyServer():
 
         self.ip_name = {"192.168.1.14" : "minibot1",
                         "192.168.1.7" : "minibot2",
-                        "192.168.1.6" : "minibot3"
+                        "192.168.1.6" : "minibot3",
                         }
         
         self.images = {}  # 클라이언트별 최신 이미지를 저장하는 딕셔너리
@@ -94,12 +96,18 @@ class MyServer():
             while True:
                 client_socket, client_address = self.server_socket.accept()
                 client_id = str(client_address[0])
-                print(f'연결 수락됨: {self.ip_name[client_address[0]]}')
+
+                if client_address[0] in self.ip_name:
+                    print(f'연결 수락됨: {self.ip_name[client_address[0]]}')
+
+                else:
+                    print("미등록 사용자입니다. : ", client_address[0])
+                    
                 print("client_id : ", client_id)
 
                 self.client_sockets.append(client_socket)
 
-                print(f'참여한 클라이언트 수: {len(self.client_sockets)}')
+                print(f'참여한 클라이언트 수: {len(self.client_fsockets)}')
                 response = '서버 연결 성공'
                 client_socket.sendall(response.encode())
 
@@ -125,7 +133,7 @@ class MyServer():
             print('서버를 종료합니다.')
 
             # 종료 시 모든 스레드 정리
-            for flag in self.run_flags:
+            for flag in self.thread_stop_flags:
                 flag.clear()
 
             for t in self.threads:

@@ -3,15 +3,14 @@ import threading
 from main_server import MyServer
 
 def print_test():
-    frame = {}
     while True:
         try:
             frame = server_node.images
 
             print(frame)
 
-            cv2.imshow('test', frame["192.168.1.7"])
-            cv2.imshow('test2', frame["192.168.1.14"])
+            cv2.imshow('test', frame["192.168.219.145"])
+            # cv2.imshow('test2', frame["192.168.1.14"])
 
             if cv2.waitKey(1) == ord('q'):
                 break

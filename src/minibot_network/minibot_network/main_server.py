@@ -13,7 +13,7 @@ class MyServer():
         self.client_sockets_lock = threading.Lock()
         # self.HOST = "192.168.1.7" # 로컬 IP 주소
         # self.PORT = 3306
-        self.HOST = "192.168.219.145"
+        self.HOST = "192.168.1.7"
         self.PORT = 5715
         self.server_socket = None
 
@@ -61,8 +61,8 @@ class MyServer():
                 self.images[client_id] = frame  # 클라이언트 별로 이미지 저장
 
                 if self.display_client == client_id:
-                    cv2.imshow('ImageWindow', self.images["192.168.1.7"])
-                    cv2.imshow('ImageWindow2', self.images["192.168.1.14"])
+                    cv2.imshow('ImageWindow', self.images["192.168.219.145"])
+                    cv2.imshow('ImageWindow2', self.images["192.168.219.128"])
                     # cv2.imshow('ImageWindow3', self.images["192.168.1.6"])
                     cv2.waitKey(1)
 

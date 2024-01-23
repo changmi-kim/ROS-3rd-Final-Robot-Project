@@ -5,13 +5,7 @@ import numpy as np
 ## TCP 사용
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 ## server ip, port
-s.connect(('192.168.1.7', 3306))
-
-name = "minibot2"
-data = np.array(name)
-stdata = data.tobytes()
-
-s.sendall((str(len(stdata))).encode().ljust(16) + stdata)
+s.connect(('192.168.1.7', 2626))
  
  
 ## webcam 이미지 capture
@@ -23,6 +17,7 @@ cam.set(4, 240)
  
 ## 0~100에서 90의 이미지 품질로 설정 (default = 95)
 encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 90]
+
 try:
     while True:
         # 비디오의 한 프레임씩 읽는다.

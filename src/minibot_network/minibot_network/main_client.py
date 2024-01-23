@@ -15,7 +15,7 @@ class MyClient(Node):
     def __init__(self):
         super().__init__('minibot1')
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server_address = ('192.168.1.7', 3306)
+        self.server_address = ('192.168.1.7', 2626)
         self.connect_to_server()
 
         self.qos_profile_ = QoSProfile(
@@ -33,7 +33,7 @@ class MyClient(Node):
         self.length = self.get_parameter('length').value
 
         # self.image_subscriber_ = self.create_subscription(CompressedImage, '/image_raw/compressed', self.image_callback2, self.qos_profile_)
-        self.image_subscriber_ = self.create_subscription(Image, 'minibot2_image', self.image_callback2, self.qos_profile_)
+        self.image_subscriber_ = self.create_subscription(Image, 'minibot2_image', self.image_callback1, self.qos_profile_)
         # self.image_subscriber_ = self.create_subscription(Image, 'minibot2_image', self.image_callback, self.qos_profile_)
 
 
