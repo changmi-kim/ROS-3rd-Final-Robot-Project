@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1139</width>
-    <height>703</height>
+    <width>1132</width>
+    <height>698</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -284,7 +284,7 @@ color: rgb(249, 240, 107);</string>
     </attribute>
     <column>
      <property name="text">
-      <string>차량번호</string>
+      <string>차량</string>
      </property>
      <property name="font">
       <font>
@@ -344,7 +344,12 @@ color: rgb(249, 240, 107);</string>
     </column>
     <column>
      <property name="text">
-      <string>주차위치</string>
+      <string>결제</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>커넥터</string>
      </property>
      <property name="font">
       <font>
@@ -365,7 +370,7 @@ color: rgb(249, 240, 107);</string>
     <property name="title">
      <string/>
     </property>
-    <widget class="QLabel" name="display">
+    <widget class="QLabel" name="cctv_display">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -481,6 +486,80 @@ color: rgb(249, 240, 107);</string>
       </property>
      </widget>
     </widget>
+    <widget class="QLabel" name="m1_display">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>421</width>
+       <height>281</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>21</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>M-1 Camera</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="m2_display">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>421</width>
+       <height>281</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>21</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>M-2 Camera</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="m3_display">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>421</width>
+       <height>281</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>21</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>M-3 Camera</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <zorder>select_vision</zorder>
+    <zorder>m1_display</zorder>
+    <zorder>m3_display</zorder>
+    <zorder>m2_display</zorder>
+    <zorder>cctv_display</zorder>
    </widget>
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">

@@ -1,5 +1,4 @@
 import sys
-import cv2
 import numpy as np
 from PyQt5 import uic
 from PyQt5.QtWidgets import *
@@ -211,7 +210,7 @@ class KioskWindow(QMainWindow, from_class):
             self.remote.commit()
 
             sql_query = f'''UPDATE robot_status
-                            SET status = '사용불가',
+                            SET status = '사용 중',
                                 request = '{self.connector}',
                                 progress = '이동 중'
                                 WHERE id = {self.bot_id}
