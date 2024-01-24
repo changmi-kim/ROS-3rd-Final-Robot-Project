@@ -1,13 +1,19 @@
-import sys
+import os, sys
 import cv2
 import numpy as np
 from PyQt5 import uic
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
-import datetime, time
+import time, datetime
 from serial import Serial
+from dotenv import load_dotenv
+import threading
+import socket
+import asyncio
+import aiomysql
 import mysql.connector
+from qasync import QEventLoop
 import pygame
 
 # DB에 접근
@@ -65,42 +71,6 @@ class Mp3Player(QThread):
         # 음악 종료
         pygame.mixer.music.stop()
         self.terminate()
-
-# CCTV 용도를 위한 웹캠 스레드 클래스
-class CCTVCam(QThread):
-    update = pyqtSignal()
-
-    def __init__(self, sec=0, parent=None):
-        super().__init__()
-        self.main = parent
-        self.cctv_running = True
-
-    def run(self):
-        while self.cctv_running == True:
-            self.update.emit()
-            time.sleep(0.1)
-    
-    def stop(self):
-        self.cctv_running = False
-
-# 고객의 주차 여부를 파악하기 위한 Arduino 시리얼을 받아오는 스레드 클래스
-class ArduinoSerial(QThread):
-    receive = pyqtSignal(str)
-
-    def __init__(self, serial=None):
-        super().__init__()
-        self.serial = serial
-        self.running = True
-
-    def run(self):
-        # global serial_buffer
-        while self.running == True:
-            try:
-                if self.serial.readable():
-                    serial_buffer = self.serial.readline().decode('utf-8').strip()
-                    self.receive.emit(serial_buffer)
-            except:
-                print('Waiting...')
 
 # 키오스크 클래스
 class KioskWindow(QMainWindow, from_class1):
@@ -166,28 +136,29 @@ class KioskWindow(QMainWindow, from_class1):
         sql_query = f'''SELECT robot_number from park_system_log
                         WHERE car_number = "{self.target}"
                         AND entry_time = '{self.target_entry_time}'
-                        AND charging_end_time = '{self.target_charging_end}'
                         AND isPayed IS NULL
                         AND departure_time is NULL
                      '''
         
         remote_cursor.execute(sql_query)
         result = remote_cursor.fetchall()
+        print("HUB로 귀환시킬 로봇", result)
         
         # 하드웨어와 실제로 연동 안됨. 추후에 쿼리 수정해야함.
         sql_query = f'''UPDATE robot_status
                         SET status = '사용가능',
-                            request = 'HUB'
+                            request = 'HUB',
+                            progress = '이동 중'
                         WHERE id = {result[0][0]}
                      '''
         remote_cursor.execute(sql_query)
         
         # 결제했다고 표시
         sql_query = f'''UPDATE park_system_log
-                        SET isPayed = 'Y'
+                        SET charging_end_time = "{self.target_charging_end}",
+                            isPayed = 'Y'
                         WHERE car_number = "{self.target}"
                         AND entry_time = '{self.target_entry_time}'
-                        AND charging_end_time = '{self.target_charging_end}'
                         AND isPayed IS NULL
                         AND departure_time IS NULL
                     '''
@@ -248,7 +219,7 @@ class KioskWindow(QMainWindow, from_class1):
             self.remote.commit()
 
             sql_query = f'''UPDATE robot_status
-                            SET status = '사용불가',
+                            SET status = '사용 중',
                                 request = '{self.connector}',
                                 progress = '이동 중'
                                 WHERE id = {self.bot_id}
@@ -355,9 +326,17 @@ class KioskWindow(QMainWindow, from_class1):
             self.target_charging_end = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             charge_time = datetime.datetime.strptime(self.target_charging_end, "%Y-%m-%d %H:%M:%S") - datetime.datetime.strptime(self.target_entry_time, "%Y-%m-%d %H:%M:%S")
             
+            total_seconds = int(charge_time.total_seconds())
+
+            # 총 초를 분과 초로 변환
+            minutes = total_seconds // 60
+            seconds = total_seconds % 60
+
+            # "OO분 XX초" 형식으로 결과 출력
+            charge_time = f"{minutes}분 {seconds}초"
+
             sql_query = f'''UPDATE park_system_log
-                            SET charging_end_time = '{self.target_charging_end}',
-                                price = (TIMESTAMPDIFF(SECOND, charging_start_time, '{self.target_charging_end}') / 3600 * 3)
+                            SET price = '{self.target_charging_end}'
                             WHERE car_number = '{self.target}'
                             AND entry_time = '{self.target_entry_time}'
                             AND departure_time IS NULL
@@ -370,7 +349,6 @@ class KioskWindow(QMainWindow, from_class1):
                             WHERE car_number = '{self.target}'
                             AND entry_time = '{self.target_entry_time}'
                             AND charging_start_time IS NOT NULL
-                            AND charging_end_time = '{self.target_charging_end}'
                             AND isPayed IS NULL
                             AND departure_time IS NULL
                          '''
@@ -379,7 +357,7 @@ class KioskWindow(QMainWindow, from_class1):
             self.price = remote_cursor.fetchall()[0]
             self.price = self.price[0]
 
-            self.result_pay.setText(f"충전 시간은 {charge_time}분이며\n금액은 {self.price}원입니다.")
+            self.result_pay.setText(f"충전 시간은 {charge_time} 이며\n금액은 {self.price}원입니다.")
             
             self.remote.close()
         
@@ -566,24 +544,6 @@ class MySQL():
         await self.remote.commit()
         await self.remote.close()
 
-# 고객의 주차 여부를 파악하기 위한 Arduino 시리얼을 받아오는 스레드 클래스
-class ArduinoSerial(QThread):
-    receive = pyqtSignal(str)
-
-    def __init__(self, serial=None):
-        super().__init__()
-        self.serial = serial
-        self.running = True
-
-    def run(self):
-        while self.running == True:
-            try:
-                if self.serial.readable():
-                    serial_buffer = self.serial.readline().decode('utf-8').strip()
-                    self.receive.emit(serial_buffer)
-            except:
-                print('Arduino Waiting...')
-
 # CCTV 용도를 위한 웹캠 스레드 클래스
 class CCTVCam(QThread):
     update = pyqtSignal()
@@ -642,10 +602,29 @@ class SubscriberImage(QThread):
 
         return buf
 
-from_class2 = uic.loadUiType("/home/wintercamo/git_ws/ros-repo-2/gui_package/gui_package/gui_4_controlPC.ui")[0]
+
+# 고객의 주차 여부를 파악하기 위한 Arduino 시리얼을 받아오는 스레드 클래스
+class ArduinoSerial(QThread):
+    receive = pyqtSignal(str)
+
+    def __init__(self, serial=None):
+        super().__init__()
+        self.serial = serial
+        self.running = True
+
+    def run(self):
+        while self.running == True:
+            try:
+                if self.serial.readable():
+                    serial_buffer = self.serial.readline().decode('utf-8').strip()
+                    self.receive.emit(serial_buffer)
+            except:
+                print('Arduino Waiting...')
+
+from_class = uic.loadUiType("/home/wintercamo/git_ws/ros-repo-2/gui_package/gui_package/gui_4_controlPC.ui")[0]
 
 # 관제 PC GUI
-class ControlPCWindow(QMainWindow, from_class2):
+class ControlPCWindow(QMainWindow, from_class):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -672,9 +651,9 @@ class ControlPCWindow(QMainWindow, from_class2):
 
         # 주자창에 주차된 차를 파악하기 위한 MCU 설정
         arduino_port = os.environ["Arduino_port"]
-        baud_rate = int(os.environ["Baud_rate"])
+        baud_rate = os.environ["Baud_rate"]
 
-        self.arduino_conn = Serial(port=arduino_port, baudrate=baud_rate)
+        self.arduino_conn = Serial(port="/dev/ttyACM0", baudrate=9600)
         self.arduino = ArduinoSerial(self.arduino_conn)
         self.arduino.receive.connect(self.parking_lot_status)
         self.arduino.start()
@@ -711,22 +690,29 @@ class ControlPCWindow(QMainWindow, from_class2):
         self.park_DB_timer = QTimer(self)
         self.park_DB_timer.timeout.connect(lambda: asyncio.create_task(self.update_parking_system_log()))
         self.park_DB_timer.start(2000)
-        
+    
+    # 주차장 현황 정보 가져오기
+    def parking_lot_status(self, data):
+        if len(data) == 4:
+            self.isOuppied = [int(data[0]), int(data[1]), int(data[2]), int(data[3])]
+
+            self.B1.setText("B1"); self.B1.setStyleSheet("color: black; background-color: lightblue;")
+            self.B2.setText("B2"); self.B2.setStyleSheet("color: black; background-color: lightblue;")
+            self.B3.setText("B3"); self.B3.setStyleSheet("color: black; background-color: lightblue;")
+            # print(self.isOuppied)
+            if self.isOuppied[0] == 0:
+                self.B1.setText("B1"); self.B1.setStyleSheet("color: black; background-color: #f0c5c6;")
+
+            if self.isOuppied[1] == 0:
+                self.B2.setText("B2"); self.B2.setStyleSheet("color: black; background-color: #f0c5c6;")
+
+            if self.isOuppied[2] == 0:
+                self.B3.setText("B3"); self.B3.setStyleSheet("color: black; background-color: #f0c5c6;")
+
+            self.park_num.setText(f"{self.isOuppied[3]} 대"); self.park_num.setStyleSheet("color: #f6d32d; background-color: transparent;")
+
     # DB 정보 가져오기
     async def update_parking_system_log(self):
-        # self.database.clearContents()
-        # self.database.setRowCount(0)
-        # result = await self.remote.serchDB('''SELECT car_number, entry_time, charging_start_time, charging_end_time, departure_time, robot_number, price, isPayed, connector
-        #                                       FROM park_system_log''')
-
-        # for id_item in result:
-        #     row = self.database.rowCount()
-        #     self.database.insertRow(row)
-        #     for col_num, col_data in enumerate(id_item):
-        #         print(id_item, col_num, col_data)
-        #         if isinstance(col_data, datetime.datetime):
-        #             col_data = col_data.strftime("%d-%H:%M")
-        #         self.database.setItem(row, col_num, QTableWidgetItem(str(col_data)))
         result = await self.remote.serchDB('''SELECT car_number, entry_time, charging_start_time, charging_end_time, departure_time, robot_number, price, isPayed, connector
                                           FROM park_system_log''')
 
@@ -752,14 +738,20 @@ class ControlPCWindow(QMainWindow, from_class2):
                 if current_item and current_item.text() != str(col_data):
                     current_item.setText(str(col_data))
 
+    def hide_display(self):
+        self.m1_name.setText("M-1"); self.m1_name.setStyleSheet("color: #f6d32d;")
+        self.m2_name.setText("M-2"); self.m2_name.setStyleSheet("color: #f6d32d;")
+        self.m3_name.setText("M-3"); self.m3_name.setStyleSheet("color: #f6d32d;")
+
+        self.display.hide()
+        self.minibot1_display.hide()
+        self.minibot2_display.hide()
+        self.minibot3_display.hide()
+
     def display_radio_clicked(self):
         # 라디오 버튼 체크 항목 반영 전 초기화
         if self.isCCTVon == True:
             self.CCTVstop()
-
-        self.m1_name.setText("M-1"); self.m1_name.setStyleSheet("color: #f6d32d;")
-        self.m2_name.setText("M-2"); self.m2_name.setStyleSheet("color: #f6d32d;")
-        self.m3_name.setText("M-3"); self.m3_name.setStyleSheet("color: #f6d32d;")
 
         # CCTV 라디오가 체크 될 경우
         if self.cctv_convert.isChecked():
@@ -767,40 +759,27 @@ class ControlPCWindow(QMainWindow, from_class2):
             self.cctv = CCTVCam()
             self.cctv.update.connect(self.updateCCTV)
             self.CCTVstart()
-
+            
+            self.hide_display()
             self.display.show()
-            self.minibot1_display.hide()
-            self.minibot2_display.hide()
-            self.minibot3_display.hide()
 
         # 로봇1이 체크 될 경우
         elif self.minibot1_convert.isChecked():
+            self.hide_display()
+            self.display.show()
             self.m1_name.setText("M-1"); self.m1_name.setStyleSheet("color: black; background-color: lightgreen;")
 
-            self.display.hide()
-            self.minibot1_display.show()
-            self.minibot2_display.hide()
-            self.minibot3_display.hide()
-
-            
         # 로봇2가 체크 될 경우
         elif self.minibot2_convert.isChecked():
-            self.m2_name.setText("M-2")
-            self.m2_name.setStyleSheet("color: black; background-color: lightgreen;")
+            self.hide_display()
+            self.display.show()
+            self.m2_name.setText("M-2"); self.m2_name.setStyleSheet("color: black; background-color: lightgreen;")
 
-            self.display.hide()
-            self.minibot1_display.hide()
-            self.minibot2_display.show()
-            self.minibot3_display.hide()
-
-        # 로봇3가 체크 될 경우  
+        # 로봇3가 체크 될 경우
         elif self.minibot3_convert.isChecked():
+            self.hide_display()
+            self.display.show()
             self.m3_name.setText("M-3"); self.m3_name.setStyleSheet("color: black; background-color: lightgreen;")
-
-            self.display.hide()
-            self.minibot1_display.hide()
-            self.minibot2_display.hide()
-            self.minibot3_display.show()
 
     def setImage(self, image):
         self.minibot2_display.setPixmap(QPixmap.fromImage(image))
@@ -868,29 +847,11 @@ class ControlPCWindow(QMainWindow, from_class2):
                 self.remote.disconnectDB()
                 self.server_socket.close()
     
-    def parking_lot_status(self, data):
-        if len(data) == 4:
-            self.isOuppied = [int(data[0]), int(data[1]), int(data[2]), int(data[3])]
-
-            self.B1.setText("B1"); self.B1.setStyleSheet("color: black; background-color: lightblue;")
-            self.B2.setText("B2"); self.B2.setStyleSheet("color: black; background-color: lightblue;")
-            self.B3.setText("B3"); self.B3.setStyleSheet("color: black; background-color: lightblue;")
-            # print(self.isOuppied)
-            if self.isOuppied[0] == 0:
-                self.B1.setText("B1"); self.B1.setStyleSheet("color: black; background-color: #f0c5c6;")
-
-            if self.isOuppied[1] == 0:
-                self.B2.setText("B2"); self.B2.setStyleSheet("color: black; background-color: #f0c5c6;")
-
-            if self.isOuppied[2] == 0:
-                self.B3.setText("B3"); self.B3.setStyleSheet("color: black; background-color: #f0c5c6;")
-
-            self.park_num.setText(f"{self.isOuppied[3]} 대"); self.park_num.setStyleSheet("color: #f6d32d; background-color: transparent;")
-    
     def CCTVstart(self):
         self.cctv.cctv_running = True
         self.cctv.start()
-        self.video = cv2.VideoCapture('/dev/YourWebCam')
+        # change your cam!
+        self.video = cv2.VideoCapture(2)
 
     def CCTVstop(self):
         self.cctv.cctv_running = False

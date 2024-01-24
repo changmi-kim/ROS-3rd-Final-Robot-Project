@@ -6,7 +6,7 @@ CREATE TABLE park_system_log (
     charging_end_time DATETIME,
     departure_time DATETIME,
     robot_number INT,
-    price FLOAT,
+    price INT,
     isPayed VARCHAR(2),
     connector VARCHAR(4)
 );

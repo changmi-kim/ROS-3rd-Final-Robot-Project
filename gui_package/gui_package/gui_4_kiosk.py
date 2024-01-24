@@ -1,4 +1,4 @@
-import sys
+import sys, os
 import numpy as np
 from PyQt5 import uic
 from PyQt5.QtWidgets import *
@@ -63,9 +63,26 @@ class Mp3Player(QThread):
         # 음악 종료
         pygame.mixer.music.stop()
         self.terminate()
+# 고객의 주차 여부를 파악하기 위한 Arduino 시리얼을 받아오는 스레드 클래스
+class ArduinoSerial(QThread):
+    receive = pyqtSignal(str)
 
-# GUI 클래스
-class KioskWindow(QMainWindow, from_class):
+    def __init__(self, serial=None):
+        super().__init__()
+        self.serial = serial
+        self.running = True
+
+    def run(self):
+        while self.running == True:
+            try:
+                if self.serial.readable():
+                    serial_buffer = self.serial.readline().decode('utf-8').strip()
+                    self.receive.emit(serial_buffer)
+            except:
+                print('Arduino Waiting...')
+
+# 키오스크 클래스
+class KioskWindow(QMainWindow, from_class1):
     def __init__(self):
         super().__init__()
         self.setupUi(self)  # UI 설정
@@ -128,28 +145,29 @@ class KioskWindow(QMainWindow, from_class):
         sql_query = f'''SELECT robot_number from park_system_log
                         WHERE car_number = "{self.target}"
                         AND entry_time = '{self.target_entry_time}'
-                        AND charging_end_time = '{self.target_charging_end}'
                         AND isPayed IS NULL
                         AND departure_time is NULL
                      '''
         
         remote_cursor.execute(sql_query)
         result = remote_cursor.fetchall()
+        print("HUB로 귀환시킬 로봇", result)
         
         # 하드웨어와 실제로 연동 안됨. 추후에 쿼리 수정해야함.
         sql_query = f'''UPDATE robot_status
                         SET status = '사용가능',
-                            request = 'HUB'
+                            request = 'HUB',
+                            progress = '이동 중'
                         WHERE id = {result[0][0]}
                      '''
         remote_cursor.execute(sql_query)
         
         # 결제했다고 표시
         sql_query = f'''UPDATE park_system_log
-                        SET isPayed = 'Y'
+                        SET charging_end_time = "{self.target_charging_end}",
+                            isPayed = 'Y'
                         WHERE car_number = "{self.target}"
                         AND entry_time = '{self.target_entry_time}'
-                        AND charging_end_time = '{self.target_charging_end}'
                         AND isPayed IS NULL
                         AND departure_time IS NULL
                     '''
@@ -317,11 +335,20 @@ class KioskWindow(QMainWindow, from_class):
             self.target_charging_end = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             charge_time = datetime.datetime.strptime(self.target_charging_end, "%Y-%m-%d %H:%M:%S") - datetime.datetime.strptime(self.target_entry_time, "%Y-%m-%d %H:%M:%S")
             
+            total_seconds = int(charge_time.total_seconds())
+
+            # 총 초를 분과 초로 변환
+            minutes = total_seconds // 60
+            seconds = total_seconds % 60
+
+            # "OO분 XX초" 형식으로 결과 출력
+            charge_time = f"{minutes}분 {seconds}초"
+
             sql_query = f'''UPDATE park_system_log
-                            SET charging_end_time = '{self.target_charging_end}',
-                                price = (TIMESTAMPDIFF(SECOND, charging_start_time, '{self.target_charging_end}') / 3600 * 3)
+                            SET price = '{self.target_charging_end}'
                             WHERE car_number = '{self.target}'
                             AND entry_time = '{self.target_entry_time}'
+                            AND isPayed IS NULL
                             AND departure_time IS NULL
                         '''
 
@@ -332,7 +359,6 @@ class KioskWindow(QMainWindow, from_class):
                             WHERE car_number = '{self.target}'
                             AND entry_time = '{self.target_entry_time}'
                             AND charging_start_time IS NOT NULL
-                            AND charging_end_time = '{self.target_charging_end}'
                             AND isPayed IS NULL
                             AND departure_time IS NULL
                          '''
@@ -341,7 +367,7 @@ class KioskWindow(QMainWindow, from_class):
             self.price = remote_cursor.fetchall()[0]
             self.price = self.price[0]
 
-            self.result_pay.setText(f"충전 시간은 {charge_time}분이며\n금액은 {self.price}원입니다.")
+            self.result_pay.setText(f"충전 시간은 {charge_time} 이며\n금액은 {self.price}원입니다.")
             
             self.remote.close()
         

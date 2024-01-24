@@ -7,7 +7,6 @@ import datetime
 import mysql.connector
 
 # DB 엑세스 정보 가져오는 함수
-# 엑세스 정보는 담당 팀원에게 요청
 def import_aws_rds_access_key(file_path):
     access_key_info = []
 
@@ -64,10 +63,10 @@ except:
     print("로봇 테이블 이미 존재함")
 
 # UI 파일 불러오기
-from_class = uic.loadUiType("/home/wintercamo/git_ws/ros-repo-2/gui_package/gui_package/generate_test_case.ui")[0]
+from_class3 = uic.loadUiType("/home/wintercamo/git_ws/ros-repo-2/gui_package/gui_package/generate_test_case.ui")[0]
 
 # GUI 클래스
-class windowClass(QMainWindow, from_class):
+class TestCaseGenerator(QMainWindow, from_class3):
     def __init__(self):
         super().__init__()
         self.setupUi(self)  # UI 설정
@@ -116,11 +115,11 @@ class windowClass(QMainWindow, from_class):
 
         print(self.fake_departure_time)
         my_query = f'''UPDATE park_system_log
-                       SET departure_time = %s
+                       SET departure_time = '{self.fake_departure_time}'
                        WHERE car_number = '{self.fake_car_number}'
+                       AND departure_time IS NULL
                     '''
-        values = (str(self.fake_departure_time),)
-        remote_cursor.execute(my_query, values)
+        remote_cursor.execute(my_query)
         remote.commit()
 
         self.fake_car_number = ""; self.car_num.setText(self.fake_car_number)
@@ -128,8 +127,8 @@ class windowClass(QMainWindow, from_class):
 
 def main():
     app = QApplication(sys.argv)
-    window = windowClass()
-    window.show()
+    test_case_generator = TestCaseGenerator()
+    test_case_generator.show()
     sys.exit(app.exec_())
 
 if __name__ == '__main__':
