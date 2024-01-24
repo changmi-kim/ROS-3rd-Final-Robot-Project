@@ -12,9 +12,9 @@ import math
 import datetime as dt
 from enum import Enum
 
-class VisionObstacleAvoidance(Node):
+class ObstacleAvoidance(Node):
     def __init__(self):
-        super().__init__('vision_obstacle_avoidance')
+        super().__init__('obstacle_avoidance')
         self.cv_bridge = CvBridge()
         self.qos = QoSProfile(depth=10)
 
@@ -64,7 +64,7 @@ class VisionObstacleAvoidance(Node):
 
         if self.obstacle_found: return
 
-        # self.publish_cmd_go_straight()
+        self.publish_cmd_go_straight()
 
     def detection_result_callback(self, msg):
         for detection in msg.detection_result:
@@ -74,12 +74,12 @@ class VisionObstacleAvoidance(Node):
             self.bbox_w = detection.bbox_size_x
             self.bbox_h = detection.bbox_size_y
 
-        if self.label == 'person': 
+        if self.label_no_filtered == 'person': 
             if self.bbox_w > 40 and self.bbox_h > 100:
                 self.label = 'person'
 
-        if self.label == 'car': 
-            if self.bbox_w > 100 and self.bbox_h > 50:
+        if self.label_no_filtered == 'car': 
+            if self.bbox_w > 10 and self.bbox_h > 10:
                 self.label = 'car'
 
     def lidar_callback(self, msg: LaserScan):
@@ -90,7 +90,7 @@ class VisionObstacleAvoidance(Node):
 
         total_angles = 180
         center_index = 125
-        angle_range = 45
+        angle_range = 90
 
         half_angle_range = angle_range / 2.0
         start_angle = center_index - half_angle_range
@@ -132,14 +132,16 @@ class VisionObstacleAvoidance(Node):
 
         self.publisher_front_degree_scan.publish(front_degree_msg)
 
-        if not self.obstacle_found and (self.label in ('car', 'person')) and (0.0 < self.min_distance < 0.3):
-            obstacle_found_msg = String()
+        print(f'debug: {self.label}')
+        if not self.obstacle_found and (self.label in ('car', 'person')) and (0.0 < self.min_distance < 0.2):
+            print(f'debug: {self.label}')
+            self.obstacle_found_msg = Bool()
             
             self.publish_cmd_stop() 
             self.obstacle_found = True
 
-            obstacle_found_msg = self.obstacle_found
-            self.publisher_obstacle_found.publish(obstacle_found_msg)
+            self.obstacle_found_msg.data = self.obstacle_found
+            self.publisher_obstacle_found.publish(self.obstacle_found_msg)
 
             if self.waiting_start_time is None:
                 self.waiting_start_time = dt.datetime.now()
@@ -149,22 +151,22 @@ class VisionObstacleAvoidance(Node):
         if self.obstacle_found:
             if self.waiting_start_time is None: return
 
-            if self.avoidance_state == 0 and self.min_distance > 0.5:
+            if self.avoidance_state == 0 and self.min_distance > 0.4:
                 self.obstacle_found = False
                 self.waiting_start_time = None
 
-                obstacle_found_msg = self.obstacle_found
-                self.publisher_obstacle_found.publish(obstacle_found_msg)
+                self.obstacle_found_msg.data = self.obstacle_found
+                self.publisher_obstacle_found.publish(self.obstacle_found_msg)
                 return
             
-            if self.avoidance_state == 0 and self.min_distance < 0.2:
+            if self.avoidance_state == 0 and self.min_distance < 0.15:
                 self.avoidance_state = 4
 
             if self.avoidance_state == 4:
                 self.waiting_start_time = dt.datetime.now()
                 self.publish_cmd_back()
 
-            if self.avoidance_state == 4 and self.min_distance > 0.3: 
+            if self.avoidance_state == 4 and self.min_distance > 0.2: 
                 self.publish_cmd_stop()
                 self.avoidance_state = 0
                 self.waiting_start_time = dt.datetime.now()
@@ -178,7 +180,7 @@ class VisionObstacleAvoidance(Node):
                 waiting_time = 4.0
 
             if self.avoidance_move is False and elapsed_time > waiting_time:
-                if self.min_distance < 0.33:
+                if self.min_distance < 0.3:
                     self.publish_cmd_back()
                     return
                 
@@ -191,10 +193,10 @@ class VisionObstacleAvoidance(Node):
 
             if self.avoidance_move:
                 if self.avoidance_state == 1:
-                    self.publish_cmd_step_asideee()
+                    self.publish_cmd_step_aside()
                     elapsed_time = (dt.datetime.now() - self.avoidance_start_time).total_seconds()
 
-                    if elapsed_time > 2.0:
+                    if elapsed_time > 1.5:
                         print('State changed.')
                         # self.avoidance_state = 2
                         self.avoidance_state = 3
@@ -223,10 +225,10 @@ class VisionObstacleAvoidance(Node):
                         self.avoidance_state = 0
                         self.avoidance_start_time = None
 
-                        obstacle_found_msg = self.obstacle_found
-                        self.publisher_obstacle_found.publish(obstacle_found_msg)
+                        self.obstacle_found_msg.data = self.obstacle_found
+                        self.publisher_obstacle_found.publish(self.obstacle_found_msg)
 
-                        self.label = ''
+                        # self.label = ''
                         self.bbox_cx = 0
                         self.bbox_cy = 0
                         self.bbox_w = 0
@@ -260,7 +262,7 @@ class VisionObstacleAvoidance(Node):
     def publish_cmd_go_straight(self):
         self.twist.linear.x = 0.1
         # self.twist.angular.z = ((-1) * self.avoidance_angle_sign * 0.15) if (abs(self.avoidance_start_delta) > 25) else ((-1) * self.avoidance_angle_sign * 0.3)
-        self.twist.angular.z = 0
+        self.twist.angular.z = 0.0
         self.publisher_cmd_vel.publish(self.twist)
         self.get_logger().info(f'Robot moved forward.')
 
@@ -280,26 +282,26 @@ class VisionObstacleAvoidance(Node):
 
     def publish_cmd_step_aside(self):
         self.twist.linear.x = 0.2
-        self.twist.angular.z = self.avoidance_angle_sign * (0.475 if abs(self.avoidance_start_delta) > 25 else 0.3)
+        self.twist.angular.z = self.avoidance_angle_sign * (0.6 if abs(self.avoidance_start_delta) > 25 else 0.3)
         self.publisher_cmd_vel.publish(self.twist)
         self.get_logger().info(f'Robot is currently navigating around obstacles.')
 
     def publish_cmd_step_in(self):
         self.twist.linear.x = 0.2
-        self.twist.angular.z = (-1) * self.avoidance_angle_sign * (0.475 if abs(self.avoidance_start_delta) > 25 else 0.3)
+        self.twist.angular.z = (-1) * self.avoidance_angle_sign * (0.5 if abs(self.avoidance_start_delta) > 25 else 0.3)
         self.publisher_cmd_vel.publish(self.twist)
         self.get_logger().info(f'Robot is re-entering the path.')
 
 def main(args=None):
     rclpy.init(args=args)
     
-    vision_obstacle_avoidance = VisionObstacleAvoidance()
+    obstacle_avoidance = ObstacleAvoidance()
 
     try:
-        rclpy.spin(vision_obstacle_avoidance)
+        rclpy.spin(obstacle_avoidance)
 
     except KeyboardInterrupt:
-        vision_obstacle_avoidance.destroy_node()
+        obstacle_avoidance.destroy_node()
         rclpy.shutdown()
 
 if __name__ == '__main__':
