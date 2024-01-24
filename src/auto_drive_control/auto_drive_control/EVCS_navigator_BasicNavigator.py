@@ -19,25 +19,32 @@ class EVCSNavigator(Node) :
         self.subscriber_control_event = self.create_subscription(String, '/control_event', self.control_event_callback, 10)
         self.subscriber_goal = self.create_subscription(String, '/goal', self.goal_timer_callback, 10)
 
-        self.publisher_control_event = self.create_publisher(Bool, '/is_docking_area', 10)
+        self.publisher_is_docking_area = self.create_publisher(Bool, '/is_docking_area', 10)
 
         self.get_logger().info('Waiting for Navigator Start')
 
         self.goal = []
+        self.goal_parking_spot_id = ''
+        self.is_docking_area = False
         self.navigator = BasicNavigator()
 
         self.control_start_event = String()
+        # self.current_goal_msg = None 
 
     def control_event_callback(self, msg: String):
         self.control_start_event = msg
 
+        self.get_logger().info(f'Control Event: {self.control_start_event.data}')
+        
         if self.control_start_event.data == ('0' or '2'):  # charging_hub or obstacle_found
             self.navigator.cancelTask()
             self.get_logger().warn('Navigation execution canceled.')
+
         elif self.control_start_event.data == '1':
             self.send_to_goal()
-        elif self.self.control_start_event.data.split(',')[0] == '3':
-            self.goal_charge_pillar(int(self.self.control_start_event.data.split(',')[1]))
+
+        elif self.control_start_event.data.split(',')[0] == '3':
+            self.goal_parking_spot(int(self.control_start_event.data.split(',')[1]))
             self.send_to_goal()
 
     def goal_timer_callback(self, msg):
@@ -45,23 +52,31 @@ class EVCSNavigator(Node) :
 
         # print("debug!!!!!")
         # BasicNavigator.waitUntilNav2Active()
-        self.current_goal_msg = msg
+        # self.current_goal_msg = msg
 
         if msg.data == 'c':
             self.navigator.cancelTask()
             self.get_logger().warn('Navigation execution canceled.')
+
         elif msg.data in {'o', 'i'}:
             self.goal_charge_hub_inout(msg.data)
+            self.get_logger().info('Goal has been generated.')
+
         elif msg.data in {'00', '01', '02'}:
             self.goal_charge_hub(int(msg.data))
-        elif msg.data in {'0', '1', '2', '3'}:
-            self.goal_charge_pillar(int(msg.data))
+            self.get_logger().info('Goal has been generated.')
+
+        elif msg.data in {'0', '1', '2', '3', '4', '5'}:
+            self.goal_parking_spot_id = msg.data
+            self.goal_parking_spot(int(msg.data))
+            self.get_logger().info('Goal has been generated.')
+
         else:
             self.get_logger().warn(f'Invalid Data: {msg.data}')
         
     def send_to_goal(self):
-        if self.current_goal_msg is not None:
-            self.get_logger().info(f'Configured Navigation Goal: {self.current_goal_msg.data}')
+        # if self.current_goal_msg is not None:
+        #     self.get_logger().info(f'Configured Navigation Goal: {self.current_goal_msg.data}')
 
         for goal_index, goal_pose in enumerate(self.goal, start=1):
             self.navigator.goToPose(goal_pose)
@@ -77,6 +92,12 @@ class EVCSNavigator(Node) :
 
                 if Duration.from_msg(feedback.navigation_time) > Duration(seconds=10.0):
                     self.navigator.cancelTask()
+                    
+                    if self.goal_parking_spot_id in {'0', '1', '2', '3', '4', '5'}:
+                        self.is_docking_area = True
+                        self.is_docking_area_msg = Bool()
+                        self.is_docking_area_msg.data = True
+                        self.publisher_is_docking_area.publish(self.is_docking_area_msg)
 
                 if not feedback:
                     self.get_logger().info('No feedback received.')
@@ -84,6 +105,13 @@ class EVCSNavigator(Node) :
             self.get_logger().info(f'Goal {goal_index} passed successfully!')
 
         result = self.navigator.getResult()
+
+        if result == TaskResult.SUCCEEDED:
+            if self.goal_parking_spot_id in {'0', '1', '2', '3', '4', '5'}:
+                self.is_docking_area = True
+                self.is_docking_area_msg = Bool()
+                self.is_docking_area_msg.data = True
+                self.publisher_is_docking_area.publish(self.is_docking_area_msg)
 
         result_messages = {
             TaskResult.SUCCEEDED: 'Goal achieved successfully!',
@@ -108,13 +136,16 @@ class EVCSNavigator(Node) :
         if hub_io == 'o':
             goal_pose = self.create_goal_pose(0.36135944724082947, -1.8798696994781494, 0.2099868162147609, 0.9777042175504759)
             self.goal.append(goal_pose)
+
         elif hub_io == 'i':
-            hub_i_list = [(0.36685978020193416, 0.021821063240631013, -0.9916437223207283, 0.12900669743036722),
-                          (-0.09214386734683028, 0.00018066425420607584, -0.7966940838329873, 0.6043827734023505),
-                          (0.24503996661760177, -0.6289435257197941, -0.6565887096430582, 0.7542488093257184)]
-            for i in range(len(hub_i_list)):
-                goal_pose = self.create_goal_pose(*hub_i_list[i])                                 
-                self.goal.append(goal_pose)
+            # hub_i_list = [(0.36685978020193416, 0.021821063240631013, -0.9916437223207283, 0.12900669743036722),
+            #               (-0.09214386734683028, 0.00018066425420607584, -0.7966940838329873, 0.6043827734023505),
+            #               (0.24503996661760177, -0.6289435257197941, -0.6565887096430582, 0.7542488093257184)]
+            # for i in range(len(hub_i_list)):
+            #     goal_pose = self.create_goal_pose(*hub_i_list[i])                                 
+            #     self.goal.append(goal_pose)
+            goal_pose = self.create_goal_pose(-0.09214386734683028, 0.00018066425420607584, -0.7966940838329873, 0.6043827734023505)
+            self.goal.append(goal_pose)
 
     def goal_charge_hub(self, hub_id):
         # goal_pose = self.create_goal_pose(navigator, 0.239762048683475, -1.2045658922123377, 0.001021641637081884, 0.9999983326642647)
@@ -124,6 +155,18 @@ class EVCSNavigator(Node) :
             (0.05308452747301681, -0.7240572198469294, -0.0037382883967639322, 0.9999930125755193)
         ]
         goal_pose = self.create_goal_pose(*hub_positions[hub_id])
+        self.goal.append(goal_pose)
+
+    def goal_parking_spot(self, spot_id):
+        parking_spot_positions = [
+            (0.547985976922531, -0.09098982995450057, 0.0004480059964787728, 0.9999998996453086),
+            (0.6356891087237043, -0.8164219814925002, 0.09352443469149051, 0.995616984646022),
+            (1.3725857049388175, -0.4437872703170306, -0.9982873476374894, 0.058501038853224364),
+            (1.401678884726616, -0.7519872729787022, 0.9991115499496068, 0.04214392906806647),
+            (0.5561160143525906, -0.5244608377884499, 0.03360435697535025, 0.9994352141045828),
+            (1.3636201846470961, -0.09407124623283776, -0.9991173759994607, 0.04200558267602442)
+        ]
+        goal_pose = self.create_goal_pose(*parking_spot_positions[spot_id])
         self.goal.append(goal_pose)
 
     def goal_charge_pillar(self, pillar_id):
