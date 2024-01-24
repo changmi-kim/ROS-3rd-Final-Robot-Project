@@ -162,7 +162,7 @@ class ControlPCWindow(QMainWindow, from_class):
         arduino_port = os.environ["Arduino_port"]
         baud_rate = os.environ["Baud_rate"]
 
-        self.arduino_conn = Serial(port="/dev/ttyUSB0", baudrate=9600)
+        self.arduino_conn = Serial(port=arduino_port, baudrate=baud_rate)
         self.arduino = ArduinoSerial(self.arduino_conn)
         self.arduino.receive.connect(self.parking_lot_status)
         self.arduino.start()
@@ -334,7 +334,6 @@ class ControlPCWindow(QMainWindow, from_class):
 
             self.subcriber_.working = True
             self.subcriber_.client_socket = self.client_sockets["192.168.1.9"]
-            print(self.subcriber_.client_socket)
             self.subcriber_.changePixmap.connect(self.setImage1)
             self.subcriber_.start()
 
@@ -350,7 +349,6 @@ class ControlPCWindow(QMainWindow, from_class):
 
             self.subcriber_.working = True
             self.subcriber_.client_socket = self.client_sockets["192.168.1.14"]
-            print(self.subcriber_.client_socket)
             self.subcriber_.changePixmap.connect(self.setImage2)
             self.subcriber_.start()
 
@@ -366,7 +364,6 @@ class ControlPCWindow(QMainWindow, from_class):
 
             self.subcriber_.working = True
             self.subcriber_.client_socket = self.client_sockets["192.168.1.11"]
-            print(self.subcriber_.client_socket)
             self.subcriber_.changePixmap.connect(self.setImage3)
             self.subcriber_.start()
 
