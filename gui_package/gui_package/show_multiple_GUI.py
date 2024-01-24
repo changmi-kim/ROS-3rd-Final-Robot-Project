@@ -152,13 +152,24 @@ class KioskWindow(QMainWindow, from_class1):
                         WHERE id = {result[0][0]}
                      '''
         remote_cursor.execute(sql_query)
-        
+
         # 결제했다고 표시
+        sql_query = f'''SELECT charging_start_time FROM park_system_log
+                        WHERE car_number = '{self.target}'
+                        AND entry_time = '{self.target_entry_time}'
+                        AND isPayed IS NULL
+                     '''
+        
+        remote_cursor.execute(sql_query)
+        result = remote_cursor.fetchall()
+        self.target_charging_start = result[0][0]
+        
         sql_query = f'''UPDATE park_system_log
                         SET charging_end_time = "{self.target_charging_end}",
                             isPayed = 'Y'
                         WHERE car_number = "{self.target}"
                         AND entry_time = '{self.target_entry_time}'
+                        AND charging_start_time = '{self.target_charging_start}'
                         AND isPayed IS NULL
                         AND departure_time IS NULL
                     '''
@@ -335,12 +346,20 @@ class KioskWindow(QMainWindow, from_class1):
             # "OO분 XX초" 형식으로 결과 출력
             charge_time = f"{minutes}분 {seconds}초"
 
+            temp_price = minutes * 500
             sql_query = f'''UPDATE park_system_log
-                            SET price = TIMESTAMPDIFF(SECOND, charging_start_time, '{self.target_charging_end}') / 36 * 250
+                            SET price = {temp_price}
                             WHERE car_number = '{self.target}'
                             AND entry_time = '{self.target_entry_time}'
-                            AND departure_time IS NULL
-                        '''
+                            AND isPayed IS NULL
+                         '''
+
+            # sql_query = f'''UPDATE park_system_log
+            #                 SET price = TIMESTAMPDIFF(SECOND, charging_start_time, '{self.target_charging_end}') / 36 * 250
+            #                 WHERE car_number = '{self.target}'
+            #                 AND entry_time = '{self.target_entry_time}'
+            #                 AND departure_time IS NULL
+            #             '''
 
             remote_cursor.execute(sql_query)
             self.remote.commit()
@@ -785,10 +804,40 @@ class ControlPCWindow(QMainWindow, from_class):
         self.minibot2_display.setPixmap(QPixmap.fromImage(image))
 
     async def bots_status(self):
+        self.remote = create_DB_cursor(access_key)
+        remote_cursor = self.remote.cursor()
+        # 일단 충전 종료 버튼을 누르면 가격과 충전 종료 시간을 갱신
+        sql_query = f'''SELECT id, battery_level FROM robot_status'''
+        remote_cursor.execute(sql_query)
+
+        self.price = remote_cursor.fetchall()[0]
+        self.price = self.price[0]
+
+            sql_query = f'''UPDATE park_system_log
+                            SET price = '{self.target_charging_end}'
+                            WHERE car_number = '{self.target}'
+                            AND entry_time = '{self.target_entry_time}'
+                            AND isPayed IS NULL
+                            AND departure_time IS NULL
+                        '''
+
+            remote_cursor.execute(sql_query)
+            self.remote.commit()
+            
+        
+
+            self.result_pay.setText(f"충전 시간은 {charge_time} 이며\n금액은 {self.price}원입니다.")
+            
+            self.remote.close()
+        #     # 배터리 레벨이 15 이하인 경우 status를 '사용불가'로 업데이트
+        #     if battery_level <= 15.0:
+        #         sql_query = f"UPDATE robot_status SET status = '사용불가' WHERE id = {id}"
+       
+        #         result = await self.remote.serchDB("SELECT * FROM robot_status")
         self.remote = MySQL()
         await self.remote.connectDB()
-        result = await self.remote.serchDB("SELECT * FROM robot_status")
 
+        result = await self.remote.serchDB("SELECT * FROM robot_status")
         
         for info, table, status in zip(result, self.M_tables, self.M_status):
             
