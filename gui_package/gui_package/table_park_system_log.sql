@@ -8,5 +8,6 @@ CREATE TABLE park_system_log (
     robot_number INT,
     price INT,
     isPayed VARCHAR(2),
-    connector VARCHAR(4)
+    connector VARCHAR(4),
+    FOREIGN KEY (robot_number) REFERENCES robot_status(id)
 );

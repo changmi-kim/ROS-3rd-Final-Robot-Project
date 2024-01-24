@@ -336,7 +336,7 @@ class KioskWindow(QMainWindow, from_class1):
             charge_time = f"{minutes}분 {seconds}초"
 
             sql_query = f'''UPDATE park_system_log
-                            SET price = '{self.target_charging_end}'
+                            SET price = TIMESTAMPDIFF(SECOND, charging_start_time, '{self.target_charging_end}') / 36 * 250
                             WHERE car_number = '{self.target}'
                             AND entry_time = '{self.target_entry_time}'
                             AND departure_time IS NULL

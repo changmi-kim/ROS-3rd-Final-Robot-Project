@@ -34,17 +34,9 @@ remote = mysql.connector.connect(
 )
 
 remote_cursor = remote.cursor()
-my_sql = open("/home/wintercamo/git_ws/ros-repo-2/gui_package/gui_package/table_park_system_log.sql").read()
-
-try:
-    remote_cursor.execute(my_sql)
-    remote.commit()
-
-except:
-    print("주차장 테이블 이미 존재함")
+my_sql = open("/home/wintercamo/git_ws/ros-repo-2/gui_package/gui_package/table_robot_status.sql").read()
 
 remote_cursor = remote.cursor()
-my_sql = open("/home/wintercamo/git_ws/ros-repo-2/gui_package/gui_package/table_robot_status.sql").read()
 
 try:
     remote_cursor.execute(my_sql)
@@ -61,6 +53,15 @@ try:
 
 except:
     print("로봇 테이블 이미 존재함")
+
+my_sql = open("/home/wintercamo/git_ws/ros-repo-2/gui_package/gui_package/table_park_system_log.sql").read()
+
+try:
+    remote_cursor.execute(my_sql)
+    remote.commit()
+
+except:
+    print("주차장 테이블 이미 존재함")
 
 # UI 파일 불러오기
 from_class3 = uic.loadUiType("/home/wintercamo/git_ws/ros-repo-2/gui_package/gui_package/generate_test_case.ui")[0]

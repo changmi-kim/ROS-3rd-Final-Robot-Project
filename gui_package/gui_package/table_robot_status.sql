@@ -4,4 +4,4 @@ CREATE TABLE robot_status (
     request VARCHAR(20),
     progress VARCHAR(20),
     battery_level FLOAT NOT NULL
-)
+);
