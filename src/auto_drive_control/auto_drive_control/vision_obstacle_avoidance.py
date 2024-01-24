@@ -1,7 +1,7 @@
 import rclpy
 from rclpy.node import Node
 from rclpy.qos import qos_profile_sensor_data, QoSProfile, ReliabilityPolicy, HistoryPolicy
-from std_msgs.msg import Int8MultiArray, Float32
+from std_msgs.msg import Int8MultiArray, Float32, String, Bool
 from sensor_msgs.msg import Image, LaserScan
 from geometry_msgs.msg import Twist
 from vision_object_detector_msgs.msg import DetectionResultArray
@@ -32,18 +32,19 @@ class VisionObstacleAvoidance(Node):
         self.publisher_front_degree_scan = self.create_publisher(LaserScan, '/front_degree_scan', pub_qos_profile)
         self.publisher_front_depth = self.create_publisher(Float32, '/front_depth', pub_qos_profile)
         self.publisher_debug_image_tracker = self.create_publisher(Image, '/debug_image_tracker', 10)
+        self.publisher_obstacle_found = self.create_publisher(Bool, '/obstacle_found', 10)
 
         self.twist = Twist()
         self.twist.linear.x = 0.1
 
         self.img = None
+        self.label_no_filtered = ''
         self.label = ''
         self.bbox_cx = 0
         self.bbox_cy = 0
         self.bbox_w = 0
         self.bbox_h = 0
 
-        self.i = 0
         self.delta = 0
         self.min_distance = float('inf')
 
@@ -63,22 +64,23 @@ class VisionObstacleAvoidance(Node):
 
         if self.obstacle_found: return
 
-        # self.twist.linear.x = 0.1
-        # self.publisher_cmd_vel.publish(self.twist)
-
-        # if self.label == 'person': 
-        #     if self.bbox_w > 40 and self.bbox_h > 100:
-        #         if self.min_distance < 0.3:
-        #             self.publish_cmd_stop()
-        #             # self.publish_cmd_back()
+        # self.publish_cmd_go_straight()
 
     def detection_result_callback(self, msg):
         for detection in msg.detection_result:
-            self.label = detection.label
+            self.label_no_filtered = detection.label
             self.bbox_cx = detection.bbox_center_x
             self.bbox_cy = detection.bbox_center_y
             self.bbox_w = detection.bbox_size_x
             self.bbox_h = detection.bbox_size_y
+
+        if self.label == 'person': 
+            if self.bbox_w > 40 and self.bbox_h > 100:
+                self.label = 'person'
+
+        if self.label == 'car': 
+            if self.bbox_w > 100 and self.bbox_h > 50:
+                self.label = 'car'
 
     def lidar_callback(self, msg: LaserScan):
         # lidar_data = [msg.ranges[187], msg.ranges[156], msg.ranges[125], msg.ranges[94], msg.ranges[63]]
@@ -130,9 +132,14 @@ class VisionObstacleAvoidance(Node):
 
         self.publisher_front_degree_scan.publish(front_degree_msg)
 
-        if not self.obstacle_found and (0.0 < self.min_distance < 0.3):
+        if not self.obstacle_found and (self.label in ('car', 'person')) and (0.0 < self.min_distance < 0.3):
+            obstacle_found_msg = String()
+            
             self.publish_cmd_stop() 
             self.obstacle_found = True
+
+            obstacle_found_msg = self.obstacle_found
+            self.publisher_obstacle_found.publish(obstacle_found_msg)
 
             if self.waiting_start_time is None:
                 self.waiting_start_time = dt.datetime.now()
@@ -145,6 +152,9 @@ class VisionObstacleAvoidance(Node):
             if self.avoidance_state == 0 and self.min_distance > 0.5:
                 self.obstacle_found = False
                 self.waiting_start_time = None
+
+                obstacle_found_msg = self.obstacle_found
+                self.publisher_obstacle_found.publish(obstacle_found_msg)
                 return
             
             if self.avoidance_state == 0 and self.min_distance < 0.2:
@@ -162,8 +172,13 @@ class VisionObstacleAvoidance(Node):
             elapsed_time = (dt.datetime.now() - self.waiting_start_time ).total_seconds()
             self.get_logger().debug(f'elapsed time = {elapsed_time}')
 
-            if self.avoidance_move is False and elapsed_time > 4.0:
-                if self.min_distance < 0.35:
+            if self.label == 'person':
+                waiting_time = 7.0
+            elif self.label == 'car':
+                waiting_time = 4.0
+
+            if self.avoidance_move is False and elapsed_time > waiting_time:
+                if self.min_distance < 0.33:
                     self.publish_cmd_back()
                     return
                 
@@ -176,7 +191,7 @@ class VisionObstacleAvoidance(Node):
 
             if self.avoidance_move:
                 if self.avoidance_state == 1:
-                    self.publish_cmd_step_aside()
+                    self.publish_cmd_step_asideee()
                     elapsed_time = (dt.datetime.now() - self.avoidance_start_time).total_seconds()
 
                     if elapsed_time > 2.0:
@@ -199,13 +214,26 @@ class VisionObstacleAvoidance(Node):
                     elapsed_time = (dt.datetime.now() - self.avoidance_start_time).total_seconds()
                     
                     if elapsed_time > 2.0:
+                        self.publish_cmd_stop()
+                        
                         self.obstacle_found = False
                         self.waiting_start_time = None
 
                         self.avoidance_move = False
                         self.avoidance_state = 0
                         self.avoidance_start_time = None
-                        
+
+                        obstacle_found_msg = self.obstacle_found
+                        self.publisher_obstacle_found.publish(obstacle_found_msg)
+
+                        self.label = ''
+                        self.bbox_cx = 0
+                        self.bbox_cy = 0
+                        self.bbox_w = 0
+                        self.bbox_h = 0
+
+                        self.delta = 0
+
     def tracker(self):
         h, w, d = self.cv_image.shape
         cv2.circle(self.cv_image, (int(self.bbox_cx), int(self.bbox_cy)), 20, (0, 0, 255), -1)
