@@ -1,0 +1,4 @@
+/**:
+  ros__parameters:
+    arduino_port: "/dev/ttyArduino"
+    baud_rate: 1000000

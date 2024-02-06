@@ -1,0 +1,38 @@
+✅ <ws_name>: 패키지가 위치한 실제 workspace 이름으로 변경하기
+
+<<<<<<<<<<<<<<ultrasonic_dist 패키지 실행>>>>>>>>>>>>>>
+1. 환경 불러오기
+	- source ~/<ws_name>/install/local_setup.bash
+	
+2. 노드 실행[ultrasonic_dist_publisher]
+	- RPI) ros2 run ultrasonic_dist ultrasonic_dist_publisher --ros-args --params-file ~/<ws_name>/src/ultrasonic_dist/param/arduino_config.yaml
+
+3. 노드 실행[ultrasonic_dist_subscliber]
+	- PC) ros2 run ultrasonic_dist ultrasonic_dist_subscliber --ros-args --params-file ~/<ws_name>/src/ultrasonic_dist/param/arduino_config.yaml
+
+<<<<<<<<<<<<<<auto_drive_control 패키지 실행>>>>>>>>>>>>>>
+1. 환경 불러오기
+	- source ~/<ws_name>/install/local_setup.bash
+
+2. 노드 실행[arduino_protocol_sender]
+	- RPI) ros2 run auto_drive_control arduino_protocol_sender
+
+3. /cmd_vel 토픽으로 velocity 발행
+	- PC) ros2 topic pub /cmd_vel geometry_msgs/Twist '{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.0}}' -r 1
+
+4. /command 토픽으로 enable_motor 발행(GO, STOP 주행 명령 입력 시 대소문자 상관없음)
+	- PC) ros2 topic pub --once /command std_msgs/msg/String '{data: GO}'
+	- PC) ros2 topic pub --once /command std_msgs/msg/String '{data: STOP}'
+	
+<<<<<<<<<<<<<<vision_object_detector 패키지 실행>>>>>>>>>>>>>>
+1. 환경 불러오기
+	- source ~/<ws_name>/install/local_setup.bash
+	
+2. 노드 실행[img_publisher]
+	- ros2 run vision_object_detector img_publisher 
+
+3. 노드 실행[parking_obstacle_detector_yolo_v8]
+	- ros2 run vision_object_detector parking_obstacle_detector_yolo_v8
+	
+4. 실행 결과 확인 원할 시
+	- ros2 topic echo /detection_result

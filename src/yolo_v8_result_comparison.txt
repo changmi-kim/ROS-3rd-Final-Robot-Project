@@ -1,0 +1,25 @@
+<<<<<<<<<<<<<<DetectionResult 출력 결과>>>>>>>>>>>>>>
+---
+label: person
+score: 0.868232786655426
+bbox_center_x: 158.71481323242188
+bbox_center_y: 155.1636199951172
+bbox_size_x: 223.8643035888672
+bbox_size_y: 169.35946655273438
+---
+<<<<<<<<<<<<<<DetectionResultArray 출력 결과>>>>>>>>>>>>>>
+detection_result:
+- label: person
+  score: 0.8955503106117249
+  bbox_center_x: 124.1659927368164
+  bbox_center_y: 146.90431213378906
+  bbox_size_x: 210.8245391845703
+  bbox_size_y: 185.73626708984375
+- label: car
+  score: 0.890407383441925
+  bbox_center_x: 281.2352600097656
+  bbox_center_y: 131.64340209960938
+  bbox_size_x: 77.52947998046875
+  bbox_size_y: 44.71485900878906
+---
+
